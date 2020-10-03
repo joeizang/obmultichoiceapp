@@ -10,7 +10,7 @@ namespace RektaRetailApp.Domain.DomainModels
     {
         public Sale()
         {
-            Items = new List<Item>();
+            ItemsSold = new List<ItemSold>();
         }
         public DateTimeOffset SaleDate { get; set; }
 
@@ -27,6 +27,6 @@ namespace RektaRetailApp.Domain.DomainModels
 
         public Customer Customer { get; set; } = null!;
 
-        public List<Item> Items { get; set; }
+        public List<ItemSold> ItemsSold { get; set; }
     }
 }

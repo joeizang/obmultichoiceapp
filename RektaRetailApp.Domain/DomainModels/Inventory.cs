@@ -11,7 +11,7 @@ namespace RektaRetailApp.Domain.DomainModels
     {
         public Inventory()
         {
-            ItemSuppliers = new List<Supplier>();
+            ProductSuppliers = new List<Supplier>();
         }
         [StringLength(50)]
         [Required]
@@ -30,12 +30,12 @@ namespace RektaRetailApp.Domain.DomainModels
 
         [ForeignKey(nameof(Item))]
         public long ItemId { get; set; }
-        public Item Item { get; set; } = null!;
+        public Product Item { get; set; } = null!;
 
         [Required]
         public DateTimeOffset SupplyDate { get; set; }
 
         [Required]
-        public List<Supplier> ItemSuppliers { get; set; }
+        public List<Supplier> ProductSuppliers { get; set; }
     }
 }

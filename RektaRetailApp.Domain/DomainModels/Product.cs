@@ -4,7 +4,7 @@ using RektaRetailApp.Domain.Abstractions;
 
 namespace RektaRetailApp.Domain.DomainModels
 {
-    public class Item : BaseDomainModel
+    public class Product : BaseDomainModel
     {
         [Required]
         [StringLength(50)]

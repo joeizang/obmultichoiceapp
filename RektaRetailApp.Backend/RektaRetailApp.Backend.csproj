@@ -10,6 +10,7 @@
     <PackageReference Include="HotChocolate.Types.Filters" Version="10.5.3" />
     <PackageReference Include="HotChocolate.Types.Selections" Version="10.5.3" />
     <PackageReference Include="HotChocolate.Types.Sorting" Version="10.5.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.8" />
@@ -18,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\RektaRetailApp.Domain\RektaRetailApp.Domain.csproj" />
   </ItemGroup>
 
 </Project>
