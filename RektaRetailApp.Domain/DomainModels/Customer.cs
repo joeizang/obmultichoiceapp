@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using RektaRetailApp.Domain.Abstractions;
 
 namespace RektaRetailApp.Domain.DomainModels
 {
-    public class Customer
+    public class Customer : BaseDomainModel
     {
         [Required] 
         [StringLength(50)] 
@@ -13,6 +14,9 @@ namespace RektaRetailApp.Domain.DomainModels
         public string? PhoneNumber { get; set; }
 
         public string? Address { get; set; }
+
+        [StringLength(50)]
+        public string EmailAddress { get; set; }
 
         public DateTimeOffset DateOfBirth { get; set; }
 
