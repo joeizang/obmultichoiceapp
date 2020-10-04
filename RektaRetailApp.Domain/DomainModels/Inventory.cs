@@ -17,6 +17,9 @@ namespace RektaRetailApp.Domain.DomainModels
         [Required]
         public string Name { get; set; } = null!;
 
+        [StringLength(200)]
+        public string? Description { get; set; }
+
         public string? BatchNumber { get; set; }
 
         [ForeignKey(nameof(Category))]

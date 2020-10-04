@@ -16,9 +16,9 @@ namespace RektaRetailApp.Domain.DomainModels
         public string? Address { get; set; }
 
         [StringLength(50)]
-        public string EmailAddress { get; set; }
+        public string? EmailAddress { get; set; }
 
-        public DateTimeOffset DateOfBirth { get; set; }
+        public DateTimeOffset? DateOfBirth { get; set; }
 
         [Required]
         public CustomerStatus CustomerStatus { get; set; }

@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotChocolate;
 using HotChocolate.Types;
+using HotChocolate.Types.Relay;
+using Microsoft.EntityFrameworkCore;
+using RektaRetailApp.Backend.Data;
+using RektaRetailApp.Domain.DomainModels;
 
 namespace RektaRetailApp.Backend.GraphQL
 {
-    public class Query : ObjectType<Query>
+    public class Query
     {
-        protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
-        {
-            base.Configure(descriptor);
-
-        }
+        [UsePaging]
+        [UseFiltering]
+        [UseSelection]
+        [UseSorting]
+        public IQueryable<Sale> Sales([Service] RektaContext db) =>
+            db.Sales.AsNoTracking();
     }
 }
