@@ -16,10 +16,22 @@ namespace RektaRetailApp.Domain.DomainModels
         [Required]
         public float Quantity { get; set; }
 
+        [StringLength(450)]
         public string Description { get; set; } = null!;
 
         [Column(TypeName = "decimal(9,2)")]
+        [Required]
         public decimal Price { get; set; }
+
+        public Category ItemSoldCategory { get; set; } = null!;
+
+        [ForeignKey(nameof(ItemSoldCategory))]
+        public long ItemSoldCategoryId { get; set; }
+
+        public long ProductId { get; set; }
+
+        [ForeignKey(nameof(ProductId))]
+        public Product Product { get; set; } = null!;
 
     }
 }

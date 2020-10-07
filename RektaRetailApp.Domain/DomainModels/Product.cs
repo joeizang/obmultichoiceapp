@@ -23,6 +23,11 @@ namespace RektaRetailApp.Domain.DomainModels
         [ForeignKey(nameof(ItemCategory))]
         public long CategoryId { get; set; }
 
-        public Category ItemCategory { get; set; } = null!; // set a default category for all the items in stock
+        public Category ItemCategory { get; set; } = null!;
+
+        public long SupplierId { get; set; }
+
+        [ForeignKey(nameof(SupplierId))] 
+        public Supplier ProductSupplier { get; set; } = null!;
     }
 }

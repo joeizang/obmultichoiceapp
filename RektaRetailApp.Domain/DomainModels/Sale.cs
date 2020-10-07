@@ -14,8 +14,8 @@ namespace RektaRetailApp.Domain.DomainModels
         }
         public DateTimeOffset SaleDate { get; set; }
 
-        [ForeignKey(nameof(SalesPerson))]
-        public long SalesPersonId { get; set; }
+        [ForeignKey(nameof(SalesPerson))] 
+        public string SalesPersonId { get; set; } = null!;
 
         public ApplicationUser SalesPerson { get; set; } = null!;
 
@@ -25,6 +25,9 @@ namespace RektaRetailApp.Domain.DomainModels
 
         public SaleType SaleType { get; set; }
 
+        public long CustomerId { get; set; }
+
+        [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; } = null!;
 
         public List<ItemSold> ItemsSold { get; set; }

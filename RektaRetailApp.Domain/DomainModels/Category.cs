@@ -9,7 +9,7 @@ namespace RektaRetailApp.Domain.DomainModels
         [StringLength(50)]
         public string Name { get; set; } = null!;
 
-        [StringLength(100)]
+        [StringLength(450)]
         public string? Description { get; set; }
     }
 }

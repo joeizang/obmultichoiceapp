@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RektaRetailApp.Backend.Data;
@@ -9,9 +10,10 @@ using RektaRetailApp.Backend.Data;
 namespace RektaRetailApp.Backend.Migrations
 {
     [DbContext(typeof(RektaContext))]
-    partial class RektaContextModelSnapshot : ModelSnapshot
+    [Migration("20201005032821_AddCategoryToItemsSold")]
+    partial class AddCategoryToItemsSold
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

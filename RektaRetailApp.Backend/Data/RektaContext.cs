@@ -12,47 +12,50 @@ namespace RektaRetailApp.Backend.Data
 {
     public class RektaContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>
     {
-        private readonly IHttpContextAccessor _accessor;
-        private readonly ILoggerFactory _loggerFactory;
 
-        public RektaContext(DbContextOptions options,
-            IHttpContextAccessor accessor, ILoggerFactory loggerFactory) : base(options)
+        public RektaContext(DbContextOptions options) : base(options)
         {
-            _accessor = accessor;
-            _loggerFactory = loggerFactory;
+            
         }
 
-        public DbSet<Sale> Sales { get; set; }
+        public DbSet<Sale> Sales { get; set; } = default!;
 
-        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Inventory> Inventories { get; set; } = default!;
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; } = default!;
 
-        public DbSet<ItemSold> ItemsSold { get; set; }
+        public DbSet<ItemSold> ItemsSold { get; set; } = default!;
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; } = default!;
 
-        public DbSet<Shift> WorkerShifts { get; set; }
+        public DbSet<Shift> WorkerShifts { get; set; } = default!;
 
-        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; } = default!;
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; } = default!;
 
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; } = default!;
 
-        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; } = default!;
 
+        public DbSet<SuppliersInventories> SupplierInventories { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-        }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseNpgsql(
-                "Server=127.0.0.1;Port=5432;Database=RektaDb;User Id=postgres;Password=testpassword");
+            builder.Entity<SuppliersInventories>()
+                .HasKey(k => new {k.InventoryId, k.SupplierId});
+
+            builder.Entity<SuppliersInventories>()
+                .HasOne(si => si.ProductInventory)
+                .WithMany(i => i.InventorySuppliers)
+                .HasForeignKey(x => x.InventoryId);
+
+            builder.Entity<SuppliersInventories>()
+                .HasOne(x => x.ProductSupplier)
+                .WithMany(s => s.ProductInventories)
+                .HasForeignKey(i => i.SupplierId);
         }
     }
 }

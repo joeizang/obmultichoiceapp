@@ -12,12 +12,13 @@ namespace RektaRetailApp.Domain.DomainModels
         public Inventory()
         {
             ProductSuppliers = new List<Supplier>();
+            InventorySuppliers = new List<SuppliersInventories>();
         }
         [StringLength(50)]
         [Required]
         public string Name { get; set; } = null!;
 
-        [StringLength(200)]
+        [StringLength(450)]
         public string? Description { get; set; }
 
         public string? BatchNumber { get; set; }
@@ -31,14 +32,17 @@ namespace RektaRetailApp.Domain.DomainModels
         [Required]
         public float Quantity { get; set; }
 
-        [ForeignKey(nameof(Item))]
+        [ForeignKey(nameof(InventoryItem))]
         public long ItemId { get; set; }
-        public Product Item { get; set; } = null!;
+        public Product InventoryItem { get; set; } = null!;
 
         [Required]
         public DateTimeOffset SupplyDate { get; set; }
 
         [Required]
         public List<Supplier> ProductSuppliers { get; set; }
+
+        public List<SuppliersInventories> InventorySuppliers { get; set; }
+
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RektaRetailApp.Backend.Data;
@@ -9,9 +10,10 @@ using RektaRetailApp.Backend.Data;
 namespace RektaRetailApp.Backend.Migrations
 {
     [DbContext(typeof(RektaContext))]
-    partial class RektaContextModelSnapshot : ModelSnapshot
+    [Migration("20201004235126_ManyToManyRel")]
+    partial class ManyToManyRel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -368,9 +370,6 @@ namespace RektaRetailApp.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("ItemSoldCategoryId")
-                        .HasColumnType("bigint");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(9,2)");
 
@@ -384,8 +383,6 @@ namespace RektaRetailApp.Backend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ItemSoldCategoryId");
 
                     b.HasIndex("SaleId");
 
@@ -639,12 +636,6 @@ namespace RektaRetailApp.Backend.Migrations
 
             modelBuilder.Entity("RektaRetailApp.Domain.DomainModels.ItemSold", b =>
                 {
-                    b.HasOne("RektaRetailApp.Domain.DomainModels.Category", "ItemSoldCategory")
-                        .WithMany()
-                        .HasForeignKey("ItemSoldCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RektaRetailApp.Domain.DomainModels.Sale", null)
                         .WithMany("ItemsSold")
                         .HasForeignKey("SaleId");
