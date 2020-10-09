@@ -12,5 +12,9 @@ namespace RektaRetailApp.Domain.Abstractions
 
         [Key]
         public long Id { get; set; }
+
+        public string CreatedBy { get; set; } = null!;
+
+        public string UpdatedBy { get; set; } = null!;
     }
 }

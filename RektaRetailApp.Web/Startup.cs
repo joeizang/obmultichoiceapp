@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RektaRetailApp.Domain.DomainModels;
+using RektaRetailApp.Web.Abstractions.Entities;
+using RektaRetailApp.Web.Services;
 
 namespace RektaRetailApp.Web
 {
@@ -29,6 +32,10 @@ namespace RektaRetailApp.Web
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<RektaContext>();
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, RektaContext>();
