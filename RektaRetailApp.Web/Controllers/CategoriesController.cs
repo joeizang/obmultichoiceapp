@@ -70,9 +70,19 @@ namespace RektaRetailApp.Web.Controllers
         }
 
         // PUT api/<CategoriesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] UpdateCategoryApiModel model)
         {
+            try
+            {
+                _repo.Update(model);
+                await _repo.Commit().ConfigureAwait(false);
+                return NoContent();
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new { e.Message, customMessage = "data submitted is not in a valid state" });
+            }
         }
 
         // DELETE api/<CategoriesController>/5

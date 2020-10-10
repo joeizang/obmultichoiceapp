@@ -11,8 +11,14 @@ import {
   FormGroup,
   Input,
   Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Row,
+  Tooltip,
 } from "reactstrap";
-import axios from 'axios';
+import axios from "axios";
+import CreateCategory from "../category/CreateCategory";
 
 interface ICategory {
   categoryName: string;
@@ -35,7 +41,6 @@ interface formData {
   categories: ICategory[];
 }
 
-
 const CreateInventory: FC<formData> = ({ categories }) => {
   const { register, errors, handleSubmit } = useForm<CreateInventoryProp>();
   /**
@@ -46,14 +51,17 @@ const CreateInventory: FC<formData> = ({ categories }) => {
    */
   const [dropDown, setDropDown] = useState([]);
   const currentCategories = useRef(categories);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [modal, setModal] = useState(false);
+
+  const showModal = () => setModal(!modal);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
 
   useEffect(() => {
     let mounted = true;
     const result = async () => {
-      const response = await axios.get('https://localhost:5001/api/categories');
-      if (mounted)
-        setDropDown(response.data);
-      console.log(response.data, "response data");
+      const response = await axios.get("https://localhost:5001/api/categories");
+      if (mounted) setDropDown(response.data);
     };
     result();
 
@@ -61,9 +69,8 @@ const CreateInventory: FC<formData> = ({ categories }) => {
       mounted = false;
     };
   }, []);
-  console.log(dropDown);
   currentCategories.current = dropDown;
-  
+
   return (
     <Fragment>
       <Card className="shadow-lg p-3 mb-5 bg-white rounded">
@@ -73,9 +80,11 @@ const CreateInventory: FC<formData> = ({ categories }) => {
           </CardTitle>
         </CardHeader>
         <CardBody>
-          <Form onSubmit={handleSubmit((CreateInventoryProp) => {
-            console.log(errors);
-          })}>
+          <Form
+            onSubmit={handleSubmit((CreateInventoryProp) => {
+              console.log(errors);
+            })}
+          >
             <FormGroup>
               <Label for="inventoryName">Product Name</Label>
               <Input
@@ -84,9 +93,15 @@ const CreateInventory: FC<formData> = ({ categories }) => {
                 name="name"
                 placeholder="Inventory name..."
                 bsSize="lg"
-                innerRef={register({ maxLength: 50, minLength: 2, required: "You have to give this inventory"})}
+                innerRef={register({
+                  maxLength: 50,
+                  minLength: 2,
+                  required: "You have to give this inventory",
+                })}
               />
-              {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
+              {errors.name ? (
+                <span className="text-danger">{errors.name.message}</span>
+              ) : null}
             </FormGroup>
             <FormGroup>
               <Label for="supplyDate">Supply Date</Label>
@@ -95,7 +110,7 @@ const CreateInventory: FC<formData> = ({ categories }) => {
                 type="date"
                 name="supplyDate"
                 bsSize="lg"
-                innerRef={register({ required: true})}
+                innerRef={register({ required: true })}
               />
             </FormGroup>
             <FormGroup>
@@ -106,16 +121,52 @@ const CreateInventory: FC<formData> = ({ categories }) => {
                 name="batchNumber"
                 placeholder="Inventory BatchNumber..."
                 bsSize="lg"
-                innerRef={register({ maxLength: 50, minLength: 2, required: true})}
+                innerRef={register({
+                  maxLength: 50,
+                  minLength: 2,
+                  required: true,
+                })}
               />
             </FormGroup>
-            <FormGroup>
-              <Label>Inventory Category</Label>
-              
-              <Input type="select" name="inventoryCategory" bsSize="lg" innerRef={register({ required: true})}>
-                {currentCategories &&
-                  currentCategories.current.map((value) => <option key={value.categoryId}>{value.categoryName}</option>)}
-              </Input>
+            <FormGroup inline>
+              <Row form>
+                <Col sm="8">
+                  <Label>Inventory Category</Label>
+
+                  <Input
+                    type="select"
+                    name="inventoryCategory"
+                    bsSize="lg"
+                    innerRef={register({ required: true })}
+                  >
+                    {currentCategories &&
+                      currentCategories.current.map((value) => (
+                        <option key={value.categoryId}>
+                          {value.categoryName}
+                        </option>
+                      ))}
+                  </Input>
+                </Col>
+                <Col sm="3" style={{ marginLeft: 45 }}>
+                  <Button
+                    onClick={showModal}
+                    className="font-weight-bold mx-auto"
+                    color="dark green"
+                    style={{ marginLeft: 0, marginTop: 40 }}
+                    id="addCategory"
+                  >
+                    +
+                  </Button>
+                  <Tooltip
+                    placement="right"
+                    isOpen={tooltipOpen}
+                    target="addCategory"
+                    toggle={toggle}
+                  >
+                    Add new Category
+                  </Tooltip>
+                </Col>
+              </Row>
             </FormGroup>
             <FormGroup>
               <Label for="quantity">Product Quantity</Label>
@@ -144,6 +195,15 @@ const CreateInventory: FC<formData> = ({ categories }) => {
           </Form>
         </CardBody>
       </Card>
+
+      <div>
+        <Modal isOpen={modal} toggle={toggle} autoFocus>
+          <ModalHeader toggle={() => !toggle}>ADD</ModalHeader>
+          <ModalBody>
+            <CreateCategory />
+          </ModalBody>
+        </Modal>
+      </div>
     </Fragment>
   );
 };

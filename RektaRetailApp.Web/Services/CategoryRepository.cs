@@ -70,14 +70,19 @@ namespace RektaRetailApp.Web.Services
             if(entity == null)
                 throw new ArgumentException("category to be created cannot be null!");
             var category = _mapper.Map<CreateCategoryApiModel, Category>(entity);
-            category.Name = category.Name.ToUpperInvariant();
-            category.Description = category.Description?.ToUpperInvariant();
+            category.Name = category.Name.Trim().ToUpperInvariant();
+            category.Description = category.Description?.Trim().ToUpperInvariant();
             _db.Categories.Add(category);
         }
 
         public void Update(UpdateCategoryApiModel entity)
         {
-            throw new NotImplementedException();
+            if(entity is null)
+                throw new ArgumentException("cannot update null values");
+            var category = _mapper.Map<UpdateCategoryApiModel, Category>(entity);
+            category.Description = category.Description?.Trim().ToUpperInvariant();
+            category.Name = category.Name.Trim().ToUpperInvariant();
+            _db.Entry(category).State = EntityState.Modified;
         }
 
         public void Delete(DeleteCategoryApiModel entity)
