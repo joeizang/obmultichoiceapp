@@ -27,8 +27,8 @@ namespace RektaRetailApp.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<RektaContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(
+                    Configuration.GetConnectionString("NpgsqlConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<RektaContext>();
@@ -42,8 +42,11 @@ namespace RektaRetailApp.Web
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-
-            services.AddControllersWithViews();
+            //handles Object cycle detected error
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddRazorPages();
 
             // In production, the React files will be served from this directory

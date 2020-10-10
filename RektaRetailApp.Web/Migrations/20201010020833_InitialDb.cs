@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace RektaRetailApp.Web.Migrations
 {
@@ -11,8 +12,8 @@ namespace RektaRetailApp.Web.Migrations
                 name: "ApplicationRoles",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true),
                     NormalizedName = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -40,10 +41,12 @@ namespace RektaRetailApp.Web.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(maxLength: 450, nullable: true)
                 },
@@ -56,10 +59,12 @@ namespace RektaRetailApp.Web.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     PhoneNumber = table.Column<string>(maxLength: 50, nullable: true),
                     Address = table.Column<string>(nullable: true),
@@ -110,10 +115,12 @@ namespace RektaRetailApp.Web.Migrations
                 name: "WorkerShifts",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     ShiftStartsAt = table.Column<DateTimeOffset>(nullable: false),
                     SiftEndsAt = table.Column<DateTimeOffset>(nullable: false),
@@ -129,7 +136,7 @@ namespace RektaRetailApp.Web.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -167,7 +174,7 @@ namespace RektaRetailApp.Web.Migrations
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     OtherNames = table.Column<string>(maxLength: 50, nullable: false),
-                    CurrentShiftId = table.Column<long>(nullable: false),
+                    CurrentShiftId = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false)
                 },
@@ -187,7 +194,7 @@ namespace RektaRetailApp.Web.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -271,16 +278,18 @@ namespace RektaRetailApp.Web.Migrations
                 name: "Sales",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     SaleDate = table.Column<DateTimeOffset>(nullable: false),
                     SalesPersonId = table.Column<string>(nullable: false),
                     SubTotal = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
                     GrandTotal = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
                     SaleType = table.Column<int>(nullable: false),
-                    CustomerId = table.Column<long>(nullable: false)
+                    CustomerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,16 +312,18 @@ namespace RektaRetailApp.Web.Migrations
                 name: "Inventories",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(maxLength: 450, nullable: true),
                     BatchNumber = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<long>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
                     Quantity = table.Column<float>(nullable: false),
-                    ItemId = table.Column<long>(nullable: false),
+                    ItemId = table.Column<int>(nullable: false),
                     SupplyDate = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
@@ -330,13 +341,15 @@ namespace RektaRetailApp.Web.Migrations
                 name: "Suppliers",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     MobileNumber = table.Column<string>(maxLength: 50, nullable: false),
-                    InventoryId = table.Column<long>(nullable: true)
+                    InventoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -353,16 +366,18 @@ namespace RektaRetailApp.Web.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     RetailPrice = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
                     SuppliedPrice = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    CategoryId = table.Column<long>(nullable: false),
-                    SupplierId = table.Column<long>(nullable: false)
+                    CategoryId = table.Column<int>(nullable: false),
+                    SupplierId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -385,11 +400,13 @@ namespace RektaRetailApp.Web.Migrations
                 name: "SupplierInventories",
                 columns: table => new
                 {
-                    InventoryId = table.Column<long>(nullable: false),
-                    SupplierId = table.Column<long>(nullable: false),
+                    InventoryId = table.Column<int>(nullable: false),
+                    SupplierId = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -412,17 +429,19 @@ namespace RektaRetailApp.Web.Migrations
                 name: "ItemsSold",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
                     ItemName = table.Column<string>(nullable: false),
                     Quantity = table.Column<float>(nullable: false),
                     Description = table.Column<string>(maxLength: 450, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    ItemSoldCategoryId = table.Column<long>(nullable: false),
-                    ProductId = table.Column<long>(nullable: false),
-                    SaleId = table.Column<long>(nullable: true)
+                    ItemSoldCategoryId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    SaleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -456,8 +475,7 @@ namespace RektaRetailApp.Web.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -488,8 +506,7 @@ namespace RektaRetailApp.Web.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",

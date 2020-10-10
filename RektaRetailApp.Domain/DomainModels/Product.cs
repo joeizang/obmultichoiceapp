@@ -21,11 +21,11 @@ namespace RektaRetailApp.Domain.DomainModels
         public decimal SuppliedPrice { get; set; }
 
         [ForeignKey(nameof(ItemCategory))]
-        public long CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public Category ItemCategory { get; set; } = null!;
 
-        public long SupplierId { get; set; }
+        public int SupplierId { get; set; }
 
         [ForeignKey(nameof(SupplierId))] 
         public Supplier ProductSupplier { get; set; } = null!;

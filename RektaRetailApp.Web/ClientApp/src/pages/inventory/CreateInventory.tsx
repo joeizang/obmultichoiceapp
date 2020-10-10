@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Button,
@@ -15,9 +15,9 @@ import {
 import axios from 'axios';
 
 interface ICategory {
-  name: string;
-  id: number;
-  description: string;
+  categoryName: string;
+  categoryId: number;
+  categoryDescription: string;
 }
 interface CreateInventoryProp {
   name: string;
@@ -45,6 +45,7 @@ const CreateInventory: FC<formData> = ({ categories }) => {
    * 3. Name of the values
    */
   const [dropDown, setDropDown] = useState([]);
+  const currentCategories = useRef(categories);
 
   useEffect(() => {
     let mounted = true;
@@ -52,7 +53,7 @@ const CreateInventory: FC<formData> = ({ categories }) => {
       const response = await axios.get('https://localhost:5001/api/categories');
       if (mounted)
         setDropDown(response.data);
-      categories = dropDown;
+      console.log(response.data, "response data");
     };
     result();
 
@@ -61,6 +62,7 @@ const CreateInventory: FC<formData> = ({ categories }) => {
     };
   }, []);
   console.log(dropDown);
+  currentCategories.current = dropDown;
   
   return (
     <Fragment>
@@ -111,8 +113,8 @@ const CreateInventory: FC<formData> = ({ categories }) => {
               <Label>Inventory Category</Label>
               
               <Input type="select" name="inventoryCategory" bsSize="lg" innerRef={register({ required: true})}>
-                {categories &&
-                  categories.map((value) => <option key={value.id}>{value.name}</option>)}
+                {currentCategories &&
+                  currentCategories.current.map((value) => <option key={value.categoryId}>{value.categoryName}</option>)}
               </Input>
             </FormGroup>
             <FormGroup>

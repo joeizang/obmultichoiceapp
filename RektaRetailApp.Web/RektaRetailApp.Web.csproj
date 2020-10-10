@@ -14,6 +14,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
@@ -28,24 +29,57 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\**" />
+    <EmbeddedResource Remove="ClientApp\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20201006232838_InitialDb.cs" />
-    <Compile Remove="Migrations\20201006232838_InitialDb.Designer.cs" />
-    <Compile Remove="Migrations\20201006234409_InitialDb.cs" />
-    <Compile Remove="Migrations\20201006234409_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20201010020706_InitialDb.cs" />
+    <Compile Remove="Migrations\20201010020706_InitialDb.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\.gitignore" />
+    <None Remove="ClientApp\.vscode\launch.json" />
+    <None Remove="ClientApp\package-lock.json" />
+    <None Remove="ClientApp\package.json" />
+    <None Remove="ClientApp\public\favicon.ico" />
+    <None Remove="ClientApp\public\index.html" />
+    <None Remove="ClientApp\public\manifest.json" />
+    <None Remove="ClientApp\README.md" />
+    <None Remove="ClientApp\src\App.test.js" />
+    <None Remove="ClientApp\src\App.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\ApiAuthorizationConstants.ts" />
+    <None Remove="ClientApp\src\components\api-authorization\ApiAuthorizationRoutes.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\AuthorizeRoute.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\AuthorizeService.ts" />
+    <None Remove="ClientApp\src\components\api-authorization\Login.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\LoginMenu.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\Logout.tsx" />
+    <None Remove="ClientApp\src\components\Counter.tsx" />
+    <None Remove="ClientApp\src\components\DropDown.tsx" />
+    <None Remove="ClientApp\src\components\FetchData.tsx" />
+    <None Remove="ClientApp\src\components\Home.tsx" />
+    <None Remove="ClientApp\src\components\Layout.tsx" />
+    <None Remove="ClientApp\src\components\NavMenu.css" />
+    <None Remove="ClientApp\src\components\NavMenu.tsx" />
+    <None Remove="ClientApp\src\custom.css" />
+    <None Remove="ClientApp\src\index.tsx" />
+    <None Remove="ClientApp\src\pages\category\CreateCategory.tsx" />
+    <None Remove="ClientApp\src\pages\inventory\CreateInventory.tsx" />
+    <None Remove="ClientApp\src\react-app-env.d.ts" />
+    <None Remove="ClientApp\src\registerServiceWorker.js" />
+    <None Remove="ClientApp\src\setupTests.js" />
+    <None Remove="ClientApp\tsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RektaRetailApp.Domain\RektaRetailApp.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\pages\category\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

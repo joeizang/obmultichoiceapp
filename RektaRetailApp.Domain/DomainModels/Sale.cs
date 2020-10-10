@@ -25,7 +25,7 @@ namespace RektaRetailApp.Domain.DomainModels
 
         public SaleType SaleType { get; set; }
 
-        public long CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; } = null!;

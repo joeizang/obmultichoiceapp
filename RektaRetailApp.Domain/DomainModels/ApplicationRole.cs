@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace RektaRetailApp.Domain.DomainModels
 {
-    public class ApplicationRole : IdentityRole<long>
+    public class ApplicationRole : IdentityRole<int>
     {
 
     }

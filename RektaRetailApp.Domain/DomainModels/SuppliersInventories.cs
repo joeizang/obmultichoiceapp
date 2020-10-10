@@ -7,11 +7,11 @@ namespace RektaRetailApp.Domain.DomainModels
 {
     public class SuppliersInventories : BaseDomainModel
     {
-        public long InventoryId { get; set; }
+        public int InventoryId { get; set; }
 
         public Inventory ProductInventory { get; set; } = null!;
 
-        public long SupplierId { get; set; }
+        public int SupplierId { get; set; }
 
         public Supplier ProductSupplier { get; set; } = null!;
 

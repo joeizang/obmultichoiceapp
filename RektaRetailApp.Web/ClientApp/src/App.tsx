@@ -11,6 +11,7 @@ import { ApplicationPaths } from "./components/api-authorization/ApiAuthorizatio
 import "./custom.css";
 
 const CreateInventory = lazy(() => import("./pages/inventory/CreateInventory"));
+const CreateCategory = lazy(() => import('./pages/category/CreateCategory'));
 
 export default class App extends Component {
   static displayName = App.name;
@@ -22,6 +23,7 @@ export default class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/counter" component={Counter} />
           <Route path="/inventory" component={CreateInventory} />
+          <Route path="/category" component={CreateCategory} />
           <AuthorizeRoute path="/fetch-data" component={FetchData} />
           <Route
             path={ApplicationPaths.ApiAuthorizationPrefix}

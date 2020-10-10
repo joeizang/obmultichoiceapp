@@ -7,7 +7,7 @@ namespace RektaRetailApp.Web.ApiModel.Category
 {
     public class CategoryDropDownApiModel
     {
-        public long Key { get; set; }
+        public int Key { get; set; }
 
         public string CategoryName { get; set; } = null!;
     }

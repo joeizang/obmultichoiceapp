@@ -15,7 +15,7 @@ namespace RektaRetailApp.Web.ApiModel.Category
         [StringLength(450)]
         public string? CategoryDescription { get; set; }
 
-        public long CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
     }
 }

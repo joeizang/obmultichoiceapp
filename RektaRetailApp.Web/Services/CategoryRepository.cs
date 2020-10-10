@@ -70,6 +70,8 @@ namespace RektaRetailApp.Web.Services
             if(entity == null)
                 throw new ArgumentException("category to be created cannot be null!");
             var category = _mapper.Map<CreateCategoryApiModel, Category>(entity);
+            category.Name = category.Name.ToUpperInvariant();
+            category.Description = category.Description?.ToUpperInvariant();
             _db.Categories.Add(category);
         }
 
@@ -95,6 +97,7 @@ namespace RektaRetailApp.Web.Services
                     if (string.IsNullOrEmpty(category.Entity.CreatedBy))
                     {
                         category.Entity.CreatedBy = user;
+                        category.Entity.UpdatedBy = user;
                     }
                 }
 
@@ -109,7 +112,7 @@ namespace RektaRetailApp.Web.Services
 
             }
 
-            await _db.SaveChangesAsync().ConfigureAwait(false);
+            await _db.SaveChangesAsync();//.ConfigureAwait(false);
         }
     }
 }

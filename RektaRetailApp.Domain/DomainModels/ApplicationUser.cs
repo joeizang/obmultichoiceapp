@@ -26,7 +26,7 @@ namespace RektaRetailApp.Domain.DomainModels
         [StringLength(50)]
         public string OtherNames { get; set; } = null!;
 
-        public long CurrentShiftId { get; set; }
+        public int CurrentShiftId { get; set; }
 
         [ForeignKey(nameof(CurrentShiftId))]
         public Shift WorkShift { get; set; } = null!;

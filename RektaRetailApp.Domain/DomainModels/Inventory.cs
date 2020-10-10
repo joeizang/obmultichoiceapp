@@ -24,7 +24,7 @@ namespace RektaRetailApp.Domain.DomainModels
         public string? BatchNumber { get; set; }
 
         [ForeignKey(nameof(Category))]
-        public long CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         [Required]
         public Category Category { get; set; } = null!;
@@ -33,7 +33,7 @@ namespace RektaRetailApp.Domain.DomainModels
         public float Quantity { get; set; }
 
         [ForeignKey(nameof(InventoryItem))]
-        public long ItemId { get; set; }
+        public int ItemId { get; set; }
         public Product InventoryItem { get; set; } = null!;
 
         [Required]

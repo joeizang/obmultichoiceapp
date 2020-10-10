@@ -53,7 +53,7 @@ namespace RektaRetailApp.Web.Controllers
         }
 
         // POST api/<CategoriesController>
-        [HttpPost]
+        [HttpPost(Name = "create")]
         public async Task<IActionResult> Post([FromBody] CreateCategoryApiModel model)
         {
             try
@@ -63,9 +63,9 @@ namespace RektaRetailApp.Web.Controllers
                 var response = await _repo.GetCategoryBy(model.Name, model.Description);
                 return CreatedAtRoute("GetCategory", new { id = response.CategoryId }, response);
             }
-            catch (ArgumentException)
+            catch (Exception e)
             {
-                return BadRequest("Category creation was unsuccessful. You object was in an invalid state!");
+                return BadRequest(new { e.Message, e.InnerException});
             }
         }
 

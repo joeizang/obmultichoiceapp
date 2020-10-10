@@ -26,9 +26,9 @@ namespace RektaRetailApp.Domain.DomainModels
         public Category ItemSoldCategory { get; set; } = null!;
 
         [ForeignKey(nameof(ItemSoldCategory))]
-        public long ItemSoldCategoryId { get; set; }
+        public int ItemSoldCategoryId { get; set; }
 
-        public long ProductId { get; set; }
+        public int ProductId { get; set; }
 
         [ForeignKey(nameof(ProductId))]
         public Product Product { get; set; } = null!;

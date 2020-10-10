@@ -11,7 +11,7 @@ namespace RektaRetailApp.Domain.Abstractions
         public DateTimeOffset UpdatedAt { get; set; }
 
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public string CreatedBy { get; set; } = null!;
 
