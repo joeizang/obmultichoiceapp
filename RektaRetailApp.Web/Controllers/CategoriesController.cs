@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel.Category;
 using RektaRetailApp.Web.Data;
+using RektaRetailApp.Web.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,17 +20,22 @@ namespace RektaRetailApp.Web.Controllers
     {
         private readonly ILogger<CategoriesController> _logger;
         private readonly ICategoryRepository _repo;
+        private readonly IMediator _mediator;
 
-        public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository repo)
+
+        public CategoriesController(ILogger<CategoriesController> logger, 
+            ICategoryRepository repo,
+            IMediator mediator)
         {
             _logger = logger;
             _repo = repo;
+            _mediator = mediator;
         }
         // GET: api/<CategoriesController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _repo.GetCategories().ConfigureAwait(false);
+            var result = await _mediator.Send(new GetCategoriesQuery());
             return Ok(result);
         }
 
