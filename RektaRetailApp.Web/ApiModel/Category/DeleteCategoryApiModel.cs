@@ -7,5 +7,7 @@ namespace RektaRetailApp.Web.ApiModel.Category
 {
     public class DeleteCategoryApiModel
     {
+        public int Id { get; set; }
+
     }
 }

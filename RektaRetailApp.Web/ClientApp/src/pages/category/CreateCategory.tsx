@@ -34,12 +34,6 @@ const CreateCategory: FC<createCategoryProp> = () => {
                 "https://localhost:5001/api/categories",
                 data
               );
-              //check if the response was a 201
-              if (temp.status === 201) {
-                //redirect to the either the list of categories or back from where
-                //the user came from.
-                //reset form fields.
-              }
             })}
           >
             <FormGroup>

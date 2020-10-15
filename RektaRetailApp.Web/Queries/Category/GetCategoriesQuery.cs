@@ -8,7 +8,7 @@ using RektaRetailApp.Web.Abstractions;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel.Category;
 
-namespace RektaRetailApp.Web.Queries
+namespace RektaRetailApp.Web.Queries.Category
 {
     public class GetCategoriesQuery : IRequest<IEnumerable<CategoryApiModel>>
     {
