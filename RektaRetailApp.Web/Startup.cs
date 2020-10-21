@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -38,6 +39,8 @@ namespace RektaRetailApp.Web
 
       services.AddMediatR(typeof(Startup).Assembly);
 
+      services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
+
       services.AddScoped<ICategoryRepository, CategoryRepository>();
       services.AddScoped<IInventoryRepository, InventoryRepository>();
 
@@ -47,14 +50,7 @@ namespace RektaRetailApp.Web
       services.AddAuthentication()
           .AddIdentityServerJwt();
       //handles Object cycle detected error
-      services.AddControllersWithViews(options =>
-      {
-        options.ReturnHttpNotAcceptable = true;
-      }).AddNewtonsoftJson(options =>
-          {
-            options.UseCamelCasing(true);
-            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-          });
+      services.AddControllersWithViews();
       services.AddRazorPages();
 
       // In production, the React files will be served from this directory

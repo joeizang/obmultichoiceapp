@@ -8,21 +8,20 @@ using RektaRetailApp.Web.ApiModel.Inventory;
 
 namespace RektaRetailApp.Web.Profiles
 {
-    public class InventoryProfile : Profile
+  public class InventoryProfile : Profile
+  {
+    public InventoryProfile()
     {
-        public InventoryProfile()
-        {
-            CreateMap<Inventory, InventoryApiModel>()
-                .ForMember(d => d.CategoryName,
-                    conf =>
-                        conf.MapFrom(s => s.Category.Name))
-                .ForMember(d => d.ProductName,
-                    conf =>
-                        conf.MapFrom(s => s.InventoryItem.Name))
-                .ForMember(d => d.ProductId,
-                    conf =>
-                        conf.MapFrom(s => s.ItemId))
-                .ReverseMap();
-        }
+      CreateMap<Inventory, InventoryApiModel>()
+          .ForMember(d => d.CategoryName,
+              conf =>
+                  conf.MapFrom(s => s.Category.Name))
+          .ForMember(d => d.ProductName,
+              conf =>
+                  conf.MapFrom(s => s.InventoryItem.Name))
+          .ForMember(d => d.ProductId,
+              conf =>
+                  conf.MapFrom(s => s.ItemId));
     }
+  }
 }

@@ -4,11 +4,10 @@ import {
   Container,
   Navbar,
   NavbarBrand,
-  NavbarToggler,
   NavItem,
   NavLink,
-} from "reactstrap";
-import { Link } from "react-router-dom";
+} from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import { LoginMenu } from "./api-authorization/LoginMenu";
 import "./NavMenu.css";
 
@@ -40,36 +39,32 @@ export class NavMenu extends Component<IProps, IState> {
     return (
       <header>
         <Navbar
+          variant="light"
           className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-          light
         >
           <Container>
-            <NavbarBrand tag={Link} to="/">
+            <NavbarBrand href="/" className="text-dark">
               Rekta Retail App
             </NavbarBrand>
-            <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-            <Collapse
-              className="d-sm-inline-flex flex-sm-row-reverse"
-              isOpen={!this.state.collapsed}
-              navbar
-            >
+            <Navbar.Toggle onClick={this.toggleNavbar} className="mr-2" />
+            <Collapse className="d-sm-inline-flex flex-sm-row-reverse">
               <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">
-                    Home
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/counter">
-                    Counter
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-data">
-                    Fetch data
-                  </NavLink>
-                </NavItem>
                 <LoginMenu></LoginMenu>
+                <NavItem>
+                  <LinkContainer to="/">
+                    <NavLink>Home</NavLink>
+                  </LinkContainer>
+                </NavItem>
+                <NavItem>
+                  <LinkContainer to="/inventory">
+                    <NavLink className="text-dark">Inventory</NavLink>
+                  </LinkContainer>
+                </NavItem>
+                <NavItem>
+                  <LinkContainer to="/sales">
+                    <NavLink className="text-dark">Sales</NavLink>
+                  </LinkContainer>
+                </NavItem>
               </ul>
             </Collapse>
           </Container>

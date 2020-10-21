@@ -2,14 +2,11 @@ import React, { FC } from "react";
 import {
   Button,
   Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
   Form,
   FormGroup,
-  Input,
-  Label,
-} from "reactstrap";
+  FormControl,
+  FormLabel,
+} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 interface createCategoryProp {
@@ -22,12 +19,12 @@ const CreateCategory: FC<createCategoryProp> = () => {
   return (
     <>
       <Card>
-        <CardHeader color="primary">
-          <CardTitle className="text-center font-weight-bold">
+        <Card.Header color="primary">
+          <Card.Title className="text-center font-weight-bold">
             <h3>Create Category</h3>
-          </CardTitle>
-        </CardHeader>
-        <CardBody>
+          </Card.Title>
+        </Card.Header>
+        <Card.Body>
           <Form
             onSubmit={handleSubmit(async (data) => {
               const temp = await axios.post(
@@ -37,13 +34,13 @@ const CreateCategory: FC<createCategoryProp> = () => {
             })}
           >
             <FormGroup>
-              <Label for="categoryName">Category Name</Label>
-              <Input
+              <FormLabel>Category Name</FormLabel>
+              <FormControl
                 name="name"
                 type="text"
                 id="categoryName"
                 placeholder="a product or inventory category name..."
-                innerRef={register({
+                ref={register({
                   required: true,
                   maxLength: 50,
                   minLength: 2,
@@ -52,17 +49,17 @@ const CreateCategory: FC<createCategoryProp> = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label for="categoryDescription">Category Description</Label>
-              <Input
+              <FormLabel>Category Description</FormLabel>
+              <FormControl
                 name="description"
                 type="textarea"
                 id="categoryDescription"
                 placeholder=" inventory category description..."
-                innerRef={register({ required: false, maxLength: 200 })}
+                ref={register({ required: false, maxLength: 200 })}
               />
             </FormGroup>
 
-            <FormGroup row>
+            <FormGroup>
               <Button type="submit" color="primary" block>
                 <span>
                   <b>Create Category</b>
@@ -70,7 +67,7 @@ const CreateCategory: FC<createCategoryProp> = () => {
               </Button>
             </FormGroup>
           </Form>
-        </CardBody>
+        </Card.Body>
       </Card>
     </>
   );

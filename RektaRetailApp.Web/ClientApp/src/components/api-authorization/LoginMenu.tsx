@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { NavItem, NavLink } from "reactstrap";
-import { Link } from "react-router-dom";
+import { NavItem, NavLink } from "react-bootstrap";
 import authService from "./AuthorizeService";
 import { ApplicationPaths } from "./ApiAuthorizationConstants";
+import { LinkContainer } from "react-router-bootstrap";
 
 interface IProps {}
 
@@ -61,15 +61,16 @@ export class LoginMenu extends Component<IProps, IState> {
     return (
       <Fragment>
         <NavItem>
-          <NavLink tag={Link} className="text-dark" to={profilePath}>
-            Hello {userName}
-          </NavLink>
+          <LinkContainer to={profilePath}>
+            <NavLink className="text-dark">Hello {userName}</NavLink>
+          </LinkContainer>
         </NavItem>
-        <NavItem>
-          <NavLink tag={Link} className="text-dark" to={logoutPath}>
-            Logout
-          </NavLink>
-        </NavItem>
+
+        <LinkContainer to={logoutPath}>
+          <NavItem>
+            <NavLink className="text-dark">Logout</NavLink>
+          </NavItem>
+        </LinkContainer>
       </Fragment>
     );
   }
@@ -77,16 +78,16 @@ export class LoginMenu extends Component<IProps, IState> {
   anonymousView(registerPath: any, loginPath: any) {
     return (
       <Fragment>
-        <NavItem>
-          <NavLink tag={Link} className="text-dark" to={registerPath}>
-            Register
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink tag={Link} className="text-dark" to={loginPath}>
-            Login
-          </NavLink>
-        </NavItem>
+        <LinkContainer to={registerPath}>
+          <NavItem>
+            <NavLink className="text-dark">Register</NavLink>
+          </NavItem>
+        </LinkContainer>
+        <LinkContainer to={loginPath}>
+          <NavItem>
+            <NavLink className="text-dark">Login</NavLink>
+          </NavItem>
+        </LinkContainer>
       </Fragment>
     );
   }

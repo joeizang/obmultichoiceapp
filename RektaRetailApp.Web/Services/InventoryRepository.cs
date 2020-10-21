@@ -12,6 +12,7 @@ using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.Abstractions;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel.Inventory;
+using RektaRetailApp.Web.Commands.Inventory;
 using RektaRetailApp.Web.Data;
 
 namespace RektaRetailApp.Web.Services
@@ -36,7 +37,7 @@ namespace RektaRetailApp.Web.Services
                         .Include(i => i.InventoryItem);
             var nonNullSearchTerm = Guard.Against.NullOrEmpty(searchTerm, nameof(searchTerm));
             var newQuery = query.Where(x =>
-                x.BatchNumber != null && x.BatchNumber.Equals(searchTerm) && x.Name.Equals(searchTerm));
+                x.BatchNumber != null && x.BatchNumber!.Equals(searchTerm) && x.Name!.Equals(searchTerm));
             IQueryable orderedQuery;
             if (ascending == false)
                 orderedQuery = newQuery.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name)
@@ -51,15 +52,47 @@ namespace RektaRetailApp.Web.Services
 
         public async Task<InventoryDetailApiModel> GetInventoryById(int id)
         {
-            var result = await _db.Inventories.AsNoTracking()
+            var result = await _set.AsNoTracking()
                 .Where(i => i.Id == id).ProjectTo<InventoryDetailApiModel>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync().ConfigureAwait(false);
             return result;
         }
 
-        public Task<IEnumerable<InventoryApiModel>> GetInventoriesBy(Expression<Func<string?, string?, string, Inventory>> searchOptions)
+        public async Task<InventoryApiModel> GetInventoryBy(params Expression<Func<Inventory, bool>>[] searchTerms)
         {
-            throw new NotImplementedException();
+            IQueryable<Inventory>? query = null;
+            foreach (var term in searchTerms)
+            {
+                query = _set.AsNoTracking().Where(term);
+            }
+
+            var result = await query
+                .ProjectTo<InventoryApiModel>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync().ConfigureAwait(false);
+            return result;
+        }
+
+        public async Task<IEnumerable<InventoryApiModel>> GetInventoriesBy(params Expression<Func<Inventory,bool>>[] searchTerms)
+        {
+            IQueryable<Inventory>? query = null;
+            foreach (var term in searchTerms)
+            {
+                query = _set.AsNoTracking().Where(term);
+            }
+
+            var result = await query
+                .ProjectTo<InventoryApiModel>(_mapper.ConfigurationProvider)
+                .ToListAsync().ConfigureAwait(false);
+            return result;
+        }
+
+        public void CreateInventory(CreateInventoryCommand command)
+        {
+            var inventory = _mapper.Map<CreateInventoryCommand, Inventory>(command);
+            inventory.BatchNumber = inventory.BatchNumber?.ToUpperInvariant().Trim();
+            inventory.Description = inventory.Description?.ToUpperInvariant().Trim();
+            inventory.Name = inventory.Name.Trim().ToUpperInvariant();
+            _set.Add(inventory);
         }
 
         public async Task SaveAsync()

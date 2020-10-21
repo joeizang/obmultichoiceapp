@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel.Inventory;
@@ -22,12 +21,10 @@ namespace RektaRetailApp.Web.Queries.Inventory
     public class GetAllInventoryQueryHandler : IRequestHandler<GetAllInventoriesQuery, IEnumerable<InventoryApiModel>>
     {
         private readonly IInventoryRepository _repo;
-        private readonly IMapper _mapper;
 
-        public GetAllInventoryQueryHandler(IInventoryRepository repo, IMapper mapper)
+        public GetAllInventoryQueryHandler(IInventoryRepository repo)
         {
             _repo = repo;
-            _mapper = mapper;
         }
 
         public async Task<IEnumerable<InventoryApiModel>> Handle(GetAllInventoriesQuery request, CancellationToken cancellationToken)

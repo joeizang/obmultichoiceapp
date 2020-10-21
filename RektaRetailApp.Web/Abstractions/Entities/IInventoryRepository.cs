@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.ApiModel.Inventory;
+using RektaRetailApp.Web.Commands.Inventory;
 using RektaRetailApp.Web.Data;
 
 namespace RektaRetailApp.Web.Abstractions.Entities
@@ -16,8 +17,11 @@ namespace RektaRetailApp.Web.Abstractions.Entities
 
         Task<InventoryDetailApiModel> GetInventoryById(int id);
 
-        Task<IEnumerable<InventoryApiModel>> GetInventoriesBy(
-            Expression<Func<string?, string?, string, Inventory>> searchOptions);
+        Task<InventoryApiModel> GetInventoryBy(params Expression<Func<Inventory, bool>>[] searchTerms);
+
+        Task<IEnumerable<InventoryApiModel>> GetInventoriesBy(params Expression<Func<Inventory, bool>>[] searchTerms);
+
+        void CreateInventory(CreateInventoryCommand command);
 
         Task SaveAsync();
     }
