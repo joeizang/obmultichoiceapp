@@ -20,7 +20,7 @@ namespace RektaRetailApp.Web.Commands.Inventory
 
     public string? BatchNumber { get; set; }
 
-    public int CategoryId { get; set; }
+    public string CategoryName { get; set; } = null!;
 
     public float Quantity { get; set; }
 

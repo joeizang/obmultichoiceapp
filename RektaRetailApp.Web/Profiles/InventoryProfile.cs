@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.ApiModel.Inventory;
+using RektaRetailApp.Web.Commands.Inventory;
 
 namespace RektaRetailApp.Web.Profiles
 {
@@ -12,16 +13,12 @@ namespace RektaRetailApp.Web.Profiles
   {
     public InventoryProfile()
     {
-      CreateMap<Inventory, InventoryApiModel>()
-          .ForMember(d => d.CategoryName,
-              conf =>
-                  conf.MapFrom(s => s.Category.Name))
-          .ForMember(d => d.ProductName,
-              conf =>
-                  conf.MapFrom(s => s.InventoryItem.Name))
-          .ForMember(d => d.ProductId,
-              conf =>
-                  conf.MapFrom(s => s.ItemId));
+        CreateMap<Inventory, InventoryApiModel>()
+            .ForMember(d => d.CategoryName,
+                conf =>
+                    conf.MapFrom(s => s.Category.Name));
+
+      CreateMap<CreateInventoryCommand, Inventory>();
     }
   }
 }

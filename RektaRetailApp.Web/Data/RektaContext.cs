@@ -57,8 +57,8 @@ namespace RektaRetailApp.Web.Data
                 .HasOne(i => i.Product)
                 .WithMany().HasForeignKey(i => i.ProductId).OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Inventory>()
-                .HasOne(i => i.InventoryItem)
-                .WithOne().HasForeignKey<Inventory>(x => x.ItemId).OnDelete(DeleteBehavior.Restrict);
+                .HasMany(i => i.InventoryItems)
+                .WithOne().OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Sale>()
                 .HasOne(s => s.SalesPerson)
                 .WithMany(a => a.SalesYouOwn)

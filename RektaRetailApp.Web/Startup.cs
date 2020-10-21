@@ -52,13 +52,13 @@ namespace RektaRetailApp.Web
       //handles Object cycle detected error
       services.AddControllersWithViews(options =>
       {
-          options.ReturnHttpNotAcceptable = true;
+        options.ReturnHttpNotAcceptable = true;
       }).AddNewtonsoftJson(options =>
       {
-          options.UseCamelCasing(true);
-          options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-      });
-            services.AddRazorPages();
+        options.UseCamelCasing(true);
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+      }).AddXmlDataContractSerializerFormatters();
+      services.AddRazorPages();
 
       // In production, the React files will be served from this directory
       services.AddSpaStaticFiles(configuration =>

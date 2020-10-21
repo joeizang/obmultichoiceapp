@@ -18,13 +18,11 @@ namespace RektaRetailApp.Web.Validations
                 .NotEmpty().NotEqual(0);
             RuleFor(i => i.Description)
                 .MaximumLength(450);
-            RuleFor(i => i.ItemId)
-                .NotEmpty().NotEqual(0);
             RuleFor(i => i.Name)
                 .NotEmpty()
                 .MaximumLength(50);
             RuleFor(i => i.SupplyDate)
-                .GreaterThan(DateTimeOffset.Now);
+                .NotEmpty();
         }
     }
 }

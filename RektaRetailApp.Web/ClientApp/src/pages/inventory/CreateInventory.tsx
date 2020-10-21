@@ -77,14 +77,12 @@ const CreateInventory: FC<formData> = ({ categories }) => {
         <Card.Body>
           <Form
             onSubmit={handleSubmit(async (data) => {
-              const result = await axios.post(INVENTORY_URL, data);
-              if (result.status >= 400) {
-                console.log(result.status);
-                const temp = JSON.stringify(result.data);
-                console.log(temp);
-              }
-              if (result.status == 200)
-                console.log("inventory creation was successful!");
+              console.log("starting inventory creation");
+              try {
+                console.log("inside try catch");
+                console.log(data);
+                const result = await axios.post(INVENTORY_URL, data);
+              } catch (error) {}
             })}
           >
             <FormGroup>

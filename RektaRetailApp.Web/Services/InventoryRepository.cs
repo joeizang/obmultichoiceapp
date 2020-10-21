@@ -32,17 +32,23 @@ namespace RektaRetailApp.Web.Services
 
         public async Task<IEnumerable<InventoryApiModel>> GetAllInventories(string? searchTerm, bool ascending)
         {
+            IQueryable<Inventory> orderedQuery;
             var query = _set.AsNoTracking()
                         .Include(i => i.Category)
-                        .Include(i => i.InventoryItem);
-            var nonNullSearchTerm = Guard.Against.NullOrEmpty(searchTerm, nameof(searchTerm));
-            var newQuery = query.Where(x =>
-                x.BatchNumber != null && x.BatchNumber!.Equals(searchTerm) && x.Name!.Equals(searchTerm));
-            IQueryable orderedQuery;
+                        .Include(i => i.InventoryItems);
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                IQueryable<Inventory> newQuery = query.Where(x =>
+                    x.BatchNumber != null && x.BatchNumber!.Equals(searchTerm) && x.Name!.Equals(searchTerm));
+                if (ascending == false)
+                    orderedQuery = newQuery.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name)
+                        .ThenByDescending(x => x.BatchNumber);
+            }
+            
             if (ascending == false)
-                orderedQuery = newQuery.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name)
+                orderedQuery = query.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name)
                     .ThenByDescending(x => x.BatchNumber);
-            orderedQuery = newQuery.OrderBy(x => x.SupplyDate).ThenBy(x => x.Name).ThenBy(x => x.BatchNumber);
+            orderedQuery = query.OrderBy(x => x.SupplyDate).ThenBy(x => x.Name).ThenBy(x => x.BatchNumber);
 
             var result = await orderedQuery
                 .ProjectTo<InventoryApiModel>(_mapper.ConfigurationProvider)
