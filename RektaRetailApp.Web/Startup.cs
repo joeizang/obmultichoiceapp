@@ -50,8 +50,15 @@ namespace RektaRetailApp.Web
       services.AddAuthentication()
           .AddIdentityServerJwt();
       //handles Object cycle detected error
-      services.AddControllersWithViews();
-      services.AddRazorPages();
+      services.AddControllersWithViews(options =>
+      {
+          options.ReturnHttpNotAcceptable = true;
+      }).AddNewtonsoftJson(options =>
+      {
+          options.UseCamelCasing(true);
+          options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+      });
+            services.AddRazorPages();
 
       // In production, the React files will be served from this directory
       services.AddSpaStaticFiles(configuration =>
