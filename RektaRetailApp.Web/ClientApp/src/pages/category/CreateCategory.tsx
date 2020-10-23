@@ -26,11 +26,10 @@ const CreateCategory: FC<createCategoryProp> = () => {
         </Card.Header>
         <Card.Body>
           <Form
-            onSubmit={handleSubmit(async (data) => {
-              const temp = await axios.post(
-                "https://localhost:5001/api/categories",
-                data
-              );
+            onSubmit={handleSubmit(async (data, evt) => {
+              await axios.post("https://localhost:5001/api/categories", data);
+              // @ts-ignore
+              evt.target.reset();
             })}
           >
             <FormGroup>

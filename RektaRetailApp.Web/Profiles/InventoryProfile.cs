@@ -16,7 +16,10 @@ namespace RektaRetailApp.Web.Profiles
         CreateMap<Inventory, InventoryApiModel>()
             .ForMember(d => d.CategoryName,
                 conf =>
-                    conf.MapFrom(s => s.Category.Name));
+                    conf.MapFrom(s => s.Category.Name))
+            .ForMember(d => d.NumberOfProductsInStock,
+                conf =>
+                    conf.MapFrom(s => (float)s.InventoryItems.Count));
 
       CreateMap<CreateInventoryCommand, Inventory>();
     }

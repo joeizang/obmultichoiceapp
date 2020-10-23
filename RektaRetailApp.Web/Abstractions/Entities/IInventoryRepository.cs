@@ -16,6 +16,8 @@ namespace RektaRetailApp.Web.Abstractions.Entities
         Task<IEnumerable<InventoryApiModel>> GetAllInventories(string? searchTerm, bool ascending = true);
 
         Task<InventoryDetailApiModel> GetInventoryById(int id);
+        
+        Task<Inventory> GetInventoryById(UpdateInventoryCommand id);
 
         Task<InventoryApiModel> GetInventoryBy(params Expression<Func<Inventory, bool>>[] searchTerms);
 

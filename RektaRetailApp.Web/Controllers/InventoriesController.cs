@@ -30,18 +30,19 @@ namespace RektaRetailApp.Web.Controllers
       return Ok(result);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "InventoryById")]
     public async Task<ActionResult<InventoryApiModel>> GetInventoryById(GetInventoryDetailQuery model)
     {
       var result = await _mediator.Send(model);
       return Ok(result);
     }
 
-    [HttpPost]
+    [HttpPost(Name = "createInventory")]
     public async Task<ActionResult<InventoryApiModel>> CreateInventory([FromBody] CreateInventoryCommand command)
     {
       var result = await _mediator.Send(command);
-      return CreatedAtAction("", result);
+      return CreatedAtRoute("InventoryById", 
+          new { id = result.Id } ,result);
     }
   }
 }

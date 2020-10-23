@@ -22,7 +22,7 @@ namespace RektaRetailApp.Web.Commands.Inventory
 
     public string CategoryName { get; set; } = null!;
 
-    public float Quantity { get; set; }
+    public float ProductQuantity { get; set; }
 
     public DateTimeOffset SupplyDate { get; set; }
 
@@ -43,9 +43,9 @@ namespace RektaRetailApp.Web.Commands.Inventory
       await _repo.SaveAsync().ConfigureAwait(false);
       var result = await _repo
           .GetInventoryBy(x =>
-              x.BatchNumber!.Equals(request.BatchNumber) &&
-              x.Name!.Equals(request.Name) &&
-              x.Description!.Equals(request.Description));
+              x.BatchNumber!.Equals(request.BatchNumber!.ToUpperInvariant()) &&
+              x.Name!.Equals(request.Name.ToUpperInvariant()) &&
+              x.Description!.Equals(request.Description!.ToUpperInvariant()));
       return result;
     }
   }

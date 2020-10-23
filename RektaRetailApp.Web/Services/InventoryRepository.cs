@@ -63,6 +63,14 @@ namespace RektaRetailApp.Web.Services
                 .SingleOrDefaultAsync().ConfigureAwait(false);
             return result;
         }
+        
+        public async Task<Inventory> GetInventoryById(UpdateInventoryCommand command)
+        {
+            var result = await _set.AsNoTracking()
+                .Where(i => i.Id == command.InventoryId)
+                .SingleOrDefaultAsync().ConfigureAwait(false);
+            return result;
+        }
 
         public async Task<InventoryApiModel> GetInventoryBy(params Expression<Func<Inventory, bool>>[] searchTerms)
         {
@@ -98,6 +106,10 @@ namespace RektaRetailApp.Web.Services
             inventory.BatchNumber = inventory.BatchNumber?.ToUpperInvariant().Trim();
             inventory.Description = inventory.Description?.ToUpperInvariant().Trim();
             inventory.Name = inventory.Name.Trim().ToUpperInvariant();
+
+            //get the category to add the inventory
+            inventory.CategoryId = _db.Categories.AsNoTracking().SingleOrDefault(x => x.Name.Equals(command.CategoryName.ToUpperInvariant()))!.Id;
+            
             _set.Add(inventory);
         }
 

@@ -10,13 +10,10 @@ namespace RektaRetailApp.Web.ApiModel.Inventory
         public int Id { get; set; }
 
         public string Name { get; set; } = null!;
-
-        public string ProductName { get; set; } = null!;
-
-        public int ProductId { get; set; }
-
         public string CategoryName { get; set; } = null!;
 
         public int CategoryId { get; set; }
+        
+        public float NumberOfProductsInStock { get; set; }
     }
 }
