@@ -43,7 +43,8 @@
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "lint": "eslint \"src/**/*.{js,ts,tsx}\" --quiet --fix",
+    "format": "prettier \"src/**/*.{js,ts,tsx,html}\" --write"
   },
   "browserslist": {
     "production": [
@@ -56,5 +57,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+      "hooks": {
+          "pre-commit": "lint-staged"
+      }
+  },
+  "lint-staged": {
+      "*.{js,ts,tsx}": [
+          "eslint --fix"
+      ]
   }
 }
