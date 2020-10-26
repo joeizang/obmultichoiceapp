@@ -63,6 +63,7 @@
     <Folder Include="ClientApp\src\pages\shifts\" />
     <Folder Include="ClientApp\src\pages\sales\" />
     <Folder Include="ClientApp\src\pages\products\" />
+    <Folder Include="DomainEvents\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

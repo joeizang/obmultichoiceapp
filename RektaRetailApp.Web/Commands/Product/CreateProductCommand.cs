@@ -12,11 +12,6 @@ namespace RektaRetailApp.Web.Commands.Product
 {
     public class CreateProductCommand : IRequest<ProductApiModel>
     {
-        public CreateProductCommand()
-        {
-            ProductCategories = new List<CategoryApiModel>();
-        }
-
         public string Name { get; set; } = null!;
 
         public decimal RetailPrice { get; set; }
@@ -27,7 +22,7 @@ namespace RektaRetailApp.Web.Commands.Product
 
         public decimal SuppliedPrice { get; set; }
 
-        public List<CategoryApiModel> ProductCategories { get; set; }
+        public string CategoryName { get; set; }
 
         public int SupplierId { get; set; }
 

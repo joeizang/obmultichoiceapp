@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { FC } from 'react';
 import { Card, Col, NavLink, Row } from 'react-bootstrap';
 import { ArrowRight } from 'react-bootstrap-icons';

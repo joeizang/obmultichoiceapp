@@ -72,7 +72,10 @@ namespace RektaRetailApp.Web.Services
         {
             var product = _mapper.Map<CreateProductCommand, Product>(command);
             product.Name = product.Name.Trim().ToUpperInvariant();
-            //TODO: map categoryapimodels to get ids and add the to product
+            var category = await _db.Categories.AsNoTracking().Where(c =>
+                    c.Name.Equals(command.CategoryName.ToUpperInvariant()))
+                .SingleOrDefaultAsync().ConfigureAwait(false);
+            product.ProductCategories.Add(category);
             //TODO: ensure that category names are unique. Guard against this duplication
             _set.Add(product);
             await SaveAsync().ConfigureAwait(false);
