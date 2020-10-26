@@ -41,8 +41,30 @@ namespace RektaRetailApp.Web.Controllers
     public async Task<ActionResult<InventoryApiModel>> CreateInventory([FromBody] CreateInventoryCommand command)
     {
       var result = await _mediator.Send(command);
-      return CreatedAtRoute("InventoryById", 
-          new { id = result.Id } ,result);
+      return CreatedAtRoute("InventoryById",
+          new { id = result.Id }, result);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult<InventoryApiModel>> UpdateInventory([FromBody] UpdateInventoryCommand command)
+    {
+      try
+      {
+        var result = await _mediator.Send(command);
+        return CreatedAtRoute("InventoryById",
+        new { id = command.InventoryId }, result);
+      }
+      catch (System.Exception ex)
+      {
+        return BadRequest(new { ErrorMessage = ex.Message });
+      }
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteInventory([FromRoute]DeleteInventoryCommand command)
+    {
+        await _mediator.Send(command);
+        return NoContent();
     }
   }
 }

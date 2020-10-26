@@ -24,8 +24,6 @@ namespace RektaRetailApp.Web.Commands.Inventory
 
     public float ProductQuantity { get; set; }
 
-    public DateTimeOffset SupplyDate { get; set; }
-
   }
 
 

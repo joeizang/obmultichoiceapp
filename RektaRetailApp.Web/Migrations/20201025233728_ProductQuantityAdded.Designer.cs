@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RektaRetailApp.Web.Data;
@@ -9,9 +10,10 @@ using RektaRetailApp.Web.Data;
 namespace RektaRetailApp.Web.Migrations
 {
     [DbContext(typeof(RektaContext))]
-    partial class RektaContextModelSnapshot : ModelSnapshot
+    [Migration("20201025233728_ProductQuantityAdded")]
+    partial class ProductQuantityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -569,9 +571,6 @@ namespace RektaRetailApp.Web.Migrations
 
                     b.Property<int>("SupplierId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTimeOffset>("SupplyDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(12,2)");
