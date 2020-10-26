@@ -29,9 +29,6 @@ namespace RektaRetailApp.Domain.DomainModels
         [Required]
         public Category Category { get; set; } = null!;
 
-        [Required]
-        public float Quantity { get; set; }
-
         public List<Product> InventoryItems { get; set; }
 
         [Required]

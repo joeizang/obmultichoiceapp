@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using RektaRetailApp.Domain.Abstractions;
@@ -16,17 +17,23 @@ namespace RektaRetailApp.Domain.DomainModels
         [StringLength(50)]
         public string Name { get; set; } = null!;
 
-        [Column(TypeName = "decimal(9,2)")]
+        [Column(TypeName = "decimal(12,2)")]
         [Required]
         public decimal RetailPrice { get; set; }
 
-        [Column(TypeName = "decimal(9,2)")]
+        [Column(TypeName = "decimal(12,2)")]
         [Required]
         public decimal UnitPrice { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(9,2)")]
+        [Column(TypeName = "decimal(12,2)")]
         public decimal SuppliedPrice { get; set; }
+
+        [Required]
+        public DateTimeOffset SupplyDate { get; set; }
+
+        [Required]
+        public float Quantity { get; set; }
 
         public List<Category> ProductCategories { get; set; }
 
