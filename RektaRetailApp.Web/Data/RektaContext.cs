@@ -83,6 +83,25 @@ namespace RektaRetailApp.Web.Data
             builder.Entity<Shift>()
                 .Property(s => s.HourlyRate)
                 .HasColumnType("decimal(9,2)");
+            builder.Entity<Category>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+            builder.Entity<Inventory>()
+                .HasIndex(i => i.Name)
+                .IsUnique();
+            builder.Entity<Inventory>()
+                .HasIndex(i => i.BatchNumber)
+                .IsUnique();
+            builder.Entity<Product>()
+                .HasIndex(p => p.SupplyDate);
+            builder.Entity<Supplier>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+            builder.Entity<Supplier>()
+                .HasIndex(s => s.MobileNumber)
+                .IsUnique();
+            builder.Entity<Sale>()
+                .HasIndex(s => s.SaleDate);
         }
     }
 }

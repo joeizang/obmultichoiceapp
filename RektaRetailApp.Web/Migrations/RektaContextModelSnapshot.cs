@@ -381,6 +381,9 @@ namespace RektaRetailApp.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("Categories");
@@ -475,7 +478,13 @@ namespace RektaRetailApp.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BatchNumber")
+                        .IsUnique();
+
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Inventories");
                 });
@@ -589,6 +598,8 @@ namespace RektaRetailApp.Web.Migrations
 
                     b.HasIndex("SupplierId");
 
+                    b.HasIndex("SupplyDate");
+
                     b.ToTable("Products");
                 });
 
@@ -635,6 +646,8 @@ namespace RektaRetailApp.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("SaleDate");
 
                     b.HasIndex("SalesPersonId");
 
@@ -712,6 +725,12 @@ namespace RektaRetailApp.Web.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MobileNumber")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Suppliers");
                 });

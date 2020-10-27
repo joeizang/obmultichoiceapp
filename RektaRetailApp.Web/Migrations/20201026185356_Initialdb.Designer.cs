@@ -10,8 +10,8 @@ using RektaRetailApp.Web.Data;
 namespace RektaRetailApp.Web.Migrations
 {
     [DbContext(typeof(RektaContext))]
-    [Migration("20201021164224_ChangeInventoryProduct")]
-    partial class ChangeInventoryProduct
+    [Migration("20201026185356_Initialdb")]
+    partial class Initialdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -383,6 +383,9 @@ namespace RektaRetailApp.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("Categories");
@@ -465,9 +468,6 @@ namespace RektaRetailApp.Web.Migrations
                         .HasColumnType("character varying(50)")
                         .HasMaxLength(50);
 
-                    b.Property<float>("Quantity")
-                        .HasColumnType("real");
-
                     b.Property<DateTimeOffset>("SupplyDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -480,7 +480,13 @@ namespace RektaRetailApp.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BatchNumber")
+                        .IsUnique();
+
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Inventories");
                 });
@@ -563,17 +569,23 @@ namespace RektaRetailApp.Web.Migrations
                         .HasColumnType("character varying(50)")
                         .HasMaxLength(50);
 
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
                     b.Property<decimal>("RetailPrice")
-                        .HasColumnType("decimal(9,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<decimal>("SuppliedPrice")
-                        .HasColumnType("decimal(9,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<int>("SupplierId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTimeOffset>("SupplyDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(9,2)");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -587,6 +599,8 @@ namespace RektaRetailApp.Web.Migrations
                     b.HasIndex("InventoryId");
 
                     b.HasIndex("SupplierId");
+
+                    b.HasIndex("SupplyDate");
 
                     b.ToTable("Products");
                 });
@@ -634,6 +648,8 @@ namespace RektaRetailApp.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("SaleDate");
 
                     b.HasIndex("SalesPersonId");
 
@@ -711,6 +727,12 @@ namespace RektaRetailApp.Web.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MobileNumber")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Suppliers");
                 });

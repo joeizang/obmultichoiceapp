@@ -23,7 +23,7 @@ namespace RektaRetailApp.Web.Services
     private readonly IMapper _mapper;
     private readonly DbSet<Inventory> _set;
 
-    public InventoryRepository(IHttpContextAccessor accessor, RektaContext db, IMapper mapper) : base(accessor)
+    public InventoryRepository(IHttpContextAccessor accessor, RektaContext db, IMapper mapper) : base(accessor,db)
     {
       _db = db;
       _set = _db.Set<Inventory>();
@@ -132,7 +132,7 @@ namespace RektaRetailApp.Web.Services
 
     public async Task SaveAsync()
     {
-      await Commit<Inventory>(_db);
+      await Commit<Inventory>().ConfigureAwait(false);
     }
   }
 }

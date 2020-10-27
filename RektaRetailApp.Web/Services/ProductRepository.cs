@@ -7,7 +7,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using RektaRetailApp.Domain.Abstractions;
 using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.Abstractions;
 using RektaRetailApp.Web.Abstractions.Entities;
@@ -23,7 +22,7 @@ namespace RektaRetailApp.Web.Services
         private readonly IMapper _mapper;
         private readonly DbSet<Product> _set;
         public ProductRepository(IHttpContextAccessor accessor,
-            RektaContext db, IMapper mapper) : base(accessor)
+            RektaContext db, IMapper mapper) : base(accessor,db)
         {
             _db = db;
             _mapper = mapper;
@@ -31,7 +30,7 @@ namespace RektaRetailApp.Web.Services
         }
         public async Task SaveAsync()
         {
-            await Commit<Product>(_db);
+            await Commit<Product>().ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ProductApiModel>> GetAllProductsAsync()
@@ -76,7 +75,6 @@ namespace RektaRetailApp.Web.Services
                     c.Name.Equals(command.CategoryName.ToUpperInvariant()))
                 .SingleOrDefaultAsync().ConfigureAwait(false);
             product.ProductCategories.Add(category);
-            //TODO: ensure that category names are unique. Guard against this duplication
             _set.Add(product);
             await SaveAsync().ConfigureAwait(false);
             var result = await GetProductByAsync(p => p.Name.Equals(command.Name.ToUpperInvariant()),

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace RektaRetailApp.Web.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class Initialdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,24 +35,6 @@ namespace RektaRetailApp.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: false),
-                    UpdatedBy = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Description = table.Column<string>(maxLength: 450, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,6 +91,24 @@ namespace RektaRetailApp.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PersistedGrants", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Suppliers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    MobileNumber = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Suppliers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,44 +322,11 @@ namespace RektaRetailApp.Web.Migrations
                     Description = table.Column<string>(maxLength: 450, nullable: true),
                     BatchNumber = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<float>(nullable: false),
-                    ItemId = table.Column<int>(nullable: false),
                     SupplyDate = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Inventories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Inventories_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Suppliers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: false),
-                    UpdatedBy = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    MobileNumber = table.Column<string>(maxLength: 50, nullable: false),
-                    InventoryId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Suppliers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Suppliers_Inventories_InventoryId",
-                        column: x => x.InventoryId,
-                        principalTable: "Inventories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -373,21 +340,23 @@ namespace RektaRetailApp.Web.Migrations
                     CreatedBy = table.Column<string>(nullable: false),
                     UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    RetailPrice = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    SuppliedPrice = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
-                    SupplierId = table.Column<int>(nullable: false)
+                    RetailPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    SuppliedPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    SupplyDate = table.Column<DateTimeOffset>(nullable: false),
+                    Quantity = table.Column<float>(nullable: false),
+                    SupplierId = table.Column<int>(nullable: false),
+                    InventoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        name: "FK_Products_Inventories_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Suppliers_SupplierId",
                         column: x => x.SupplierId,
@@ -423,6 +392,31 @@ namespace RektaRetailApp.Web.Migrations
                         principalTable: "Suppliers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Description = table.Column<string>(maxLength: 450, nullable: true),
+                    ProductId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -509,6 +503,17 @@ namespace RektaRetailApp.Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Categories_Name",
+                table: "Categories",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ProductId",
+                table: "Categories",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
                 table: "DeviceCodes",
                 column: "DeviceCode",
@@ -520,14 +525,20 @@ namespace RektaRetailApp.Web.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Inventories_BatchNumber",
+                table: "Inventories",
+                column: "BatchNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Inventories_CategoryId",
                 table: "Inventories",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inventories_ItemId",
+                name: "IX_Inventories_Name",
                 table: "Inventories",
-                column: "ItemId",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -556,9 +567,9 @@ namespace RektaRetailApp.Web.Migrations
                 columns: new[] { "SubjectId", "ClientId", "Type" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
+                name: "IX_Products_InventoryId",
                 table: "Products",
-                column: "CategoryId");
+                column: "InventoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_SupplierId",
@@ -566,9 +577,19 @@ namespace RektaRetailApp.Web.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_SupplyDate",
+                table: "Products",
+                column: "SupplyDate");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sales_CustomerId",
                 table: "Sales",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sales_SaleDate",
+                table: "Sales",
+                column: "SaleDate");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sales_SalesPersonId",
@@ -581,32 +602,31 @@ namespace RektaRetailApp.Web.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Suppliers_InventoryId",
+                name: "IX_Suppliers_MobileNumber",
                 table: "Suppliers",
-                column: "InventoryId");
+                column: "MobileNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Suppliers_Name",
+                table: "Suppliers",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Inventories_Products_ItemId",
+                name: "FK_Inventories_Categories_CategoryId",
                 table: "Inventories",
-                column: "ItemId",
-                principalTable: "Products",
+                column: "CategoryId",
+                principalTable: "Categories",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Inventories_Categories_CategoryId",
-                table: "Inventories");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Products_Categories_CategoryId",
-                table: "Products");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Inventories_Products_ItemId",
-                table: "Inventories");
+                name: "FK_Categories_Products_ProductId",
+                table: "Categories");
 
             migrationBuilder.DropTable(
                 name: "ApplicationRoles");
@@ -654,16 +674,16 @@ namespace RektaRetailApp.Web.Migrations
                 name: "WorkerShifts");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Inventories");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");
 
             migrationBuilder.DropTable(
-                name: "Inventories");
+                name: "Categories");
         }
     }
 }

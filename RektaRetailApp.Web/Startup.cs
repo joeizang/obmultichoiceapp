@@ -44,6 +44,7 @@ namespace RektaRetailApp.Web
       services.AddScoped<ICategoryRepository, CategoryRepository>();
       services.AddScoped<IInventoryRepository, InventoryRepository>();
       services.AddScoped<IProductRepository, ProductRepository>();
+      services.AddScoped<ISupplierRepository, SupplierRepository>();
 
       services.AddIdentityServer()
           .AddApiAuthorization<ApplicationUser, RektaContext>();

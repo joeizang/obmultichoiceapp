@@ -31,7 +31,8 @@ namespace RektaRetailApp.Web.Validations.Product
                 .ScalePrecision(12, 4, true);
             RuleFor(p => p.SupplierId)
                 .NotEqual(0).WithMessage("Product Identifier cannot be 0");
-            RuleFor(p => p.ProductCategories)
+            RuleFor(p => p.CategoryName)
+                .NotEmpty()
                 .NotNull().WithMessage("Categories must be initialized");
         }
     }
