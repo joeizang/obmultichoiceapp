@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.Abstractions;
 using RektaRetailApp.Web.Abstractions.Entities;
@@ -18,19 +19,22 @@ namespace RektaRetailApp.Web.Services
     public class SupplierRepository : GenericBaseRepository, ISupplierRepository
     {
         private readonly RektaContext _db;
+
         private readonly IMapper _mapper;
+        private readonly DbSet<Supplier> _set;
 
         public SupplierRepository([NotNull] IHttpContextAccessor accessor, 
             RektaContext db,
             IMapper mapper) : base(accessor,db)
         {
             _db = db;
+            _set = _db.Set<Supplier>();
             _mapper = mapper;
         }
 
-        public async Task SaveAsync()
+        public Task SaveAsync()
         {
-            await Commit<Supplier>().ConfigureAwait(false);
+            return Commit<Supplier>();
         }
 
         public Task<IEnumerable<SupplierApiModel>> GetSuppliersAsync()
@@ -43,15 +47,17 @@ namespace RektaRetailApp.Web.Services
             throw new NotImplementedException();
         }
 
-        public Task<SupplierApiModel> GetSupplierBy(params Expression<Func<Supplier, bool>>[] searchTerms)
+        public Task<Supplier> GetSupplierBy(Expression<Func<Supplier, object>>[]? includes = null,
+            params Expression<Func<Supplier, bool>>[] searchTerms)
         {
-            throw new NotImplementedException();
+            var supplier = GetOneBy<Supplier>(includes, searchTerms);
+            return supplier;
         }
 
         public Task CreateSupplierAsync(CreateSupplierCommand command)
         {
             var supplier = _mapper.Map<CreateSupplierCommand, Supplier>(command);
-
+            return Task.Run(() => _set.Add(supplier));
         }
     }
 }

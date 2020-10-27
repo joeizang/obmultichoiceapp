@@ -51,19 +51,19 @@ namespace RektaRetailApp.Web.Abstractions
             await _db.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public async Task<T> GetOneBy<T>(Expression<Func<T, object>>[]? includes = null,
+        public Task<T> GetOneBy<T>(Expression<Func<T, object>>[]? includes = null,
             params Expression<Func<T, bool>>[] searchTerms) where T : BaseDomainModel
         {
             var query = _db.Set<T>().AsNoTracking();
 
-            if (!(includes is null) || includes.Length != 0)
+            if (!(includes is null) || includes!.Length != 0)
             {
                 query = includes.Aggregate(query, (current, include) => current.Include(include));
             }
 
             query = searchTerms.Aggregate(query, (current, term) => current.Where(term));
 
-            var result = await query.SingleOrDefaultAsync().ConfigureAwait(false);
+            var result = query.SingleOrDefaultAsync();
             return result;
         }
     }

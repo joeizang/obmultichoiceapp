@@ -55,15 +55,13 @@ namespace RektaRetailApp.Web.Services
 
         public async Task<ProductApiModel> GetProductByAsync(params Expression<Func<Product, bool>>[] searchTerms)
         {
-            IQueryable<Product>? query = null;
-            foreach (var term in searchTerms)
+            var includes = new Expression<Func<Product, object>>[]
             {
-                query = _set.AsNoTracking().Where(term);
-            }
-
-            var result = await query.ProjectTo<ProductApiModel>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync()
-                .ConfigureAwait(false);
+                p => p.ProductCategories,
+                p => p.ProductSupplier
+            };
+            var product = await GetOneBy(includes, searchTerms).ConfigureAwait(false);
+            var result = _mapper.Map<Product, ProductApiModel>(product);
             return result;
         }
 
