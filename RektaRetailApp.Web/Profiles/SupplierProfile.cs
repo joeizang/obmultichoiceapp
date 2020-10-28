@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using RektaRetailApp.Domain.DomainModels;
+using RektaRetailApp.Web.ApiModel.Supplier;
 using RektaRetailApp.Web.Commands.Supplier;
 
 namespace RektaRetailApp.Web.Profiles
@@ -17,6 +18,9 @@ namespace RektaRetailApp.Web.Profiles
                 .ForMember(d => d.MobileNumber, conf => conf.MapFrom(s => s.PhoneNumber!.Trim().ToUpperInvariant()))
                 .ForMember(d => d.Description, conf => conf.MapFrom(s => s.Description!.Trim().ToUpperInvariant()))
                 .ReverseMap();
+
+            CreateMap<Supplier, SupplierApiModel>()
+                .ForMember(d => d.SupplierId, conf => conf.MapFrom(s => s.Id));
 
         }
     }

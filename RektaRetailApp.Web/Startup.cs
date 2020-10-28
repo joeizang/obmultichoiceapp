@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using RektaRetailApp.Web.Data;
@@ -11,7 +12,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RektaRetailApp.Domain.DomainModels;
+using RektaRetailApp.Web.Abstractions;
 using RektaRetailApp.Web.Abstractions.Entities;
+using RektaRetailApp.Web.ApiModel;
+using RektaRetailApp.Web.ApiModel.Supplier;
+using RektaRetailApp.Web.Helpers;
 using RektaRetailApp.Web.Services;
 
 namespace RektaRetailApp.Web
@@ -45,6 +50,10 @@ namespace RektaRetailApp.Web
       services.AddScoped<IInventoryRepository, InventoryRepository>();
       services.AddScoped<IProductRepository, ProductRepository>();
       services.AddScoped<ISupplierRepository, SupplierRepository>();
+      services.AddScoped<PagedList<Supplier>>();
+      services.AddScoped<PagedList<SupplierApiModel>>();
+      services.AddTransient<PaginatedMetaData>();
+      services.AddScoped<IRepository, GenericBaseRepository>();
 
       services.AddIdentityServer()
           .AddApiAuthorization<ApplicationUser, RektaContext>();

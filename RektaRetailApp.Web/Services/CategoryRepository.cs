@@ -20,7 +20,7 @@ namespace RektaRetailApp.Web.Services
     private readonly RektaContext _db;
     private readonly IMapper _mapper;
 
-    public CategoryRepository(RektaContext db, IMapper mapper, IHttpContextAccessor accessor) : base(accessor)
+    public CategoryRepository(RektaContext db, IMapper mapper, IHttpContextAccessor accessor) : base(accessor,db)
     {
       _db = db;
       _mapper = mapper;
@@ -96,9 +96,9 @@ namespace RektaRetailApp.Web.Services
       _db.Categories.Remove(category);
     }
 
-    public async Task SaveAsync()
+    public Task SaveAsync()
     {
-        await Commit<Category>(_db).ConfigureAwait(false);
+        return Commit<Category>();
     }
 
   }

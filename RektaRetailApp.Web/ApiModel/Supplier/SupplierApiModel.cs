@@ -14,6 +14,11 @@ namespace RektaRetailApp.Web.ApiModel.Supplier
             SupplierId = supplierId;
         }
 
+        public SupplierApiModel()
+        {
+            
+        }
+
         public string? Name { get; }
 
         public string? MobileNumber { get; }

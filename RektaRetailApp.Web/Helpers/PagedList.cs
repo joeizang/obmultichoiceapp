@@ -38,6 +38,11 @@ namespace RektaRetailApp.Web.Helpers
             AddRange(items);
         }
 
+        public PagedList()
+        {
+            
+        }
+
         public static async Task<PagedList<T>> CreatePagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = await source.CountAsync().ConfigureAwait(false);
