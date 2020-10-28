@@ -37,14 +37,14 @@ namespace RektaRetailApp.Web.Services
             return Commit<Supplier>();
         }
 
-        public Task<IEnumerable<SupplierApiModel>> GetSuppliersAsync()
+        public IQueryable<Supplier> GetSuppliersAsync()
         {
-            throw new NotImplementedException();
+            return _set.AsNoTracking();
         }
 
-        public Task<SupplierDetailApiModel> GetSupplierById(int id)
+        public Task<Supplier> GetSupplierById(int id)
         {
-            throw new NotImplementedException();
+            return _set.AsNoTracking().SingleOrDefaultAsync(s => s.Id == id);
         }
 
         public Task<Supplier> GetSupplierBy(Expression<Func<Supplier, object>>[]? includes = null,

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using JetBrains.Annotations;
 using MediatR;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel.Supplier;
@@ -17,7 +18,7 @@ namespace RektaRetailApp.Web.Commands.Supplier
 
         public string PhoneNumber { get; set; } = null!;
 
-        public string? Description { get; set; }
+        [CanBeNull] public string? Description { get; set; }
     }
 
 

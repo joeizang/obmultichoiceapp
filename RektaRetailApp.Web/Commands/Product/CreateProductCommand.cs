@@ -22,7 +22,7 @@ namespace RektaRetailApp.Web.Commands.Product
 
         public decimal SuppliedPrice { get; set; }
 
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = null!;
 
         public int SupplierId { get; set; }
 
