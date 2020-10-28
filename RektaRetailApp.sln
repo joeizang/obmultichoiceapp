@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RektaRetailApp.Domain", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RektaRetailApp.Web", "RektaRetailApp.Web\RektaRetailApp.Web.csproj", "{F7075783-74EA-4876-B74E-BB7461E4E34F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RektaRetailAppWebTests", "RektaRetailAppWebTests\RektaRetailAppWebTests.csproj", "{33EDD414-C493-4AC2-BD8F-B87A325C920B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RektaRetailAppWebTests", "RektaRetailAppWebTests\RektaRetailAppWebTests.csproj", "{33EDD414-C493-4AC2-BD8F-B87A325C920B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
