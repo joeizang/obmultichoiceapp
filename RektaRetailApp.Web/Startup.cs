@@ -35,7 +35,7 @@ namespace RektaRetailApp.Web
     {
       services.AddDbContext<RektaContext>(options =>
           options.UseNpgsql(
-              Configuration.GetConnectionString("NpgsqlConnection")));
+              Configuration.GetConnectionString("NpgsqlConnection")).EnableSensitiveDataLogging());
 
       services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
           .AddEntityFrameworkStores<RektaContext>();

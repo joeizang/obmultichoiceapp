@@ -24,25 +24,19 @@ namespace RektaRetailApp.Web.Controllers
             _mediator = mediator;
         }
         // GET: api/<SuppliersController>
-        [HttpGet]
-        public async Task<ActionResult<PaginatedResponse<SupplierApiModel>>> Get()
+        [HttpGet(Name = "GetAllSuppliers")]
+        public async Task<ActionResult<PaginatedResponse<SupplierApiModel>>> GetSuppliers()
         {
-            var meth = MethodBase.GetCurrentMethod();
-            var result = await
-                _mediator.Send(
-                    new GetAllSuppliersQuery
-                    {
-                        PageNumber = 1, PageSize = 10,
-                        UriName = Url.Link(meth.Name, null)
-                    });
+            var result = await _mediator.Send(new GetAllSuppliersQuery { PageNumber = 1, PageSize = 10 });
             return result;
         }
 
         // GET api/<SuppliersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetSupplierById")]
+        public async Task<ActionResult<Response<SupplierDetailApiModel>>> GetSupplierById(int id)
         {
-            return "value";
+            var result = await _mediator.Send(new GetSupplierByIdQuery {Id = id});
+            return Ok(result);
         }
 
         // POST api/<SuppliersController>

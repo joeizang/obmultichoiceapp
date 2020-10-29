@@ -22,6 +22,9 @@ namespace RektaRetailApp.Web.Profiles
             CreateMap<Supplier, SupplierApiModel>()
                 .ForMember(d => d.SupplierId, conf => conf.MapFrom(s => s.Id));
 
+            CreateMap<Supplier, SupplierDetailApiModel>()
+                .ForMember(d => d.ProductIds, conf => conf.MapFrom(s => s.ProductsSupplied.Select(x => x.Id)));
+
         }
     }
 }

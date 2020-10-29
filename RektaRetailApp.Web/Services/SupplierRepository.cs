@@ -44,7 +44,7 @@ namespace RektaRetailApp.Web.Services
 
         public Task<Supplier> GetSupplierById(int id)
         {
-            return _set.AsNoTracking().SingleOrDefaultAsync(s => s.Id == id);
+            return _set.AsNoTracking().Include(s => s.ProductsSupplied).SingleOrDefaultAsync(s => s.Id == id);
         }
 
         public Task<Supplier> GetSupplierBy(Expression<Func<Supplier, object>>[]? includes = null,
