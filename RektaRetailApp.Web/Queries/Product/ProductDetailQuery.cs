@@ -37,7 +37,7 @@ namespace RektaRetailApp.Web.Queries.Product
             //var data = _mapper.Map<Domain.DomainModels.Product, ProductDetailApiModel>(product);
             var data = new ProductDetailApiModel(product.RetailPrice,product.UnitPrice,product.Name,product.Quantity,
                 product.SuppliedPrice,product.ProductSupplier.Name,product.ProductSupplier.MobileNumber,product.SupplyDate);
-            var result = new Response<ProductDetailApiModel>(data);
+            var result = new Response<ProductDetailApiModel>(data, ResponseStatus.Success);
             return result;
         }
     }

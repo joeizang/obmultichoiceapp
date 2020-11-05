@@ -16,6 +16,7 @@ namespace RektaRetailApp.Web.Profiles
         {
             CreateMap<Product, ProductApiModel>();
             CreateMap<ProductApiModel, Product>();
+            CreateMap<Product, ProductSummaryApiModel>();
             CreateMap<CreateProductCommand, Product>()
                 .ForMember(d => d.ProductCategories, conf => conf.Ignore());
             CreateMap<Product, ProductDetailApiModel>()

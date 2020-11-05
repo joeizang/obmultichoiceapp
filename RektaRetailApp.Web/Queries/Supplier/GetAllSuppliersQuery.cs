@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel;
@@ -34,16 +32,11 @@ namespace RektaRetailApp.Web.Queries.Supplier
   public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, PaginatedResponse<SupplierApiModel>>
   {
     private readonly ISupplierRepository _repo;
-    private readonly LinkGenerator _generator;
-    private readonly IHttpContextAccessor _accessor;
     private readonly IUriGenerator _ugen;
 
-    public GetAllSuppliersQueryHandler(ISupplierRepository repo, LinkGenerator generator,
-        IHttpContextAccessor accessor, IUriGenerator ugen)
+    public GetAllSuppliersQueryHandler(ISupplierRepository repo, IUriGenerator ugen)
     {
       _repo = repo;
-      _generator = generator;
-      _accessor = accessor;
       _ugen = ugen;
     }
     public async Task<PaginatedResponse<SupplierApiModel>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)

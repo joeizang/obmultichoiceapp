@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RektaRetailApp.Web.ApiModel.Product;
 
 namespace RektaRetailApp.Web.ApiModel.Supplier
 {
@@ -28,20 +29,22 @@ namespace RektaRetailApp.Web.ApiModel.Supplier
 
     public class SupplierDetailApiModel
     {
-        public SupplierDetailApiModel(string? name, string? phoneNumber, string? description)
+        public SupplierDetailApiModel(string? name, string? phoneNumber, string? description, int id)
         {
             Name = name;
             PhoneNumber = phoneNumber;
             Description = description;
-            ProductIds = new List<int>();
+            SupplierId = id;
         }
 
+        public int SupplierId { get; }
         public string? Name { get; }
 
         public string? PhoneNumber { get; }
 
         public string? Description { get; }
 
-        public List<int> ProductIds { get; } 
+        public List<ProductSummaryApiModel> ProductsSupplied { get; set; } = new List<ProductSummaryApiModel>();
+
     }
 }

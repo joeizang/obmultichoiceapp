@@ -22,5 +22,8 @@ namespace RektaRetailApp.Web.Abstractions.Entities
         Task<Supplier> GetSupplierBy(Expression<Func<Supplier, object>>[]? includes = null, params Expression<Func<Supplier, bool>>[] searchTerms);
 
         Task CreateSupplierAsync(CreateSupplierCommand command);
+
+        void UpdateSupplier(UpdateSupplierCommand command);
+        void DeleteSupplier(int id);
     }
 }

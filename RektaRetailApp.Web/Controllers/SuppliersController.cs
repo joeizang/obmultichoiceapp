@@ -64,16 +64,23 @@ namespace RektaRetailApp.Web.Controllers
             return CreatedAtRoute("GetSupplierById", result);
         }
 
-        //// PUT api/<SuppliersController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        // PUT api/<SuppliersController>/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Response<SupplierDetailApiModel>>> Put(int id, [FromBody] UpdateSupplierCommand command)
+        {
+            command.Id = id;
+            var result = await _mediator.Send(command);
+            return Created("GetSupplierById", result);
+        }
 
-        //// DELETE api/<SuppliersController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/<SuppliersController>/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var command = new DeleteSupplierCommand {Id = id};
+
+            await _mediator.Send(command);
+            return NoContent();
+        }
     }
 }

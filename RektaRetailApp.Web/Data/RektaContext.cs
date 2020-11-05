@@ -40,6 +40,22 @@ namespace RektaRetailApp.Web.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Sale>()
+                .HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<Product>()
+                .HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<Inventory>()
+                .HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<Category>()
+                .HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<Supplier>()
+                .HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<ItemSold>().HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<Shift>().HasQueryFilter(x => x.IsDeleted);
+            builder.Entity<ApplicationUser>().HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<ApplicationRole>().HasQueryFilter(x => !x.IsDeleted);
+
+
             builder.Entity<SuppliersInventories>()
                 .HasKey(k => new { k.InventoryId, k.SupplierId });
 

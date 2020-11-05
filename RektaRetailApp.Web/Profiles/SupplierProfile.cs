@@ -9,28 +9,31 @@ using RektaRetailApp.Web.Commands.Supplier;
 
 namespace RektaRetailApp.Web.Profiles
 {
-    public class SupplierProfile : Profile
+  public class SupplierProfile : Profile
+  {
+    public SupplierProfile()
     {
-        public SupplierProfile()
-        {
-            CreateMap<CreateSupplierCommand, Supplier>()
-                .ConstructUsing(s =>
-                    new Supplier(s.Name!.Trim().ToUpperInvariant(), s.PhoneNumber!.Trim().ToUpperInvariant(),
-                        s.Description!.Trim().ToUpperInvariant()));
+      CreateMap<CreateSupplierCommand, Supplier>()
+          .ConstructUsing(s =>
+              new Supplier(s.Name!.Trim().ToUpperInvariant(), s.PhoneNumber!.Trim().ToUpperInvariant(),
+                  s.Description!.Trim().ToUpperInvariant()));
 
-                    CreateMap<Supplier, SupplierApiModel>()
-                .ConstructUsing(s => new SupplierApiModel(s.Name, s.MobileNumber, s.Id));
-            CreateMap<SupplierApiModel, Supplier>()
-                .ConstructUsing(s => new Supplier
-                {
-                    Id = s.SupplierId,
-                    Name = s.Name ?? "",
-                    MobileNumber = s.MobileNumber ?? ""
-                });
+      CreateMap<Supplier, SupplierApiModel>()
+  .ConstructUsing(s => new SupplierApiModel(s.Name, s.MobileNumber, s.Id));
+      CreateMap<SupplierApiModel, Supplier>()
+          .ConstructUsing(s => new Supplier
+          {
+            Id = s.SupplierId,
+            Name = s.Name ?? "",
+            MobileNumber = s.MobileNumber ?? ""
+          });
 
-            CreateMap<Supplier, SupplierDetailApiModel>()
-                .ConstructUsing(s => new SupplierDetailApiModel(s.Name, s.MobileNumber, s.Description));
+      CreateMap<Supplier, SupplierDetailApiModel>()
+          .ForMember(d => d.ProductsSupplied, conf => conf.MapFrom(s => s.ProductsSupplied))
+          .ConstructUsing(s => new SupplierDetailApiModel(s.Name, s.MobileNumber, s.Description, s.Id));
+      CreateMap<UpdateSupplierCommand, Supplier>()
+          .ReverseMap();
 
-        }
     }
+  }
 }

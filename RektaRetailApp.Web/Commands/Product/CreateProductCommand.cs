@@ -43,22 +43,33 @@ namespace RektaRetailApp.Web.Commands.Product
         }
         public async Task<Response<ProductDetailApiModel>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var includes = new Expression<Func<Domain.DomainModels.Product, object>>[]
+            try
             {
-                p => p.ProductCategories,
-                p => p.ProductSupplier
-            };
-            await _repo.CreateProductAsync(request).ConfigureAwait(false);
-            await _repo.SaveAsync().ConfigureAwait(false);      
-            var product = await _repo.GetProductByAsync(includes, p => p.Name.Equals(request.Name.ToUpperInvariant()),
-                p => p.RetailPrice == request.RetailPrice, p => p.SuppliedPrice == request.SuppliedPrice,
-                p => p.SupplierId == request.SupplierId);
+                var includes = new Expression<Func<Domain.DomainModels.Product, object>>[]
+                {
+                    p => p.ProductCategories,
+                    p => p.ProductSupplier
+                };
+                await _repo.CreateProductAsync(request).ConfigureAwait(false);
+                await _repo.SaveAsync().ConfigureAwait(false);      
+                var product = await _repo.GetProductByAsync(includes, p => p.Name.Equals(request.Name.ToUpperInvariant()),
+                    p => p.RetailPrice == request.RetailPrice, p => p.SuppliedPrice == request.SuppliedPrice,
+                    p => p.SupplierId == request.SupplierId);
 
-            //var model = _mapper.Map<Domain.DomainModels.Product, ProductDetailApiModel>(created);
-            var model = new ProductDetailApiModel(product.RetailPrice, product.UnitPrice, product.Name, product.Quantity,
-                product.SuppliedPrice, product.ProductSupplier.Name, product.ProductSupplier.MobileNumber, product.SupplyDate);
-            var result = new Response<ProductDetailApiModel>(model);
-            return result;
+                //var model = _mapper.Map<Domain.DomainModels.Product, ProductDetailApiModel>(created);
+                var model = new ProductDetailApiModel(product.RetailPrice, product.UnitPrice, product.Name, product.Quantity,
+                    product.SuppliedPrice, product.ProductSupplier.Name, product.ProductSupplier.MobileNumber, product.SupplyDate);
+                var result = new Response<ProductDetailApiModel>(model, ResponseStatus.Success);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new Response<ProductDetailApiModel>(new ProductDetailApiModel(), ResponseStatus.Failure, new
+                {
+                    e.Message,
+                    Time = DateTimeOffset.Now.LocalDateTime
+                });
+            }
         }
     }
 }

@@ -35,5 +35,7 @@ namespace RektaRetailApp.Domain.DomainModels
 
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

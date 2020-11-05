@@ -31,7 +31,7 @@ namespace RektaRetailApp.Web.Queries.Supplier
         {
             var supplier = await _repo.GetSupplierById(request.Id);
             var model = _mapper.Map<SupplierDetailApiModel>(supplier);
-            var result = new Response<SupplierDetailApiModel>(model);
+            var result = new Response<SupplierDetailApiModel>(model, ResponseStatus.Success);
             return result;
         }
     }

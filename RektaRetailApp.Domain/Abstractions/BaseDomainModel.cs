@@ -16,5 +16,7 @@ namespace RektaRetailApp.Domain.Abstractions
         public string CreatedBy { get; set; } = null!;
 
         public string UpdatedBy { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
     }
 }
