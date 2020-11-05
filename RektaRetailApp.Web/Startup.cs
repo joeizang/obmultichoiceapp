@@ -55,6 +55,8 @@ namespace RektaRetailApp.Web
       services.AddTransient<PaginatedMetaData>();
       services.AddScoped<IRepository, GenericBaseRepository>();
 
+      services.AddTransient<IUriGenerator, UriGenerator>();
+
       services.AddIdentityServer()
           .AddApiAuthorization<ApplicationUser, RektaContext>();
 

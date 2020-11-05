@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  rektadb:
+    image: postgres:12.4
+    env_file:
+      - dbservice.env
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+volumes:
+  pg-data:

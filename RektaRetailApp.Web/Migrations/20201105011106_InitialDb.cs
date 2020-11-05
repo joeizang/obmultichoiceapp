@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace RektaRetailApp.Web.Migrations
 {
-    public partial class Initialdb : Migration
+    public partial class InitialDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -104,7 +104,8 @@ namespace RektaRetailApp.Web.Migrations
                     CreatedBy = table.Column<string>(nullable: false),
                     UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    MobileNumber = table.Column<string>(maxLength: 50, nullable: false)
+                    MobileNumber = table.Column<string>(maxLength: 50, nullable: true),
+                    Description = table.Column<string>(maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -288,7 +289,8 @@ namespace RektaRetailApp.Web.Migrations
                     SalesPersonId = table.Column<string>(nullable: false),
                     SubTotal = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
                     GrandTotal = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    SaleType = table.Column<int>(nullable: false),
+                    TypeOfSale = table.Column<int>(nullable: false),
+                    ModeOfPayment = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -320,6 +322,10 @@ namespace RektaRetailApp.Web.Migrations
                     UpdatedBy = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(maxLength: 450, nullable: true),
+                    UnitAmount = table.Column<int>(nullable: false),
+                    Quantity = table.Column<float>(nullable: false),
+                    TotalValue = table.Column<decimal>(nullable: false),
+                    Verified = table.Column<bool>(nullable: false),
                     BatchNumber = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
                     SupplyDate = table.Column<DateTimeOffset>(nullable: false)
@@ -345,6 +351,12 @@ namespace RektaRetailApp.Web.Migrations
                     SuppliedPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     SupplyDate = table.Column<DateTimeOffset>(nullable: false),
                     Quantity = table.Column<float>(nullable: false),
+                    ReorderPoint = table.Column<float>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Brand = table.Column<string>(nullable: true),
+                    Comments = table.Column<string>(nullable: true),
+                    UnitMeasure = table.Column<int>(nullable: false),
+                    Verified = table.Column<bool>(nullable: false),
                     SupplierId = table.Column<int>(nullable: false),
                     InventoryId = table.Column<int>(nullable: true)
                 },
@@ -431,8 +443,8 @@ namespace RektaRetailApp.Web.Migrations
                     UpdatedBy = table.Column<string>(nullable: false),
                     ItemName = table.Column<string>(nullable: false),
                     Quantity = table.Column<float>(nullable: false),
-                    Description = table.Column<string>(maxLength: 450, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
+                    Comments = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     ItemSoldCategoryId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
                     SaleId = table.Column<int>(nullable: true)

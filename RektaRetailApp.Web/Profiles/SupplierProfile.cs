@@ -14,16 +14,22 @@ namespace RektaRetailApp.Web.Profiles
         public SupplierProfile()
         {
             CreateMap<CreateSupplierCommand, Supplier>()
-                .ForMember(d => d.Name, conf => conf.MapFrom(s => s.Name!.Trim().ToUpperInvariant()))
-                .ForMember(d => d.MobileNumber, conf => conf.MapFrom(s => s.PhoneNumber!.Trim().ToUpperInvariant()))
-                .ForMember(d => d.Description, conf => conf.MapFrom(s => s.Description!.Trim().ToUpperInvariant()))
-                .ReverseMap();
+                .ConstructUsing(s =>
+                    new Supplier(s.Name!.Trim().ToUpperInvariant(), s.PhoneNumber!.Trim().ToUpperInvariant(),
+                        s.Description!.Trim().ToUpperInvariant()));
 
-            CreateMap<Supplier, SupplierApiModel>()
-                .ForMember(d => d.SupplierId, conf => conf.MapFrom(s => s.Id));
+                    CreateMap<Supplier, SupplierApiModel>()
+                .ConstructUsing(s => new SupplierApiModel(s.Name, s.MobileNumber, s.Id));
+            CreateMap<SupplierApiModel, Supplier>()
+                .ConstructUsing(s => new Supplier
+                {
+                    Id = s.SupplierId,
+                    Name = s.Name ?? "",
+                    MobileNumber = s.MobileNumber ?? ""
+                });
 
             CreateMap<Supplier, SupplierDetailApiModel>()
-                .ForMember(d => d.ProductIds, conf => conf.MapFrom(s => s.ProductsSupplied.Select(x => x.Id)));
+                .ConstructUsing(s => new SupplierDetailApiModel(s.Name, s.MobileNumber, s.Description));
 
         }
     }

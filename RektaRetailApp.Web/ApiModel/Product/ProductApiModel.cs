@@ -8,8 +8,9 @@ namespace RektaRetailApp.Web.ApiModel.Product
 {
     public class ProductApiModel
     {
-        public ProductApiModel(int supplierId, float quantity, decimal suppliedPrice, decimal unitPrice, decimal retailPrice)
+        public ProductApiModel(string name, int supplierId, float quantity, decimal suppliedPrice, decimal unitPrice, decimal retailPrice)
         {
+            Name = name;
             SupplierId = supplierId;
             Quantity = quantity;
             SuppliedPrice = suppliedPrice;
@@ -17,7 +18,7 @@ namespace RektaRetailApp.Web.ApiModel.Product
             RetailPrice = retailPrice;
             ProductCategories = new List<CategoryApiModel>();
         }
-        public string Name { get; } = null!;
+        public string Name { get; }
 
         public decimal RetailPrice { get; }
 
@@ -64,9 +65,10 @@ namespace RektaRetailApp.Web.ApiModel.Product
 
     public class ProductDetailApiModel
     {
-        public ProductDetailApiModel(decimal retailPrice, decimal unitPrice, 
-            float quantity, decimal suppliedPrice, string supplierName, string mobileNumber, DateTimeOffset supplyDate)
+        public ProductDetailApiModel(decimal retailPrice, decimal unitPrice, string name,
+            float quantity, decimal suppliedPrice, string? supplierName, string? mobileNumber, DateTimeOffset supplyDate)
         {
+            Name = name;
             RetailPrice = retailPrice;
             UnitPrice = unitPrice;
             Quantity = quantity;
@@ -75,6 +77,11 @@ namespace RektaRetailApp.Web.ApiModel.Product
             SupplierName = supplierName;
             MobileNumber = mobileNumber;
             SupplyDate = supplyDate;
+        }
+
+        public ProductDetailApiModel()
+        {
+            ProductCategories = new List<CategoryApiModel>();
         }
 
         public string Name { get; } = null!;
@@ -89,9 +96,9 @@ namespace RektaRetailApp.Web.ApiModel.Product
 
         public List<CategoryApiModel> ProductCategories { get; }
 
-        public string SupplierName { get; }
+        public string? SupplierName { get; } = null!;
 
-        public string MobileNumber { get; }
+        public string? MobileNumber { get; } = null!;
 
         public DateTimeOffset SupplyDate { get; }
     }

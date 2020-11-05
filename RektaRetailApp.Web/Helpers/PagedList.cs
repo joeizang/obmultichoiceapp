@@ -10,9 +10,9 @@ namespace RektaRetailApp.Web.Helpers
     public class PagedList<T> : List<T> where T : class
     {
         public int MaximumPageSize { get; } = 25;
-        public int CurrentPage { get; private set; }
+        public int CurrentPage { get; }
 
-        public int TotalPages { get; private set; }
+        public int TotalPages { get; }
 
         private int _pageSize = 10;
         public int PageSize

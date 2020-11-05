@@ -1,8 +1,18 @@
 ﻿namespace RektaRetailApp.Domain.DomainModels
 {
-    public enum SaleType
-    {
-        Cash,
-        Credit
-    }
+  public enum SaleType
+  {
+    Paid,
+    Credit,
+  }
+
+  public enum PaymentType
+  {
+    Cash,
+    Credit,
+    Electronic,
+    USSD,
+    Cheque,
+    Other
+  }
 }

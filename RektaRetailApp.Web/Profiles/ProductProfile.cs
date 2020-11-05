@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using RektaRetailApp.Domain.DomainModels;
+using RektaRetailApp.Web.ApiModel.Category;
 using RektaRetailApp.Web.ApiModel.Product;
 using RektaRetailApp.Web.Commands.Product;
 
@@ -13,15 +14,13 @@ namespace RektaRetailApp.Web.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductApiModel>()
-                .ForMember(d => d.ProductCategories,
-                    conf =>
-                        conf.MapFrom(src => src.ProductCategories))
-                .ReverseMap();
+            CreateMap<Product, ProductApiModel>();
+            CreateMap<ProductApiModel, Product>();
             CreateMap<CreateProductCommand, Product>()
-                .ForMember(d => d.ProductCategories,
-                    conf =>
-                        conf.Ignore());
+                .ForMember(d => d.ProductCategories, conf => conf.Ignore());
+            CreateMap<Product, ProductDetailApiModel>()
+                .ConstructUsing(p => new ProductDetailApiModel(p.RetailPrice, p.UnitPrice, p.Name, p.Quantity,
+                    p.SuppliedPrice, p.ProductSupplier.Name, p.ProductSupplier.MobileNumber, p.SupplyDate));
         }
     }
 }

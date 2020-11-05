@@ -7,34 +7,42 @@ using RektaRetailApp.Domain.Abstractions;
 
 namespace RektaRetailApp.Domain.DomainModels
 {
-    public class Inventory : BaseDomainModel
+  public class Inventory : BaseDomainModel
+  {
+    public Inventory()
     {
-        public Inventory()
-        {
-            InventorySuppliers = new List<SuppliersInventories>();
-            InventoryItems = new List<Product>();
-        }
-        [StringLength(50)]
-        [Required]
-        public string Name { get; set; } = null!;
-
-        [StringLength(450)]
-        public string? Description { get; set; }
-
-        public string? BatchNumber { get; set; }
-
-        [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
-
-        [Required]
-        public Category Category { get; set; } = null!;
-
-        public List<Product> InventoryItems { get; set; }
-
-        [Required]
-        public DateTimeOffset SupplyDate { get; set; }
-
-        public List<SuppliersInventories> InventorySuppliers { get; set; }
-
+      InventorySuppliers = new List<SuppliersInventories>();
+      InventoryItems = new List<Product>();
     }
+    [StringLength(50)]
+    [Required]
+    public string Name { get; set; } = null!;
+
+    [StringLength(450)]
+    public string? Description { get; set; }
+
+    public UnitMeasure UnitAmount { get; set; }
+
+    public float Quantity { get; set; }
+
+    public decimal TotalValue { get; set; }
+
+    public bool Verified { get; set; }
+
+    public string? BatchNumber { get; set; }
+
+    [ForeignKey(nameof(Category))]
+    public int CategoryId { get; set; }
+
+    [Required]
+    public Category Category { get; set; } = null!;
+
+    public List<Product> InventoryItems { get; set; }
+
+    [Required]
+    public DateTimeOffset SupplyDate { get; set; }
+
+    public List<SuppliersInventories> InventorySuppliers { get; set; }
+
+  }
 }

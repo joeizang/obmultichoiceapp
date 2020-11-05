@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.ApiModel.Supplier;
 using RektaRetailApp.Web.Commands.Supplier;
+using RektaRetailApp.Web.Helpers;
+using RektaRetailApp.Web.Queries.Supplier;
 
 namespace RektaRetailApp.Web.Abstractions.Entities
 {
@@ -13,7 +15,7 @@ namespace RektaRetailApp.Web.Abstractions.Entities
     {
         Task SaveAsync();
 
-        IQueryable<Supplier> GetSuppliersAsync();
+        Task<PagedList<SupplierApiModel>> GetSuppliersAsync(GetAllSuppliersQuery query);
 
         Task<Supplier> GetSupplierById(int id);
 

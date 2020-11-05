@@ -39,8 +39,8 @@ namespace RektaRetailApp.Web.Commands.Supplier
             await _repo.CreateSupplierAsync(request).ConfigureAwait(false);
             await _repo.SaveAsync().ConfigureAwait(false);
             var supplier = await _repo
-                .GetSupplierBy(null,s => s.MobileNumber.Equals(request.PhoneNumber),
-                    s => s.Name.Equals(request.Name!.Trim().ToUpperInvariant())).ConfigureAwait(false);
+                .GetSupplierBy(null,s => s.MobileNumber!.Equals(request.PhoneNumber),
+                    s => s.Name!.Equals(request.Name!.Trim().ToUpperInvariant())).ConfigureAwait(false);
             var result = _mapper.Map<SupplierApiModel>(supplier);
 
             await _mediator.Publish(new SupplierCreatedEvent(result), cancellationToken).ConfigureAwait(false);

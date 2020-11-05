@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using RektaRetailApp.Web.ApiModel;
 using RektaRetailApp.Web.ApiModel.Product;
+using RektaRetailApp.Web.Commands.Product;
 using RektaRetailApp.Web.Queries.Product;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,17 +25,17 @@ namespace RektaRetailApp.Web.Controllers
         }
 
         // GET: api/<ProductsController>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductApiModel>>> Get()
+        [HttpGet(Name = "GetAllProducts")]
+        public async Task<ActionResult<PaginatedResponse<ProductApiModel>>> GetAllProducts([FromQuery] GetAllProductsQuery query)
         {
-            var result = await _mediator.Send(new GetProductsQuery())
+            var result = await _mediator.Send(query)
                 .ConfigureAwait(false);
             return Ok(result);
         }
 
         // GET api/<ProductsController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDetailApiModel>> Get(int id)
+        [HttpGet("{id}", Name = "GetProductById")]
+        public async Task<ActionResult<Response<ProductDetailApiModel>>> GetProductById(int id)
         {
             var result = await _mediator.Send(new ProductDetailQuery{ Id = id });
             return Ok(result);
@@ -41,20 +43,22 @@ namespace RektaRetailApp.Web.Controllers
 
         // POST api/<ProductsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<Response<ProductApiModel>>> CreateProduct(CreateProductCommand command)
         {
+            var result = await _mediator.Send(command);
+            return CreatedAtRoute("GetProductById", result);
         }
 
-        // PUT api/<ProductsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //// PUT api/<ProductsController>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
-        // DELETE api/<ProductsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/<ProductsController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

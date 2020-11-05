@@ -20,56 +20,50 @@ using RektaRetailApp.Web.Helpers;
 
 namespace RektaRetailApp.Web.Queries.Supplier
 {
-    public class GetAllSuppliersQuery : IRequest<PaginatedResponse<SupplierApiModel>>
+  public class GetAllSuppliersQuery : IRequest<PaginatedResponse<SupplierApiModel>>
+  {
+    public string? SearchTerm { get; set; }
+
+    public int? PageSize { get; set; }
+
+    public int? PageNumber { get; set; }
+
+    public string? UriName { get; set; }
+  }
+
+  public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, PaginatedResponse<SupplierApiModel>>
+  {
+    private readonly ISupplierRepository _repo;
+    private readonly LinkGenerator _generator;
+    private readonly IHttpContextAccessor _accessor;
+    private readonly IUriGenerator _ugen;
+
+    public GetAllSuppliersQueryHandler(ISupplierRepository repo, LinkGenerator generator,
+        IHttpContextAccessor accessor, IUriGenerator ugen)
     {
-        public string? SearchTerm { get; set; }
-
-        public int? PageSize { get; set; }
-        
-        public int? PageNumber { get; set; }
-
-        public string? UriName { get; set; }
+      _repo = repo;
+      _generator = generator;
+      _accessor = accessor;
+      _ugen = ugen;
     }
-
-    public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, PaginatedResponse<SupplierApiModel>>
+    public async Task<PaginatedResponse<SupplierApiModel>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly ISupplierRepository _repo;
-        private readonly LinkGenerator _generator;
-        private readonly IHttpContextAccessor _accessor;
+      var pagedResult = await _repo.GetSuppliersAsync(request).ConfigureAwait(false);
 
-        public GetAllSuppliersQueryHandler(IMapper mapper, ISupplierRepository repo, LinkGenerator generator, 
-            IHttpContextAccessor accessor)
-        {
-            _mapper = mapper;
-            _repo = repo;
-            _generator = generator;
-            _accessor = accessor;
-        }
-        public async Task<PaginatedResponse<SupplierApiModel>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
-        {
-            var pagedResult = await _repo.GetSuppliersAsync()
-                .Include(s => s.ProductsSupplied).Where(s => request.SearchTerm != null && s.Name.Contains(request.SearchTerm)
-                && s.MobileNumber.Contains(request.SearchTerm))
-                .ProjectTo<SupplierApiModel>(_mapper.ConfigurationProvider)
-                .PaginatedListAsync(request.PageNumber!.Value, request.PageSize!.Value)
-                .ConfigureAwait(false);
+      var prev = _ugen.AddQueryStringParams("pageNumber", (request.PageNumber - 1).ToString()!);
+      prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+      var nextL = _ugen.AddQueryStringParams("pageNumber", (request.PageNumber + 1).ToString()!);
+      nextL.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+
+      var prevLink = pagedResult.HasPrevious
+          ? prev.GenerateUri() : null;
+      var nextLink = pagedResult.HasNext
+          ? nextL.GenerateUri() : null;
 
 
-            var prevLink = pagedResult.HasPrevious ?
-                _generator.GetPathByName(_accessor.HttpContext, "GetAllSuppliers", 
-                    new { pageNumber = request.PageNumber - 1, pageSize = request.PageSize, searchTerm = request.SearchTerm })
-                : null;
-            var nextLink = pagedResult.HasNext ?
-                _generator.GetPathByName(_accessor.HttpContext, "GetAllSuppliers",
-                    new { pageNumber = request.PageNumber + 1, pageSize = request.PageSize, searchTerm = request.SearchTerm })
-                : null;
-
-
-            var result = new PaginatedResponse<SupplierApiModel>(pagedResult, 
-                new PaginatedMetaData(pagedResult.TotalCount,pagedResult.PageSize,pagedResult.CurrentPage,prevLink,nextLink));
-            //_accessor.HttpContext.Response.Headers.Add("X-Pagination", JsonSerializer.Serialize());
-            return result;
-        }
+      var result = new PaginatedResponse<SupplierApiModel>(pagedResult,
+          pagedResult.TotalCount, pagedResult.PageSize, pagedResult.CurrentPage, prevLink?.AbsoluteUri, nextLink?.AbsoluteUri);
+      return result;
     }
+  }
 }

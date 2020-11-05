@@ -6,20 +6,23 @@ using System.Threading.Tasks;
 using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.ApiModel.Product;
 using RektaRetailApp.Web.Commands.Product;
+using RektaRetailApp.Web.Helpers;
+using RektaRetailApp.Web.Queries.Product;
 
 namespace RektaRetailApp.Web.Abstractions.Entities
 {
     public interface IProductRepository : IRepository
     {
-        Task<IEnumerable<ProductApiModel>> GetAllProductsAsync();
+        Task<PagedList<ProductApiModel>> GetAllProducts(GetAllProductsQuery query);
 
-        Task<ProductDetailApiModel> GetProductByIdAsync(int id);
+        Task<Product> GetProductByIdAsync(int id);
 
-        Task<ProductApiModel> GetProductByAsync(params Expression<Func<Product, bool>>[] searchTerms);
+        Task<Product> GetProductByAsync(Expression<Func<Product, object>>[]? includes,
+            params Expression<Func<Product, bool>>[] searchTerms);
 
-        Task<ProductApiModel> CreateProductAsync(CreateProductCommand command);
+        Task CreateProductAsync(CreateProductCommand command);
 
-        Task<ProductApiModel> UpdateProductAsync(UpdateProductCommand command);
+        Task UpdateProductAsync(UpdateProductCommand command);
 
         Task DeleteProductAsync(DeleteProductCommand command);
 

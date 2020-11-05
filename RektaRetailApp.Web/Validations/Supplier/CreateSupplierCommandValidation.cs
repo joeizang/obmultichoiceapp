@@ -13,12 +13,12 @@ namespace RektaRetailApp.Web.Validations.Supplier
         {
             RuleFor(s => s.Name)
                 .NotEmpty().WithMessage("You cannot leave the Name field blank!")
-                .NotNull()
-                .MaximumLength(50)
-                .MinimumLength(2);
+                .NotNull().WithMessage("Name cannot be null")
+                .MaximumLength(50).WithMessage("Name is too long")
+                .MinimumLength(2).WithMessage("Name is too short");
             RuleFor(s => s.PhoneNumber)
                 .NotEmpty().WithMessage("You must provide a valid phone number!")
-                .NotNull()
+                .NotNull().WithMessage("Phone number cannot be null")
                 .MaximumLength(50)
                 .MinimumLength(2);
             RuleFor(s => s.Description)
