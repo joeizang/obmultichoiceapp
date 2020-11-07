@@ -26,6 +26,8 @@ namespace RektaRetailApp.Web.Queries.Supplier
 
     public int? PageNumber { get; set; }
 
+    public string? OrderBy { get; set; }
+
     public string? UriName { get; set; }
   }
 

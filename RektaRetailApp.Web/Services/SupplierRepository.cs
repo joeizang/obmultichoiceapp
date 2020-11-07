@@ -80,7 +80,7 @@ namespace RektaRetailApp.Web.Services
     public Task CreateSupplierAsync(CreateSupplierCommand command)
     {
       var supplier = _mapper.Map<CreateSupplierCommand, Supplier>(command);
-      return Task.Run(() => _set.Add(supplier));
+      return Task.Run(() => _set.Attach(supplier));
     }
 
     public void UpdateSupplier(UpdateSupplierCommand command)
@@ -98,7 +98,8 @@ namespace RektaRetailApp.Web.Services
     {
         var found = _set.Find(id);
         if (found is null) return;
-        _db.Entry(found).State = EntityState.Deleted;
+        found.IsDeleted = true;
+        _db.Entry(found).State = EntityState.Modified;
     }
 
 

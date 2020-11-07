@@ -38,10 +38,13 @@ namespace RektaRetailApp.Web.Services
         public Task<PagedList<ProductApiModel>> GetAllProducts(GetAllProductsQuery query)
         {
             IQueryable<Product> products = _set.AsNoTracking();
-            if (!(query.PageNumber is null) && !(query.PageSize is null))
+            if (!(query.PageNumber is null) && !(query.PageSize is null) || !(query.SearchTerm is null))
             {
-                return products.AsQueryable().ProjectTo<ProductApiModel>(_mapper.ConfigurationProvider)
-                    .PaginatedListAsync(query.PageNumber.Value, query.PageSize.Value);
+                products = products.Where(p => p.Brand!.Contains(query.SearchTerm!.Trim().ToUpperInvariant())
+                                               && p.Name.Contains(query.SearchTerm));
+                var paged = products.AsQueryable().ProjectTo<ProductApiModel>(_mapper.ConfigurationProvider)
+                    .PaginatedListAsync(query.PageNumber!.Value, query.PageSize!.Value);
+                return paged;
             }
 
             var pagedProducts = products.ProjectTo<ProductApiModel>(_mapper.ConfigurationProvider)
@@ -69,18 +72,48 @@ namespace RektaRetailApp.Web.Services
             {
                 var product = _mapper.Map<CreateProductCommand, Product>(command);
                 product.Name = product.Name.Trim().ToUpperInvariant();
+                product.Brand = product.Brand?.Trim().ToUpperInvariant();
+                product.Comments = product.Comments?.Trim().ToUpperInvariant();
                 _set.Attach(product);
             });
         }
 
         public Task UpdateProductAsync(UpdateProductCommand command)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var target = _set.Find(command.Id);
+                if (!(target is null))
+                {
+                    target.Brand = command.Brand?.Trim().ToUpperInvariant();
+                    target.Name = command.Name.Trim().ToUpperInvariant();
+                    target.ImageUrl = command.ImageUrl;
+                    target.Quantity = command.Quantity;
+                    target.ReorderPoint = command.ReorderPoint;
+                    target.RetailPrice = command.RetailPrice;
+                    target.SuppliedPrice = command.SuppliedPrice;
+                    target.UnitPrice = command.UnitPrice;
+                    target.UnitMeasure = command.UnitMeasure;
+                    target.Verified = command.Verified;
+                    target.SupplyDate = command.SupplyDate;
+                    target.SupplierId = command.SupplierId;
+
+                    _db.Entry(target).State = EntityState.Modified;
+                }
+                throw new ArgumentException("The Id given doesn't identify any object in persistence!");
+            });
         }
 
         public Task DeleteProductAsync(DeleteProductCommand command)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var product = _set.Find(command.Id);
+                if (product is null)
+                    throw new ArgumentException("The id given doesn't belong to a real product!");
+                product.IsDeleted = true;
+                _db.Entry(product).State = EntityState.Modified;
+            });
         }
     }
 }

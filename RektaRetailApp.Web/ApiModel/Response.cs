@@ -37,8 +37,18 @@ namespace RektaRetailApp.Web.ApiModel
     {
         public static string Success { get; } = nameof(Success);
 
-        public static string Error { get; set; } = nameof(Error);
+        public static string Error { get; } = nameof(Error);
 
-        public static string Failure { get; set; } = nameof(Failure);
+        public static string Failure { get; } = nameof(Failure);
+    }
+
+
+    public class TaskPerformed
+    {
+        public static string Creation { get; } = nameof(Creation);
+
+        public static string Modification { get; } = nameof(Modification);
+
+        public static string Deletion { get; } = nameof(Deletion);
     }
 }

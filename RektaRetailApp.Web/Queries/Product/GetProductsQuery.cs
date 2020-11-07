@@ -5,8 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel;
 using RektaRetailApp.Web.ApiModel.Product;
@@ -21,38 +19,39 @@ namespace RektaRetailApp.Web.Queries.Product
         public int? PageSize { get; set; }
 
         public int? PageNumber { get; set; }
+
+        public string? Uri { get; set; }
+
+        public string? OrderBy { get; set; }
     }
 
 
     public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, PaginatedResponse<ProductApiModel>>
     {
         private readonly IProductRepository _repo;
-        private readonly LinkGenerator _generator;
-        private readonly IHttpContextAccessor _accessor;
+        private readonly IUriGenerator _uriGen;
 
-        public GetAllProductsQueryHandler(IProductRepository repo, LinkGenerator generator, IHttpContextAccessor accessor)
+        public GetAllProductsQueryHandler(IProductRepository repo, IUriGenerator uriGen)
         {
             _repo = repo;
-            _generator = generator;
-            _accessor = accessor;
+            _uriGen = uriGen;
         }
         public async Task<PaginatedResponse<ProductApiModel>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            //TODO: deal with issues arising from using automapper not mapping properties correctly.
             var products = await _repo.GetAllProducts(request);
 
+            var prev = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber - 1).ToString()!);
+            prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+            var nextL = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber + 1).ToString()!);
+            nextL.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
 
-            var prev = products.HasPrevious ?
-                _generator.GetPathByName(_accessor.HttpContext, "GetAllProducts",
-                    new { pageNumber = request.PageNumber - 1, pageSize = request.PageSize, searchTerm = request.SearchTerm })
-                : null;
-            var next = products.HasNext ?
-                _generator.GetPathByName(_accessor.HttpContext, "GetAllProducts",
-                    new { pageNumber = request.PageNumber + 1, pageSize = request.PageSize, searchTerm = request.SearchTerm })
-                : null;
+            var prevLink = products.HasPrevious
+                ? prev.GenerateUri() : null;
+            var nextLink = products.HasNext
+                ? nextL.GenerateUri() : null;
 
             var result = new PaginatedResponse<ProductApiModel>(products,
-                products.TotalCount, products.PageSize, products.CurrentPage, prev, next);
+                products.TotalCount, products.PageSize, products.CurrentPage, prevLink?.AbsoluteUri, nextLink?.AbsoluteUri);
             return result;
         }
     }
