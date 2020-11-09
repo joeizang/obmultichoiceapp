@@ -75,7 +75,7 @@ namespace RektaRetailApp.Web.ApiModel.Product
     public class ProductDetailApiModel
     {
         public ProductDetailApiModel(decimal retailPrice, decimal unitPrice, string name,
-            float quantity, decimal suppliedPrice, string? supplierName, string? mobileNumber, DateTimeOffset supplyDate)
+            float quantity, decimal suppliedPrice, string? supplierName, string? mobileNumber, string? imageUrl, DateTimeOffset supplyDate)
         {
             Name = name;
             RetailPrice = retailPrice;
@@ -86,6 +86,7 @@ namespace RektaRetailApp.Web.ApiModel.Product
             SupplierName = supplierName;
             MobileNumber = mobileNumber;
             SupplyDate = supplyDate;
+            ImageUrl = imageUrl;
         }
 
         public ProductDetailApiModel()
@@ -105,9 +106,11 @@ namespace RektaRetailApp.Web.ApiModel.Product
 
         public List<CategoryApiModel> ProductCategories { get; }
 
-        public string? SupplierName { get; } = null!;
+        public string? SupplierName { get; }
 
-        public string? MobileNumber { get; } = null!;
+        public string? MobileNumber { get; }
+        
+        public string? ImageUrl { get; set; }
 
         public DateTimeOffset SupplyDate { get; }
     }

@@ -9,27 +9,27 @@ namespace RektaRetailApp.Web.ApiModel
     {
         public T Data { get; } = null!;
 
-        public dynamic? Errors { get; }
+        public List<object>? Errors { get; } = new List<object>();
 
         public string CurrentResponseStatus { get; }
 
         public Response(string currentResponseStatus, dynamic errors)
         {
             CurrentResponseStatus = currentResponseStatus;
-            Errors = errors;
+            Errors?.Add(errors);
         }
 
         public Response(T data, string currentResponseStatus, dynamic errors = null!)
         {
             Data = data ?? throw new ArgumentException("the first argument is in an invalid state!");
             CurrentResponseStatus = currentResponseStatus;
-            if (errors != null && CurrentResponseStatus != ResponseStatus.Success)
-                Errors = errors;
+            if (errors == null || CurrentResponseStatus == ResponseStatus.Success) return;
+            Errors?.Add(errors);
             CurrentResponseStatus = ResponseStatus.Failure;
-            Errors = new
+            Errors?.Add(new
             {
                 ErrorMessage = "The response is assuming an invalid state and has been defaulted to a state of fault!"
-            };
+            });
         }
     }
 

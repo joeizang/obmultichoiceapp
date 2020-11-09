@@ -80,6 +80,9 @@ namespace RektaRetailApp.Web.Services
     public Task CreateSupplierAsync(CreateSupplierCommand command)
     {
       var supplier = _mapper.Map<CreateSupplierCommand, Supplier>(command);
+      supplier.Name = supplier.Name!.Trim().ToUpperInvariant();
+      supplier.MobileNumber = supplier.MobileNumber!.Trim().ToUpperInvariant();
+      supplier.Description = supplier.Description!.Trim().ToUpperInvariant();
       return Task.Run(() => _set.Attach(supplier));
     }
 

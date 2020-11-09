@@ -36,7 +36,8 @@ namespace RektaRetailApp.Web.Queries.Product
                 .ConfigureAwait(false);
             //var data = _mapper.Map<Domain.DomainModels.Product, ProductDetailApiModel>(product);
             var data = new ProductDetailApiModel(product.RetailPrice,product.UnitPrice,product.Name,product.Quantity,
-                product.SuppliedPrice,product.ProductSupplier.Name,product.ProductSupplier.MobileNumber,product.SupplyDate);
+                product.SuppliedPrice,product.ProductSupplier.Name,product.ProductSupplier.MobileNumber,
+                product.ImageUrl,product.SupplyDate);
             var result = new Response<ProductDetailApiModel>(data, ResponseStatus.Success);
             return result;
         }

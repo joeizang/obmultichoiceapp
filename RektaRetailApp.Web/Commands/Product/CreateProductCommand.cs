@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel;
 using RektaRetailApp.Web.ApiModel.Category;
@@ -25,11 +26,21 @@ namespace RektaRetailApp.Web.Commands.Product
 
         public decimal SuppliedPrice { get; set; }
 
+        public string? ImageUrl { get; set; }
+
+        public string? Brand { get; set; }
+
+        public string? Comments { get; set; }
+
         public DateTimeOffset SupplyDate { get; set; }
 
         public int InventoryId { get; set; }
 
         public int SupplierId { get; set; }
+
+        public UnitMeasure UnitMeasure { get; set; }
+
+        public bool Verified { get; set; }
 
     }
 
@@ -60,7 +71,8 @@ namespace RektaRetailApp.Web.Commands.Product
                     p => p.SupplierId == request.SupplierId);
 
                 var model = new ProductDetailApiModel(product.RetailPrice, product.UnitPrice, product.Name, product.Quantity,
-                    product.SuppliedPrice, product.ProductSupplier.Name, product.ProductSupplier.MobileNumber, product.SupplyDate);
+                    product.SuppliedPrice, product.ProductSupplier.Name, product.ProductSupplier.MobileNumber,
+                    product.ImageUrl,product.SupplyDate);
                 var result = new Response<ProductDetailApiModel>(model, ResponseStatus.Success);
                 var createEvent = new ProductCreateEvent(model);
                 await _mediator.Publish(createEvent, cancellationToken);

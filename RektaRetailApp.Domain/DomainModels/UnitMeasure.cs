@@ -4,6 +4,7 @@ namespace RektaRetailApp.Domain.DomainModels
   {
     KG,
     MEASURE,
+    PACKS,
     CRATE,
     GALLON,
     TUBER,

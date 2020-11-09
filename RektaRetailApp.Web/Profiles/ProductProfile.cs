@@ -21,7 +21,8 @@ namespace RektaRetailApp.Web.Profiles
                 .ForMember(d => d.ProductCategories, conf => conf.Ignore());
             CreateMap<Product, ProductDetailApiModel>()
                 .ConstructUsing(p => new ProductDetailApiModel(p.RetailPrice, p.UnitPrice, p.Name, p.Quantity,
-                    p.SuppliedPrice, p.ProductSupplier.Name, p.ProductSupplier.MobileNumber, p.SupplyDate));
+                    p.SuppliedPrice, p.ProductSupplier.Name, p.ProductSupplier.MobileNumber,
+                    p.ImageUrl,p.SupplyDate));
         }
     }
 }
