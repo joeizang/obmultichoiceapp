@@ -9,6 +9,7 @@ using RektaRetailApp.Domain.DomainModels;
 using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel;
 using RektaRetailApp.Web.ApiModel.Product;
+using RektaRetailApp.Web.DomainEvents.Product;
 
 namespace RektaRetailApp.Web.Commands.Product
 {
@@ -66,7 +67,9 @@ namespace RektaRetailApp.Web.Commands.Product
 
             var result = new Response<ProductDetailApiModel>(model, ResponseStatus.Success);
 
-            await _mediator.Publish(model, cancellationToken);
+            var updateEvent = new ProductUpdateEvent(model);
+
+            await _mediator.Publish(updateEvent, cancellationToken);
 
             return result;
         }

@@ -36,6 +36,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.5" />
   </ItemGroup>
 
@@ -75,6 +76,12 @@
     <Folder Include="ClientApp\src\pages\shifts\" />
     <Folder Include="ClientApp\src\pages\sales\" />
     <Folder Include="ClientApp\src\pages\products\" />
+    <Folder Include="DomainEvents\Inventory\" />
+    <Folder Include="DomainEvents\Sales\" />
+    <Folder Include="Validations\Inventory\" />
+    <Folder Include="Validations\Category\" />
+    <Folder Include="Validations\Customer\" />
+    <Folder Include="Validations\Sales\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MediatR;
-using RektaRetailApp.Web.Abstractions;
 using RektaRetailApp.Web.ApiModel;
-using RektaRetailApp.Web.ApiModel.Supplier;
+using RektaRetailApp.Web.ApiModel.Product;
 using RektaRetailApp.Web.Helpers;
 
-namespace RektaRetailApp.Web.DomainEvents.Supplier
+namespace RektaRetailApp.Web.DomainEvents.Product
 {
-    public class SupplierCreatedEvent : DomainEvent
+    public class ProductCreateEvent : DomainEvent
     {
-
-        public SupplierCreatedEvent(SupplierApiModel model)
+        public ProductCreateEvent(ProductDetailApiModel model)
         {
             HappenedAt = DateTimeOffset.Now;
-            PayLoad = model;
             ActionPerformed = TaskPerformed.Creation;
-
+            PayLoad = model;
         }
     }
 }

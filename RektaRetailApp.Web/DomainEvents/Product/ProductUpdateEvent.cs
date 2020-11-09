@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MediatR;
 using RektaRetailApp.Web.ApiModel;
+using RektaRetailApp.Web.ApiModel.Product;
 using RektaRetailApp.Web.Helpers;
 
 namespace RektaRetailApp.Web.DomainEvents.Product
 {
-    public class ProductDeleteEvent : DomainEvent
+    public class ProductUpdateEvent : DomainEvent
     {
-        public int DeletedProductId { get; set; }
-
-        public ProductDeleteEvent()
+        public ProductUpdateEvent(ProductDetailApiModel model)
         {
             HappenedAt = DateTimeOffset.Now;
-            ActionPerformed = TaskPerformed.Deletion;
+            ActionPerformed = TaskPerformed.Modification;
+            PayLoad = model;
         }
-
     }
 }

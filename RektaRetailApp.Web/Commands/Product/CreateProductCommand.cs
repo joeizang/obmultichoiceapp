@@ -9,6 +9,7 @@ using RektaRetailApp.Web.Abstractions.Entities;
 using RektaRetailApp.Web.ApiModel;
 using RektaRetailApp.Web.ApiModel.Category;
 using RektaRetailApp.Web.ApiModel.Product;
+using RektaRetailApp.Web.DomainEvents.Product;
 
 namespace RektaRetailApp.Web.Commands.Product
 {
@@ -36,10 +37,12 @@ namespace RektaRetailApp.Web.Commands.Product
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<ProductDetailApiModel>>
     {
         private readonly IProductRepository _repo;
+        private readonly IMediator _mediator;
 
-        public CreateProductCommandHandler(IProductRepository repo)
+        public CreateProductCommandHandler(IProductRepository repo, IMediator mediator)
         {
             _repo = repo;
+            _mediator = mediator;
         }
         public async Task<Response<ProductDetailApiModel>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
@@ -56,10 +59,11 @@ namespace RektaRetailApp.Web.Commands.Product
                     p => p.RetailPrice == request.RetailPrice, p => p.SuppliedPrice == request.SuppliedPrice,
                     p => p.SupplierId == request.SupplierId);
 
-                //var model = _mapper.Map<Domain.DomainModels.Product, ProductDetailApiModel>(created);
                 var model = new ProductDetailApiModel(product.RetailPrice, product.UnitPrice, product.Name, product.Quantity,
                     product.SuppliedPrice, product.ProductSupplier.Name, product.ProductSupplier.MobileNumber, product.SupplyDate);
                 var result = new Response<ProductDetailApiModel>(model, ResponseStatus.Success);
+                var createEvent = new ProductCreateEvent(model);
+                await _mediator.Publish(createEvent, cancellationToken);
                 return result;
             }
             catch (Exception e)
