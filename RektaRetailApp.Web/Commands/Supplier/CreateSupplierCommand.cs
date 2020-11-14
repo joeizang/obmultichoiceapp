@@ -7,12 +7,13 @@ using AutoMapper;
 using JetBrains.Annotations;
 using MediatR;
 using RektaRetailApp.Web.Abstractions.Entities;
+using RektaRetailApp.Web.ApiModel;
 using RektaRetailApp.Web.ApiModel.Supplier;
 using RektaRetailApp.Web.DomainEvents.Supplier;
 
 namespace RektaRetailApp.Web.Commands.Supplier
 {
-    public class CreateSupplierCommand : IRequest<SupplierApiModel>
+    public class CreateSupplierCommand : IRequest<Response<SupplierApiModel>>
     {
         public string Name { get; set; } = null!;
 
@@ -22,7 +23,7 @@ namespace RektaRetailApp.Web.Commands.Supplier
     }
 
 
-    public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierCommand, SupplierApiModel>
+    public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierCommand, Response<SupplierApiModel>>
     {
         private readonly ISupplierRepository _repo;
         private readonly IMediator _mediator;
@@ -34,16 +35,18 @@ namespace RektaRetailApp.Web.Commands.Supplier
             _mediator = mediator;
             _mapper = mapper;
         }
-        public async Task<SupplierApiModel> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
+        public async Task<Response<SupplierApiModel>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
             await _repo.CreateSupplierAsync(request).ConfigureAwait(false);
             await _repo.SaveAsync().ConfigureAwait(false);
             var supplier = await _repo
                 .GetSupplierBy(null,s => s.MobileNumber!.Equals(request.PhoneNumber),
                     s => s.Name!.Equals(request.Name!.Trim().ToUpperInvariant())).ConfigureAwait(false);
-            var result = _mapper.Map<SupplierApiModel>(supplier);
+            var model = _mapper.Map<SupplierApiModel>(supplier);
 
-            await _mediator.Publish(new SupplierCreatedEvent(result), cancellationToken).ConfigureAwait(false);
+            var result = new Response<SupplierApiModel>(model, ResponseStatus.Success);
+
+            await _mediator.Publish(new SupplierCreatedEvent(model), cancellationToken).ConfigureAwait(false);
 
             return result;
         }

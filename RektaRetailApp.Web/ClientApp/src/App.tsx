@@ -10,6 +10,8 @@ import SalesDashboard from './pages/sales/salesDashboard';
 import './custom.css';
 import './bootstrap.min.css';
 import AddInventory from './pages/inventory/AddInventory';
+import { CreateSupplier, DetailSupplier } from './pages/suppliers';
+import { CreateProduct } from './pages/products';
 
 // const CreateInventory = lazy(() => import("./pages/inventory/CreateInventory"));
 // const CreateCategory = lazy(() => import("./pages/category/CreateCategory"));
@@ -23,9 +25,11 @@ export default class App extends Component {
       <Suspense fallback={<h3>Loading, please hold...</h3>}>
         <Layout>
           <Route exact path="/" component={Home} />
-          {/*<Route path="/inventory" component={CreateInventory} />*/}
+          <Route path="/product" component={CreateProduct} />
+          <Route path="/suppliers/:id" component={DetailSupplier} />
           <Route path="/inventory/add" component={AddInventory} />
           <Route path="/category" component={CreateCategory} />
+          <Route path="/supplier/add" component={CreateSupplier} />
           <Route path="/sales" component={SalesDashboard} />
           {/* <AuthorizeRoute path="/fetch-data" component={FetchData} /> */}
           <Route

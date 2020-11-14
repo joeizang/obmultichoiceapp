@@ -57,7 +57,8 @@ namespace RektaRetailApp.Web.Queries.Supplier
 
 
       var result = new PaginatedResponse<SupplierApiModel>(pagedResult,
-          pagedResult.TotalCount, pagedResult.PageSize, pagedResult.CurrentPage, prevLink?.AbsoluteUri, nextLink?.AbsoluteUri);
+          pagedResult.TotalCount, pagedResult.PageSize, pagedResult.CurrentPage,
+          prevLink?.AbsolutePath, nextLink?.AbsolutePath);
       return result;
     }
   }

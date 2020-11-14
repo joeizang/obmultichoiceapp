@@ -51,7 +51,8 @@ namespace RektaRetailApp.Web.Queries.Product
                 ? nextL.GenerateUri() : null;
 
             var result = new PaginatedResponse<ProductApiModel>(products,
-                products.TotalCount, products.PageSize, products.CurrentPage, prevLink?.AbsoluteUri, nextLink?.AbsoluteUri);
+                products.TotalCount, products.PageSize, products.CurrentPage, 
+                prevLink?.PathAndQuery, nextLink?.PathAndQuery);
             return result;
         }
     }

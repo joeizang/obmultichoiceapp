@@ -230,13 +230,11 @@ const AddInventory: FC<formData> = ({ categories }) => {
               ) : null}
             </FormGroup>
             <FormGroup>
-              <Col>
-                <Button type="submit" color="primary" block>
-                  <span>
-                    <b>Create</b>
-                  </span>
-                </Button>
-              </Col>
+              <Button type="submit" color="primary" block>
+                <span>
+                  <b>Create</b>
+                </span>
+              </Button>
             </FormGroup>
           </Form>
         </Card.Body>

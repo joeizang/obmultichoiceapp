@@ -61,7 +61,7 @@ namespace RektaRetailApp.Web.Controllers
         public async Task<ActionResult<Response<SupplierApiModel>>> Post(CreateSupplierCommand command)
         {
             var result = await _mediator.Send(command);
-            return CreatedAtRoute("GetSupplierById", new { id = result.SupplierId },result);
+            return CreatedAtRoute("GetSupplierById", new { id = result.Data.SupplierId },result);
         }
 
         // PUT api/<SuppliersController>/5
