@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using ObmultichoiceRetailer.Domain.Abstractions;
 
 namespace ObmultichoiceRetailer.Domain.DomainModels
@@ -21,6 +23,7 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
         [StringLength(450)]
         public string? Description { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public UnitMeasure UnitAmount { get; set; }
 
         public float Quantity { get; set; }
@@ -29,20 +32,10 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
 
         public decimal TotalRetailValue { get; private set; }
 
-        public bool Verified { get; set; }
-
-        public string? BatchNumber { get; set; }
-
-        [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
-
-        [Required]
-        public Category Category { get; set; } = null!;
-
         public List<Product> InventoryItems { get; set; }
 
         [Required]
-        public DateTimeOffset SupplyDate { get; set; }
+        public DateTime SupplyDate { get; set; }
 
         public void CalculateTotalValuesOfInventory()
         {

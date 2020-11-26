@@ -24,12 +24,12 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
         public string LastName { get; set; } = null!;
 
         [StringLength(50)]
-        public string OtherNames { get; set; } = null!;
+        public string? OtherNames { get; set; } = null!;
 
         public List<Sale> SalesYouOwn { get; set; }
 
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public bool IsDeleted { get; set; }
     }

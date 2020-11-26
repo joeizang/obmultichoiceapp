@@ -20,23 +20,17 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
 
         public decimal RetailPrice { get; set; }
 
-        public decimal UnitPrice { get; set; }
-
         public float Quantity { get; set; }
 
-        public decimal SuppliedPrice { get; set; }
-
-        public string? ImageUrl { get; set; }
+        public decimal CostPrice { get; set; }
 
         public string? Brand { get; set; }
 
         public string? Comments { get; set; }
 
-        public DateTimeOffset SupplyDate { get; set; }
+        public DateTime SupplyDate { get; set; }
 
         public int InventoryId { get; set; }
-
-        public int SupplierId { get; set; }
 
         public UnitMeasure UnitMeasure { get; set; }
 
@@ -63,13 +57,15 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
                 {
                     p => p.ProductCategories
                 };
-                await _repo.CreateProductAsync(request).ConfigureAwait(false);
-                await _repo.SaveAsync().ConfigureAwait(false);      
-                var product = await _repo.GetProductByAsync(includes, p => p.Name.Equals(request.Name.ToUpperInvariant()),
-                    p => p.RetailPrice == request.RetailPrice, p => p.CostPrice == request.SuppliedPrice);
+                await _repo.CreateProductAsync(request, cancellationToken).ConfigureAwait(false);
+
+                await _repo.SaveAsync(cancellationToken).ConfigureAwait(false);
+
+                var product = await _repo.GetProductByAsync(cancellationToken, includes, p => p.Name.Equals(request.Name.ToUpperInvariant()),
+                    p => p.RetailPrice == request.RetailPrice, p => p.CostPrice == request.CostPrice);
 
                 var model = new ProductDetailApiModel(product.RetailPrice, product.Name, product.Quantity,
-                    product.CostPrice, product.SupplyDate);
+                    product.CostPrice, product.SupplyDate, product.Id);
                 var result = new Response<ProductDetailApiModel>(model, ResponseStatus.Success);
                 var createEvent = new ProductCreateEvent(model);
                 await _mediator.Publish(createEvent, cancellationToken);
@@ -80,7 +76,7 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
                 return new Response<ProductDetailApiModel>(new ProductDetailApiModel(), ResponseStatus.Failure, new
                 {
                     e.Message,
-                    Time = DateTimeOffset.Now.LocalDateTime
+                    Time = DateTime.Now
                 });
             }
         }

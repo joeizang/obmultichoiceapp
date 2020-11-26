@@ -18,7 +18,7 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Inventory
 
         public string Name { get; set; } = null!;
 
-        public DateTimeOffset InventoryDate { get; set; }
+        public DateTime InventoryDate { get; set; }
 
         public List<ProductApiModel> InventoryItems { get; set; }
 

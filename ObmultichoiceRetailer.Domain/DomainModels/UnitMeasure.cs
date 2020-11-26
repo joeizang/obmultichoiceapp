@@ -1,14 +1,18 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace ObmultichoiceRetailer.Domain.DomainModels
 {
-  public enum UnitMeasure
-  {
-    KG,
-    MEASURE,
-    PACKS,
-    CRATE,
-    DOZEN,
-    HALF_DOZEN,
-    PIECES,
-    OTHER
-  }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum UnitMeasure
+    {
+        KG,
+        MEASURE,
+        PACKS,
+        CRATE,
+        DOZEN,
+        HALF_DOZEN,
+        PIECES,
+        OTHER
+    }
 }

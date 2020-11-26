@@ -21,27 +21,18 @@ namespace ObmultichoiceRetailer.Web.Validations.Product
                 .MaximumLength(50).WithMessage("The Product brand name is too long!")
                 .MinimumLength(2).WithMessage("The Product brand name is too short!");
             RuleFor(p => p.Comments)
-                .MaximumLength(1500).WithMessage("Brand name is too long!");
+                .MaximumLength(500).WithMessage("Brand name is too long!");
             RuleFor(p => p.RetailPrice)
                 .GreaterThanOrEqualTo(decimal.MaxValue).WithMessage("The value you entered for Retail is too large")
                 .LessThanOrEqualTo(0).WithMessage("The number you have entered for Retail Price is too small")
                 .ScalePrecision(12, 4, true);
-            RuleFor(p => p.ReorderPoint)
-                .GreaterThanOrEqualTo(float.MaxValue)
-                .WithMessage("The value you entered for Reorder Point is too large")
-                .LessThanOrEqualTo(0).WithMessage("The number you have entered for Reorder Point is too small");
-            RuleFor(p => p.SuppliedPrice)
+            
+            RuleFor(p => p.CostPrice)
                 .GreaterThanOrEqualTo(decimal.MaxValue).WithMessage("The value you entered is too large")
                 .LessThanOrEqualTo(0).WithMessage("The number you have entered is too small")
                 .ScalePrecision(12, 4, true);
-            RuleFor(p => p.UnitPrice)
-                .GreaterThanOrEqualTo(decimal.MaxValue).WithMessage("The value you entered is too large")
-                .LessThanOrEqualTo(0).WithMessage("The number you have entered is too small")
-                .ScalePrecision(12, 4, true);
-            RuleFor(p => p.SupplierId)
-                .NotEqual(0).WithMessage("Product Identifier cannot be 0");
             RuleFor(p => p.SupplyDate)
-                .GreaterThan(DateTimeOffset.MinValue)
+                .GreaterThan(DateTime.MinValue)
                 .WithMessage("Supply Date has to be an actual date!");
         }
 

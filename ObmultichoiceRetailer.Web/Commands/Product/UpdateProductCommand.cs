@@ -20,17 +20,11 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
 
         public decimal RetailPrice { get; set; }
 
-        public decimal UnitPrice { get; set; }
+        public decimal CostPrice { get; set; }
 
-        public decimal SuppliedPrice { get; set; }
-
-        public DateTimeOffset SupplyDate { get; set; }
+        public DateTime SupplyDate { get; set; }
 
         public float Quantity { get; set; }
-
-        public float ReorderPoint { get; set; }
-
-        public string? ImageUrl { get; set; }
 
         public string? Brand { get; set; }
 
@@ -39,8 +33,6 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
         public UnitMeasure UnitMeasure { get; set; }
 
         public bool Verified { get; set; }
-
-        public int SupplierId { get; set; }
 
     }
 
@@ -60,10 +52,10 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
         }
         public async Task<Response<ProductDetailApiModel>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            await _repo.UpdateProductAsync(request);
-            await _repo.SaveAsync();
+            await _repo.UpdateProductAsync(request, cancellationToken).ConfigureAwait(false);
+            await _repo.SaveAsync(cancellationToken).ConfigureAwait(false);
 
-            var model = _mapper.Map<ProductDetailApiModel>(await _repo.GetProductByIdAsync(request.Id));
+            var model = _mapper.Map<ProductDetailApiModel>(await _repo.GetProductByIdAsync(request.Id, cancellationToken));
 
             var result = new Response<ProductDetailApiModel>(model, ResponseStatus.Success);
 

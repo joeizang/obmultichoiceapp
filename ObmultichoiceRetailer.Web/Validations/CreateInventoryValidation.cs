@@ -11,11 +11,6 @@ namespace ObmultichoiceRetailer.Web.Validations
     {
         public CreateInventoryValidation()
         {
-            RuleFor(i => i.BatchNumber)
-                .NotEmpty().WithMessage("Batch number cannot be blank" )
-                .MaximumLength(50).WithMessage("Batch number has too many characters, maximum is 50!");
-            RuleFor(i => i.CategoryId)
-                .NotEmpty().NotEqual(0);
             RuleFor(i => i.Description)
                 .MaximumLength(450);
             RuleFor(i => i.Name)

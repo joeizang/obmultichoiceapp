@@ -260,7 +260,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -276,7 +276,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<string>("NormalizedName")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -300,7 +300,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -338,7 +338,6 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OtherNames")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
@@ -357,7 +356,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
@@ -382,7 +381,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -404,7 +403,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -430,7 +429,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -440,7 +439,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<int>("CustomerStatus")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmailAddress")
@@ -459,7 +458,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -477,13 +476,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("BatchNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -505,7 +498,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<float>("Quantity")
                         .HasColumnType("REAL");
 
-                    b.Property<DateTimeOffset>("SupplyDate")
+                    b.Property<DateTime>("SupplyDate")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("TotalCostValue")
@@ -517,22 +510,14 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<int>("UnitAmount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Verified")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("BatchNumber")
-                        .IsUnique();
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -549,7 +534,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<string>("Comments")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
@@ -563,9 +548,6 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ItemSoldCategoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(12,2)");
 
@@ -575,10 +557,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<float>("Quantity")
                         .HasColumnType("REAL");
 
-                    b.Property<int?>("SaleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -587,11 +566,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemSoldCategoryId");
-
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("SaleId");
 
                     b.ToTable("ItemsSold");
                 });
@@ -611,14 +586,14 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<decimal>("CostPrice")
                         .HasColumnType("decimal(12,2)");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("InventoryId")
+                    b.Property<int>("InventoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDeleted")
@@ -635,13 +610,16 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<decimal>("RetailPrice")
                         .HasColumnType("decimal(12,2)");
 
-                    b.Property<DateTimeOffset>("SupplyDate")
+                    b.Property<int?>("SaleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("SupplyDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UnitMeasure")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -655,6 +633,8 @@ namespace ObmultichoiceRetailer.Web.Migrations
 
                     b.HasIndex("InventoryId");
 
+                    b.HasIndex("SaleId");
+
                     b.HasIndex("SupplyDate");
 
                     b.ToTable("Products");
@@ -666,15 +646,15 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("GrandTotal")
                         .HasColumnType("decimal(12,2)");
@@ -685,10 +665,10 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<int>("ModeOfPayment")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("SaleDate")
+                    b.Property<DateTime>("SaleDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SalesPersonId")
+                    b.Property<string>("SalesPerson")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -698,7 +678,7 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     b.Property<int>("TypeOfSale")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
@@ -707,11 +687,9 @@ namespace ObmultichoiceRetailer.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("SaleDate");
-
-                    b.HasIndex("SalesPersonId");
 
                     b.ToTable("Sales");
                 });
@@ -775,28 +753,22 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("ObmultichoiceRetailer.Domain.DomainModels.Inventory", b =>
-                {
-                    b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("ObmultichoiceRetailer.Domain.DomainModels.ItemSold", b =>
                 {
-                    b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.Category", "ItemSoldCategory")
-                        .WithMany()
-                        .HasForeignKey("ItemSoldCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ObmultichoiceRetailer.Domain.DomainModels.Product", b =>
+                {
+                    b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.Inventory", "Inventory")
+                        .WithMany("InventoryItems")
+                        .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -805,36 +777,14 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("ItemSoldCategory");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("ObmultichoiceRetailer.Domain.DomainModels.Product", b =>
-                {
-                    b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.Inventory", null)
-                        .WithMany("InventoryItems")
-                        .HasForeignKey("InventoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.Navigation("Inventory");
                 });
 
             modelBuilder.Entity("ObmultichoiceRetailer.Domain.DomainModels.Sale", b =>
                 {
-                    b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.ApplicationUser", "SalesPerson")
+                    b.HasOne("ObmultichoiceRetailer.Domain.DomainModels.ApplicationUser", null)
                         .WithMany("SalesYouOwn")
-                        .HasForeignKey("SalesPersonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("SalesPerson");
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("ObmultichoiceRetailer.Domain.DomainModels.ApplicationUser", b =>

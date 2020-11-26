@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ObmultichoiceRetailer.Domain.DomainModels;
 using ObmultichoiceRetailer.Web.ApiModel.Category;
@@ -29,6 +30,6 @@ namespace ObmultichoiceRetailer.Web.Abstractions.Entities
 
     Task Delete(DeleteCategoryApiModel entity);
 
-    Task SaveAsync();
+    Task SaveAsync(CancellationToken token);
   }
 }

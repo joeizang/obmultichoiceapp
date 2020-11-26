@@ -5,7 +5,7 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>4.0</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <langVer>8.0</langVer>
+    <langVer>9.0</langVer>
     <Nullable>enable</Nullable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
@@ -30,6 +30,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.DynamicLinq" Version="3.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -60,11 +61,14 @@
     <Folder Include="ClientApp\src\pages\sales\" />
     <Folder Include="ClientApp\src\pages\products\" />
     <Folder Include="DomainEvents\Inventory\" />
-    <Folder Include="DomainEvents\Sales\" />
     <Folder Include="Validations\Inventory\" />
     <Folder Include="Validations\Category\" />
     <Folder Include="Validations\Customer\" />
     <Folder Include="Validations\Sales\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

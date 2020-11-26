@@ -31,11 +31,11 @@ namespace ObmultichoiceRetailer.Web.Queries.Product
             {
                 p => p.ProductCategories,
             };
-            var product = await _repo.GetProductByAsync(includes, p => p.Id == request.Id)
+            var product = await _repo.GetProductByAsync(cancellationToken, includes, p => p.Id == request.Id)
                 .ConfigureAwait(false);
             //var data = _mapper.Map<Domain.DomainModels.Product, ProductDetailApiModel>(product);
             var data = new ProductDetailApiModel(product.RetailPrice,product.Name,product.Quantity,
-                product.CostPrice,product.SupplyDate);
+                product.CostPrice,product.SupplyDate, product.Id);
             var result = new Response<ProductDetailApiModel>(data, ResponseStatus.Success);
             return result;
         }

@@ -13,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using ObmultichoiceRetailer.Domain.DomainModels;
 using ObmultichoiceRetailer.Web.Abstractions;
 using ObmultichoiceRetailer.Web.Abstractions.Entities;
-using ObmultichoiceRetailer.Web.ApiModel.Supplier;
 using ObmultichoiceRetailer.Web.Helpers;
 using ObmultichoiceRetailer.Web.Services;
 
@@ -47,9 +46,9 @@ namespace ObmultichoiceRetailer.Web
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IInventoryRepository, InventoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<PagedList<SupplierApiModel>>();
             services.AddTransient<PaginatedMetaData>();
             services.AddScoped<IRepository, GenericBaseRepository>();
+            services.AddScoped<ISalesRepository, SalesRepository>();
 
             services.AddTransient<IUriGenerator, UriGenerator>();
 

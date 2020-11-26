@@ -7,7 +7,7 @@ namespace ObmultichoiceRetailer.Domain.Abstractions
 {
     public class BaseIdentityUser : IdentityUser<int>, IDomainModel
     {
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

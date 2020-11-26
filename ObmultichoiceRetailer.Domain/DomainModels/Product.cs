@@ -26,7 +26,7 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
     public decimal CostPrice { get; set; }
 
     [Required]
-    public DateTimeOffset SupplyDate { get; set; }
+    public DateTime SupplyDate { get; set; }
 
     [Required]
     public float Quantity { get; set; }
@@ -40,6 +40,10 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
     public bool Verified { get; set; }
 
     public List<Category> ProductCategories { get; set; }
+
+    public Inventory? Inventory { get; set; }
+
+    public int InventoryId { get; set; }
 
   }
 }

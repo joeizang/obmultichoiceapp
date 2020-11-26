@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ObmultichoiceRetailer.Domain.Abstractions;
@@ -43,10 +44,10 @@ namespace ObmultichoiceRetailer.Web.Helpers
             
         }
 
-        public static async Task<PagedList<T>> CreatePagedList(IQueryable<T> source, int pageNumber, int pageSize)
+        public static async Task<PagedList<T>> CreatePagedList(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken token)
         {
-            var count = await source.CountAsync().ConfigureAwait(false);
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync().ConfigureAwait(false);
+            var count = await source.CountAsync(token).ConfigureAwait(false);
+            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(token).ConfigureAwait(false);
             return new PagedList<T>(count,pageSize,pageNumber,items);
         }
     }

@@ -7,6 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using MediatR;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using ObmultichoiceRetailer.Domain.DomainModels;
 using ObmultichoiceRetailer.Web.Abstractions.Entities;
 using ObmultichoiceRetailer.Web.ApiModel.Inventory;
 
@@ -18,11 +21,12 @@ namespace ObmultichoiceRetailer.Web.Commands.Inventory
 
     public string? Description { get; set; }
 
-    public string? BatchNumber { get; set; }
+    public float Quantity { get; set; }
 
-    public string CategoryName { get; set; } = null!;
+    public DateTime SupplyDate { get; set; }
 
-    public float ProductQuantity { get; set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public UnitMeasure UnitMeasure { get; set; }
 
   }
 
@@ -38,10 +42,9 @@ namespace ObmultichoiceRetailer.Web.Commands.Inventory
     public async Task<InventoryApiModel> Handle(CreateInventoryCommand request, CancellationToken cancellationToken)
     {
       _repo.CreateInventory(request);
-      await _repo.SaveAsync().ConfigureAwait(false);
+      await _repo.SaveAsync(cancellationToken).ConfigureAwait(false);
       var result = await _repo
           .GetInventoryBy(x =>
-              x.BatchNumber!.Equals(request.BatchNumber!.ToUpperInvariant()) &&
               x.Name!.Equals(request.Name.ToUpperInvariant()) &&
               x.Description!.Equals(request.Description!.ToUpperInvariant()));
       return result;

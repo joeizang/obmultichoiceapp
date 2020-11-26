@@ -16,8 +16,8 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     NormalizedName = table.Column<string>(type: "TEXT", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
@@ -49,8 +49,8 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     OtherNames = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -82,10 +82,10 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
                     Address = table.Column<string>(type: "TEXT", nullable: true),
                     EmailAddress = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    DateOfBirth = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: true),
                     CustomerStatus = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -112,6 +112,30 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DeviceCodes", x => x.UserCode);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Inventories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 450, nullable: true),
+                    UnitAmount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<float>(type: "REAL", nullable: false),
+                    TotalCostValue = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    TotalRetailValue = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    SupplyDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inventories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,15 +270,14 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SaleDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    SaleDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     SalesPersonId = table.Column<string>(type: "TEXT", nullable: false),
                     SubTotal = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     GrandTotal = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     TypeOfSale = table.Column<int>(type: "INTEGER", nullable: false),
                     ModeOfPayment = table.Column<int>(type: "INTEGER", nullable: false),
-                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -268,39 +291,6 @@ namespace ObmultichoiceRetailer.Web.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Sales_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Inventories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 450, nullable: true),
-                    UnitAmount = table.Column<int>(type: "INTEGER", nullable: false),
-                    Quantity = table.Column<float>(type: "REAL", nullable: false),
-                    TotalCostValue = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
-                    TotalRetailValue = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
-                    Verified = table.Column<bool>(type: "INTEGER", nullable: false),
-                    BatchNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SupplyDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Inventories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,15 +302,15 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     RetailPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     CostPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
-                    SupplyDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    SupplyDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Quantity = table.Column<float>(type: "REAL", nullable: false),
                     Brand = table.Column<string>(type: "TEXT", nullable: true),
                     Comments = table.Column<string>(type: "TEXT", nullable: true),
                     UnitMeasure = table.Column<int>(type: "INTEGER", nullable: false),
                     Verified = table.Column<bool>(type: "INTEGER", nullable: false),
-                    InventoryId = table.Column<int>(type: "INTEGER", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    InventoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -345,8 +335,8 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 450, nullable: true),
                     ProductId = table.Column<int>(type: "INTEGER", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -372,11 +362,10 @@ namespace ObmultichoiceRetailer.Web.Migrations
                     Quantity = table.Column<float>(type: "REAL", nullable: false),
                     Comments = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
-                    ItemSoldCategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductId = table.Column<int>(type: "INTEGER", nullable: false),
                     SaleId = table.Column<int>(type: "INTEGER", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     UpdatedBy = table.Column<string>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -384,12 +373,6 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ItemsSold", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ItemsSold_Categories_ItemSoldCategoryId",
-                        column: x => x.ItemSoldCategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ItemsSold_Products_ProductId",
                         column: x => x.ProductId,
@@ -464,26 +447,10 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inventories_BatchNumber",
-                table: "Inventories",
-                column: "BatchNumber",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Inventories_CategoryId",
-                table: "Inventories",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Inventories_Name",
                 table: "Inventories",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemsSold_ItemSoldCategoryId",
-                table: "ItemsSold",
-                column: "ItemSoldCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemsSold_ProductId",
@@ -521,11 +488,6 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 column: "SupplyDate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_CustomerId",
-                table: "Sales",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sales_SaleDate",
                 table: "Sales",
                 column: "SaleDate");
@@ -534,22 +496,10 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 name: "IX_Sales_SalesPersonId",
                 table: "Sales",
                 column: "SalesPersonId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Inventories_Categories_CategoryId",
-                table: "Inventories",
-                column: "CategoryId",
-                principalTable: "Categories",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Categories_Products_ProductId",
-                table: "Categories");
-
             migrationBuilder.DropTable(
                 name: "ApplicationRoles");
 
@@ -569,6 +519,12 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
@@ -581,22 +537,16 @@ namespace ObmultichoiceRetailer.Web.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Sales");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Sales");
 
             migrationBuilder.DropTable(
                 name: "Inventories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "AspNetUsers");
         }
     }
 }

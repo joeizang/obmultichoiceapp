@@ -39,7 +39,7 @@ namespace ObmultichoiceRetailer.Web.Commands.Category
         {
             var model = _mapper.Map<UpdateCategoryCommand,UpdateCategoryApiModel>(request);
             await _repo.Update(model);
-            await _repo.SaveAsync().ConfigureAwait(false);
+            await _repo.SaveAsync(cancellationToken).ConfigureAwait(false);
             return await _repo.GetCategoryById(model.CategoryId);
         }
     }

@@ -14,7 +14,7 @@ namespace ObmultichoiceRetailer.Web.DomainEvents.Product
 
         public ProductDeleteEvent()
         {
-            HappenedAt = DateTimeOffset.Now;
+            HappenedAt = DateTime.Now;
             ActionPerformed = TaskPerformed.Deletion;
         }
 

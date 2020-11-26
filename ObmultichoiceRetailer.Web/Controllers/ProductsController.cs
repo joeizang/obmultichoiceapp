@@ -43,10 +43,10 @@ namespace ObmultichoiceRetailer.Web.Controllers
 
         // POST api/<ProductsController>
         [HttpPost]
-        public async Task<ActionResult<Response<ProductApiModel>>> CreateProduct(CreateProductCommand command)
+        public async Task<ActionResult<Response<ProductDetailApiModel>>> CreateProduct(CreateProductCommand command)
         {
             var result = await _mediator.Send(command);
-            return CreatedAtRoute("GetProductById", result);
+            return CreatedAtRoute("GetProductById", new { id = result.Data.Id}, result);
         }
 
         //// PUT api/<ProductsController>/5

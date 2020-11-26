@@ -21,7 +21,7 @@ namespace ObmultichoiceRetailer.Web.Profiles
                 .ForMember(d => d.ProductCategories, conf => conf.Ignore());
             CreateMap<Product, ProductDetailApiModel>()
                 .ConstructUsing(p => new ProductDetailApiModel(p.RetailPrice, p.Name, p.Quantity,
-                    p.CostPrice,p.SupplyDate));
+                    p.CostPrice,p.SupplyDate, p.Id));
         }
     }
 }

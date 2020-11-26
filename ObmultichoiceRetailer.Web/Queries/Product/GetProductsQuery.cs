@@ -38,7 +38,7 @@ namespace ObmultichoiceRetailer.Web.Queries.Product
         }
         public async Task<PaginatedResponse<ProductApiModel>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _repo.GetAllProducts(request);
+            var products = await _repo.GetAllProducts(request, cancellationToken);
 
             var prev = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber - 1).ToString()!);
             prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);

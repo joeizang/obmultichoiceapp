@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using AutoMapper;
@@ -34,21 +35,18 @@ namespace ObmultichoiceRetailer.Web.Services
     {
       IQueryable<Inventory> orderedQuery;
       var query = _set.AsNoTracking()
-                  .Include(i => i.Category)
-                  .Include(i => i.InventoryItems);
+          .Include(i => i.InventoryItems);
       if (!string.IsNullOrEmpty(searchTerm))
       {
         IQueryable<Inventory> newQuery = query.Where(x =>
-            x.BatchNumber != null && x.BatchNumber!.Equals(searchTerm) && x.Name!.Equals(searchTerm));
+            x.Name!.Equals(searchTerm));
         if (ascending == false)
-          orderedQuery = newQuery.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name)
-              .ThenByDescending(x => x.BatchNumber);
+            orderedQuery = newQuery.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name);
       }
 
       if (ascending == false)
-        orderedQuery = query.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name)
-            .ThenByDescending(x => x.BatchNumber);
-      orderedQuery = query.OrderBy(x => x.SupplyDate).ThenBy(x => x.Name).ThenBy(x => x.BatchNumber);
+        orderedQuery = query.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name);
+      orderedQuery = query.OrderBy(x => x.SupplyDate).ThenBy(x => x.Name);
 
       var result = await orderedQuery
           .ProjectTo<InventoryApiModel>(_mapper.ConfigurationProvider)
@@ -103,12 +101,8 @@ namespace ObmultichoiceRetailer.Web.Services
     public void CreateInventory(CreateInventoryCommand command)
     {
       var inventory = _mapper.Map<CreateInventoryCommand, Inventory>(command);
-      inventory.BatchNumber = inventory.BatchNumber?.ToUpperInvariant().Trim();
       inventory.Description = inventory.Description?.ToUpperInvariant().Trim();
       inventory.Name = inventory.Name.Trim().ToUpperInvariant();
-
-      //get the category to add the inventory
-      inventory.CategoryId = _db.Categories.AsNoTracking().SingleOrDefault(x => x.Name.Equals(command.CategoryName.ToUpperInvariant()))!.Id;
 
       _set.Add(inventory);
     }
@@ -116,7 +110,6 @@ namespace ObmultichoiceRetailer.Web.Services
     public async Task UpdateInventory(UpdateInventoryCommand command)
     {
       var target = await GetInventoryById(command);
-      target.BatchNumber = command.BatchNumber.Trim().ToUpperInvariant();
       target.Name = command.Name.Trim().ToUpperInvariant();
       target.Description = command.Description.Trim().ToUpperInvariant();
 
@@ -130,9 +123,9 @@ namespace ObmultichoiceRetailer.Web.Services
         _set.Remove(result);
     }
 
-    public async Task SaveAsync()
+    public async Task SaveAsync(CancellationToken token)
     {
-      await Commit<Inventory>().ConfigureAwait(false);
+      await Commit<Inventory>(token).ConfigureAwait(false);
     }
   }
 }

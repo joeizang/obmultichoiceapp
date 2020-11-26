@@ -8,7 +8,7 @@ namespace ObmultichoiceRetailer.Web.Abstractions
 {
     public interface IDomainEvent : INotification
     {
-        DateTimeOffset HappenedAt { get; }
+        DateTime HappenedAt { get; }
 
         string ActionPerformed { get; }
 

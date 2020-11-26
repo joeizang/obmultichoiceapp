@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -96,9 +97,9 @@ namespace ObmultichoiceRetailer.Web.Services
       _db.Categories.Remove(category);
     }
 
-    public Task SaveAsync()
+    public Task SaveAsync(CancellationToken token)
     {
-        return Commit<Category>();
+        return Commit<Category>(token);
     }
 
   }

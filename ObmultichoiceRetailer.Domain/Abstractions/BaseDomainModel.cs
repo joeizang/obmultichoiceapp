@@ -7,8 +7,8 @@ namespace ObmultichoiceRetailer.Domain.Abstractions
 {
     public abstract class BaseDomainModel : IDomainModel
     {
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         [Key]
         public int Id { get; set; }

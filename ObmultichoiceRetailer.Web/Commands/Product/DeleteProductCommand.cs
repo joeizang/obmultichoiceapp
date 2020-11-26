@@ -28,8 +28,8 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
         }
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            await _repo.DeleteProductAsync(request);
-            await _repo.SaveAsync();
+            _repo.DeleteProductAsync(request);
+            await _repo.SaveAsync(cancellationToken);
             await _mediator.Publish(new ProductDeleteEvent {DeletedProductId = request.Id}, cancellationToken);
             return default;
         }

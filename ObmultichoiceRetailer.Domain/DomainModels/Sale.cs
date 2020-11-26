@@ -10,14 +10,11 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
   {
     public Sale()
     {
-      ItemsSold = new List<ItemSold>();
+      ItemsSold = new List<Product>();
     }
-    public DateTimeOffset SaleDate { get; set; }
+    public DateTime SaleDate { get; set; }
 
-    [ForeignKey(nameof(SalesPerson))]
-    public string SalesPersonId { get; set; } = null!;
-
-    public ApplicationUser SalesPerson { get; set; } = null!;
+    public string SalesPerson { get; set; } = null!;
 
     public decimal SubTotal { get; set; }
 
@@ -27,11 +24,6 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
 
     public PaymentType ModeOfPayment { get; set; }
 
-    public int CustomerId { get; set; }
-
-    [ForeignKey(nameof(CustomerId))]
-    public Customer Customer { get; set; } = null!;
-
-    public List<ItemSold> ItemsSold { get; set; }
+    public List<Product> ItemsSold { get; set; }
   }
 }

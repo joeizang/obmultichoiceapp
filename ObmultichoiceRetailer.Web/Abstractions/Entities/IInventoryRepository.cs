@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ObmultichoiceRetailer.Domain.DomainModels;
@@ -29,6 +30,6 @@ namespace ObmultichoiceRetailer.Web.Abstractions.Entities
 
     Task DeleteInventory(DeleteInventoryCommand command);
 
-    Task SaveAsync();
+    Task SaveAsync(CancellationToken token);
   }
 }

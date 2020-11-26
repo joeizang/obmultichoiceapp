@@ -53,11 +53,6 @@ namespace ObmultichoiceRetailer.Web.Data
                 .HasMany(i => i.InventoryItems)
                 .WithOne().OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Sale>()
-                .HasOne(s => s.SalesPerson)
-                .WithMany(a => a.SalesYouOwn)
-                .HasForeignKey(s => s.SalesPersonId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Sale>()
                 .HasMany(s => s.ItemsSold)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Restrict);
@@ -65,7 +60,12 @@ namespace ObmultichoiceRetailer.Web.Data
                 .HasMany(p => p.ProductCategories)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Restrict);
-            
+            builder.Entity<Product>()
+                .HasOne(p => p.Inventory)
+                .WithMany(i => i!.InventoryItems)
+                .HasForeignKey(p => p.InventoryId)
+                .IsRequired();
+
 
             builder.Entity<Sale>()
                 .Property(s => s.GrandTotal)
@@ -92,9 +92,7 @@ namespace ObmultichoiceRetailer.Web.Data
             builder.Entity<Inventory>()
                 .HasIndex(i => i.Name)
                 .IsUnique();
-            builder.Entity<Inventory>()
-                .HasIndex(i => i.BatchNumber)
-                .IsUnique();
+
             builder.Entity<Product>()
                 .HasIndex(p => p.SupplyDate);
             builder.Entity<Sale>()

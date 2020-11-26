@@ -22,11 +22,6 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
     [Required]
     public decimal Price { get; set; }
 
-    public Category ItemSoldCategory { get; set; } = null!;
-
-    [ForeignKey(nameof(ItemSoldCategory))]
-    public int ItemSoldCategoryId { get; set; }
-
     public int ProductId { get; set; }
 
     [ForeignKey(nameof(ProductId))]
