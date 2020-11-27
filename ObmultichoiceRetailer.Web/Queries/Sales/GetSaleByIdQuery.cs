@@ -26,11 +26,18 @@ namespace ObmultichoiceRetailer.Web.Queries.Sales
         }
         public async Task<Response<SaleDetailApiModel>> Handle(GetSaleByIdQuery request, CancellationToken cancellationToken)
         {
-            var sale = await _repo.GetSaleById(request, cancellationToken).ConfigureAwait(false);
-            var result = new Response<SaleDetailApiModel>(
-                new SaleDetailApiModel(sale.Id, sale.SalesPerson, sale.SaleDate, sale.TypeOfSale, sale.ModeOfPayment),
-                ResponseStatus.Success);
-            return result;
+            try
+            {
+                var sale = await _repo.GetSaleById(request, cancellationToken).ConfigureAwait(false);
+                var result = new Response<SaleDetailApiModel>(
+                    new SaleDetailApiModel(sale.Id, sale.SalesPerson, sale.SaleDate, sale.TypeOfSale, sale.ModeOfPayment),
+                    ResponseStatus.Success);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new Response<SaleDetailApiModel>(new SaleDetailApiModel(),ResponseStatus.Error, new { ErrorMessage = e.Message } );
+            }
         }
     }
 }

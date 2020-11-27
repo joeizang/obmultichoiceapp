@@ -10,9 +10,9 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
   {
     public Sale()
     {
-      ItemsSold = new List<Product>();
+      ItemsSold = new List<ItemSold>();
     }
-    public DateTime SaleDate { get; set; }
+    public DateTimeOffset SaleDate { get; set; }
 
     public string SalesPerson { get; set; } = null!;
 
@@ -24,6 +24,6 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
 
     public PaymentType ModeOfPayment { get; set; }
 
-    public List<Product> ItemsSold { get; set; }
+    public List<ItemSold> ItemsSold { get; set; } //this should be itemSold not product. Product quantities should be updated  when a sale is made.
   }
 }

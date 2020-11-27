@@ -6,9 +6,9 @@ namespace ObmultichoiceRetailer.Domain.Abstractions
 {
     public interface IDomainModel
     {
-        DateTime CreatedAt { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
         
-        DateTime UpdatedAt { get; set; }
+        DateTimeOffset UpdatedAt { get; set; }
 
         int Id { get; set; }
     }

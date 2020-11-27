@@ -35,7 +35,7 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
         public List<Product> InventoryItems { get; set; }
 
         [Required]
-        public DateTime SupplyDate { get; set; }
+        public DateTimeOffset SupplyDate { get; set; }
 
         public void CalculateTotalValuesOfInventory()
         {

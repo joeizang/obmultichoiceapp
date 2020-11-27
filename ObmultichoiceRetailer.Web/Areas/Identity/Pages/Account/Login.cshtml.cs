@@ -24,9 +24,12 @@ namespace ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, InputModel input, IList<AuthenticationScheme> externalLogins, string errorMessage)
         {
             _userManager = userManager;
+            Input = input;
+            ExternalLogins = externalLogins;
+            ErrorMessage = errorMessage;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -36,7 +39,7 @@ namespace ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
 
         [TempData]
         public string ErrorMessage { get; set; }
@@ -45,17 +48,17 @@ namespace ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
-            public string Email { get; set; }
+            public string Email { get; set; } = null!;
 
             [Required]
             [DataType(DataType.Password)]
-            public string Password { get; set; }
+            public string Password { get; set; } = null!;
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -72,7 +75,7 @@ namespace ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 

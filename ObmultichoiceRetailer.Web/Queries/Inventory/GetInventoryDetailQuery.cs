@@ -5,16 +5,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using ObmultichoiceRetailer.Web.Abstractions.Entities;
+using ObmultichoiceRetailer.Web.ApiModel;
 using ObmultichoiceRetailer.Web.ApiModel.Inventory;
 
 namespace ObmultichoiceRetailer.Web.Queries.Inventory
 {
-    public class GetInventoryDetailQuery : IRequest<InventoryDetailApiModel>
+    public class GetInventoryDetailQuery : IRequest<Response<InventoryDetailApiModel>>
     {
         public int Id { get; set; }
     }
 
-    public class GetInventoryDetailQueryHandler : IRequestHandler<GetInventoryDetailQuery, InventoryDetailApiModel>
+    public class GetInventoryDetailQueryHandler : IRequestHandler<GetInventoryDetailQuery, Response<InventoryDetailApiModel>>
     {
         private readonly IInventoryRepository _repo;
 
@@ -22,10 +23,21 @@ namespace ObmultichoiceRetailer.Web.Queries.Inventory
         {
             _repo = repo;
         }
-        public async Task<InventoryDetailApiModel> Handle(GetInventoryDetailQuery request, CancellationToken cancellationToken)
+        public async Task<Response<InventoryDetailApiModel>> Handle(GetInventoryDetailQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetInventoryById(request.Id).ConfigureAwait(false);
-            return result;
+            try
+            {
+                var inventory = await _repo.GetInventoryById(request.Id, cancellationToken).ConfigureAwait(false);
+
+                var result = new Response<InventoryDetailApiModel>(inventory, ResponseStatus.Success);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new Response<InventoryDetailApiModel>(new InventoryDetailApiModel(), ResponseStatus.Error,
+                    new {ErrorMessage = e.Message});
+            }
         }
     }
 }

@@ -29,8 +29,8 @@ namespace ObmultichoiceRetailer.Web.Abstractions
       {
         if (entity.State == EntityState.Added)
         {
-            entity.Entity.CreatedAt = DateTime.Now;
-            entity.Entity.UpdatedAt = DateTime.Now;
+            entity.Entity.CreatedAt = DateTimeOffset.Now;
+            entity.Entity.UpdatedAt = DateTimeOffset.Now;
           if (string.IsNullOrEmpty(entity.Entity.CreatedBy))
           {
             entity.Entity.CreatedBy = user;
@@ -40,7 +40,7 @@ namespace ObmultichoiceRetailer.Web.Abstractions
 
         if (entity.State == EntityState.Modified)
         {
-            entity.Entity.UpdatedAt = DateTime.Now;
+            entity.Entity.UpdatedAt = DateTimeOffset.Now;
           if (string.IsNullOrEmpty(entity.Entity.UpdatedBy))
           {
             entity.Entity.UpdatedBy = user.ToUpperInvariant();

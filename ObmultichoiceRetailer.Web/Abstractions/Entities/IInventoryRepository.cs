@@ -9,24 +9,22 @@ using ObmultichoiceRetailer.Domain.DomainModels;
 using ObmultichoiceRetailer.Web.ApiModel.Inventory;
 using ObmultichoiceRetailer.Web.Commands.Inventory;
 using ObmultichoiceRetailer.Web.Data;
+using ObmultichoiceRetailer.Web.Helpers;
+using ObmultichoiceRetailer.Web.Queries.Inventory;
 
 namespace ObmultichoiceRetailer.Web.Abstractions.Entities
 {
   public interface IInventoryRepository : IRepository
   {
-    Task<IEnumerable<InventoryApiModel>> GetAllInventories(string? searchTerm, bool ascending = true);
+    Task<PagedList<InventoryApiModel>> GetAllInventories(GetAllInventoriesQuery query, CancellationToken token);
 
-    Task<InventoryDetailApiModel> GetInventoryById(int id);
-
-    Task<Inventory> GetInventoryById(UpdateInventoryCommand id);
+    Task<InventoryDetailApiModel> GetInventoryById(int id, CancellationToken cancellationToken);
 
     Task<InventoryApiModel> GetInventoryBy(params Expression<Func<Inventory, bool>>[] searchTerms);
 
-    Task<IEnumerable<InventoryApiModel>> GetInventoriesBy(params Expression<Func<Inventory, bool>>[] searchTerms);
-
     void CreateInventory(CreateInventoryCommand command);
 
-    Task UpdateInventory(UpdateInventoryCommand command);
+    Task UpdateInventory(UpdateInventoryCommand command, CancellationToken token);
 
     Task DeleteInventory(DeleteInventoryCommand command);
 

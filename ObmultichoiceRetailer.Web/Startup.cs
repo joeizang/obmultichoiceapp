@@ -31,7 +31,7 @@ namespace ObmultichoiceRetailer.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ObmultichoiceContext>(options =>
-                options.UseSqlite(
+                options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)

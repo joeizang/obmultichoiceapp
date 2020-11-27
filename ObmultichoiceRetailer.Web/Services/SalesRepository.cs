@@ -36,19 +36,27 @@ namespace ObmultichoiceRetailer.Web.Services
         {
             var products = _db.Products.Include(p => p.Inventory);
             var sale = _mapper.Map<Sale>(command);
-            Product? product = null;
+            var items = _db.ItemsSold;
             //make deductions from the quantity of every product that has been sold
             foreach(var p in command.ProductsSold)
             {
-                product = await products.SingleOrDefaultAsync(x => x.Id == p.Id,token).ConfigureAwait(false);
+                var product = await products.SingleOrDefaultAsync(x => x.Id == p.Id,token).ConfigureAwait(false);
 
                 product.Quantity -= p.Quantity;
                 if (product.Inventory != null) product.Inventory.Quantity -= p.Quantity;
                 _db.Entry(product).State = EntityState.Modified;
+                var item = new ItemSold
+                {
+                    ItemName = p.ItemName,
+                    Quantity = p.Quantity,
+                    Price = p.Price,
+                    ProductId = product.Id
+                };
+                await items.AddAsync(item, token).ConfigureAwait(false);
             }
             //if there are any discounts then you can calculate before persisting.
-            sale.ItemsSold.Add(product!);
-            _set.Add(sale);
+            sale.ItemsSold.AddRange(items!);
+            await _set.AddAsync(sale, token).ConfigureAwait(false);
         }
 
         public Task UpdateSale(UpdateSaleCommand command, CancellationToken token)
@@ -59,10 +67,11 @@ namespace ObmultichoiceRetailer.Web.Services
         public Task CancelASale(CancelSaleCommand command, CancellationToken token)
         {
             throw new NotImplementedException();
+            //after cancellation, inventory quantities should be updated
         }
 
         public async Task<PagedList<SaleApiModel>> GetAllSales(GetAllSalesQuery query, CancellationToken token)
-        {
+        {  
             var queryable = _set.AsNoTracking();
 
             
@@ -81,10 +90,10 @@ namespace ObmultichoiceRetailer.Web.Services
                         ProductsBought = s.ItemsSold.Select(x => new ItemSoldApiModel
                         {
                             Id = x.Id,
-                            ItemName = x.Name,
-                            Price = x.RetailPrice,
-                            Quantity = x.Quantity,
-                            ProductCategory = string.Join(",", x.ProductCategories.Select(x => x.Name).ToArray())
+                            ItemName = x.ItemName,
+                            Price = x.Price,
+                            Quantity = x.Quantity, //this should be the quantity bought not the quantity in stock.
+                            //ProductCategory = string.Join(",", x.ProductCategories.Select(x => x.Name).ToArray())
                         }).ToList()
                     });
 
@@ -95,7 +104,7 @@ namespace ObmultichoiceRetailer.Web.Services
             }
 
             var parsedTotal = decimal.Parse(query.SearchTerm!);
-            var parsedDate = DateTime.Parse(query.SearchTerm!);
+            var parsedDate = DateTimeOffset.Parse(query.SearchTerm!);
             queryable = queryable.Where(s => s.SalesPerson.Equals(query.SearchTerm) || s.SaleDate.Equals(parsedDate));
             queryable = queryable.OrderBy(x => x.SaleDate);
             //TODO: ALSO FACTOR IN THAT YOUR RESULT MUST BE PAGINATED.

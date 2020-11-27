@@ -9,7 +9,7 @@ namespace ObmultichoiceRetailer.Web.Helpers
 {
     public class DomainEvent : IDomainEvent
     {
-        public DateTime HappenedAt { get; set; }
+        public DateTimeOffset HappenedAt { get; set; }
 
         public string ActionPerformed { get; set; } = null!;
         public object? PayLoad { get; set; }

@@ -22,7 +22,7 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
 
         public decimal CostPrice { get; set; }
 
-        public DateTime SupplyDate { get; set; }
+        public DateTimeOffset SupplyDate { get; set; }
 
         public float Quantity { get; set; }
 

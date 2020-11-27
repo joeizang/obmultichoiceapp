@@ -28,7 +28,7 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
 
         public string? Comments { get; set; }
 
-        public DateTime SupplyDate { get; set; }
+        public DateTimeOffset SupplyDate { get; set; }
 
         public int InventoryId { get; set; }
 
@@ -76,7 +76,7 @@ namespace ObmultichoiceRetailer.Web.Commands.Product
                 return new Response<ProductDetailApiModel>(new ProductDetailApiModel(), ResponseStatus.Failure, new
                 {
                     e.Message,
-                    Time = DateTime.Now
+                    Time = DateTimeOffset.Now
                 });
             }
         }

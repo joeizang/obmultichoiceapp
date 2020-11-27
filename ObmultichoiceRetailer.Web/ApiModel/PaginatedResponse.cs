@@ -20,6 +20,10 @@ namespace ObmultichoiceRetailer.Web.ApiModel
 
         public string? NextPageLink { get; private set; }
 
+        public string CurrentResponseStatus { get; }
+
+        public List<object>? Error { get; set; }
+
         public void SetNavLinks(string? previousLink, string? nextLink)
         {
             if (string.IsNullOrEmpty(previousLink) || string.IsNullOrEmpty(nextLink))
@@ -35,7 +39,8 @@ namespace ObmultichoiceRetailer.Web.ApiModel
         }
 
 
-        public PaginatedResponse(PagedList<T> list, int totalCount, int pageSize, int currentPage, string? previousPageLink, string? nextPageLink)
+        public PaginatedResponse(PagedList<T> list, int totalCount, int pageSize, int currentPage, string? previousPageLink, 
+            string? nextPageLink, string currentResponseStatus, object? errors = null)
         {
             List = list;
             TotalCount = totalCount;
@@ -43,16 +48,21 @@ namespace ObmultichoiceRetailer.Web.ApiModel
             CurrentPage = currentPage;
             PreviousPageLink = previousPageLink;
             NextPageLink = nextPageLink;
+            CurrentResponseStatus = currentResponseStatus;
+            if(errors != null)
+                Error?.Add(errors);
         }
 
-        public PaginatedResponse(PagedList<T> list)
+        public PaginatedResponse(PagedList<T> list, string currentResponseStatus)
         {
             List = list;
+            CurrentResponseStatus = currentResponseStatus;
         }
 
         public PaginatedResponse()
         {
             List = new PagedList<T>();
+            CurrentResponseStatus = ResponseStatus.NonAction;
         }
     }
 }

@@ -427,8 +427,8 @@ $.extend( $.validator, {
 			$( this.currentForm )
 				.on( "focusin.validate focusout.validate keyup.validate",
 					":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'], " +
-					"[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], " +
-					"[type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], " +
+					"[type='tel'], [type='url'], [type='email'], [type='DateTimeOffset'], [type='date'], [type='month'], " +
+					"[type='week'], [type='time'], [type='DateTimeOffset-local'], [type='range'], [type='color'], " +
 					"[type='radio'], [type='checkbox'], [contenteditable], [type='button']", delegate )
 
 				// Support: Chrome, oldIE
@@ -1470,7 +1470,7 @@ $.extend( $.validator, {
 				decimals;
 
 			// Works only for text, number and range input types
-			// TODO find a way to support input types date, datetime, datetime-local, month, time and week
+			// TODO find a way to support input types date, DateTimeOffset, DateTimeOffset-local, month, time and week
 			if ( notSupported ) {
 				throw new Error( errorMessage );
 			}

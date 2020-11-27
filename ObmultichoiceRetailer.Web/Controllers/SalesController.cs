@@ -36,6 +36,11 @@ namespace ObmultichoiceRetailer.Web.Controllers
         public async Task<ActionResult<Response<SaleDetailApiModel>>> Get([FromQuery]GetSaleByIdQuery query)
         {
             var result = await _mediator.Send(query).ConfigureAwait(false);
+            if (result.CurrentResponseStatus.Equals(ResponseStatus.Error))
+            {
+                return BadRequest(result);
+            }
+
             return Ok(result);
         }
 

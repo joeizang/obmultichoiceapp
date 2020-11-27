@@ -12,7 +12,7 @@ namespace ObmultichoiceRetailer.Web.DomainEvents.Product
     {
         public ProductUpdateEvent(ProductDetailApiModel model)
         {
-            HappenedAt = DateTime.Now;
+            HappenedAt = DateTimeOffset.Now;
             ActionPerformed = TaskPerformed.Modification;
             PayLoad = model;
         }

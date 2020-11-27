@@ -25,7 +25,7 @@ namespace ObmultichoiceRetailer.Web.ApiModel
             CurrentResponseStatus = currentResponseStatus;
             if (errors == null || CurrentResponseStatus == ResponseStatus.Success) return;
             Errors?.Add(errors);
-            CurrentResponseStatus = ResponseStatus.Failure;
+            CurrentResponseStatus = ResponseStatus.NonAction;
             Errors?.Add(new
             {
                 ErrorMessage = "The response is assuming an invalid state and has been defaulted to a state of fault!"
@@ -40,6 +40,8 @@ namespace ObmultichoiceRetailer.Web.ApiModel
         public static string Error { get; } = nameof(Error);
 
         public static string Failure { get; } = nameof(Failure);
+
+        public static string NonAction { get; } = nameof(NonAction);
     }
 
 

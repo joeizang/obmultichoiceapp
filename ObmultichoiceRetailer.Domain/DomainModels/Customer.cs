@@ -18,7 +18,7 @@ namespace ObmultichoiceRetailer.Domain.DomainModels
         [StringLength(50)]
         public string? EmailAddress { get; set; }
 
-        public DateTime? DateOfBirth { get; set; }
+        public DateTimeOffset? DateOfBirth { get; set; }
 
         [Required]
         public CustomerStatus CustomerStatus { get; set; }

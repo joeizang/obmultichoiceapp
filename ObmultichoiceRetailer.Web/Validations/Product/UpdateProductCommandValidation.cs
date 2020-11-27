@@ -32,7 +32,7 @@ namespace ObmultichoiceRetailer.Web.Validations.Product
                 .LessThanOrEqualTo(0).WithMessage("The number you have entered is too small")
                 .ScalePrecision(12, 4, true);
             RuleFor(p => p.SupplyDate)
-                .GreaterThan(DateTime.MinValue)
+                .GreaterThan(DateTimeOffset.MinValue)
                 .WithMessage("Supply Date has to be an actual date!");
         }
 

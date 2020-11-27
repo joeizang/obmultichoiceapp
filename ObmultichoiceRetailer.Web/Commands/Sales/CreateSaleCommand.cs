@@ -18,7 +18,7 @@ namespace ObmultichoiceRetailer.Web.Commands.Sales
 {
     public class CreateSaleCommand : IRequest<Response<SaleApiModel>>
     {
-        public DateTime SaleDate { get; set; }
+        public DateTimeOffset SaleDate { get; set; }
 
         public List<ItemSoldApiModel> ProductsSold { get; set; } = new List<ItemSoldApiModel>();
 
@@ -72,7 +72,7 @@ namespace ObmultichoiceRetailer.Web.Commands.Sales
                 return new Response<SaleApiModel>(new SaleApiModel(), ResponseStatus.Failure, new
                 {
                     e.Message,
-                    Time = DateTime.Now
+                    Time = DateTimeOffset.Now
                 });
             }
         }

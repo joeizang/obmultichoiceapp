@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Ardalis.GuardClauses;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +14,8 @@ using ObmultichoiceRetailer.Web.Abstractions.Entities;
 using ObmultichoiceRetailer.Web.ApiModel.Inventory;
 using ObmultichoiceRetailer.Web.Commands.Inventory;
 using ObmultichoiceRetailer.Web.Data;
+using ObmultichoiceRetailer.Web.Helpers;
+using ObmultichoiceRetailer.Web.Queries.Inventory;
 
 namespace ObmultichoiceRetailer.Web.Services
 {
@@ -31,42 +32,43 @@ namespace ObmultichoiceRetailer.Web.Services
       _mapper = mapper;
     }
 
-    public async Task<IEnumerable<InventoryApiModel>> GetAllInventories(string? searchTerm, bool ascending)
+    public async Task<PagedList<InventoryApiModel>> GetAllInventories(GetAllInventoriesQuery query, CancellationToken token)
     {
-      IQueryable<Inventory> orderedQuery;
-      var query = _set.AsNoTracking()
+      IQueryable<Inventory> queryable = _set.AsNoTracking()
           .Include(i => i.InventoryItems);
-      if (!string.IsNullOrEmpty(searchTerm))
+
+      if (query.SearchString is null && query.OrderBy is null)
       {
-        IQueryable<Inventory> newQuery = query.Where(x =>
-            x.Name!.Equals(searchTerm));
-        if (ascending == false)
-            orderedQuery = newQuery.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name);
+          var result = await PagedList<InventoryApiModel>
+              .CreatePagedList(queryable.Select(i => new InventoryApiModel
+              {
+                  Name = i.Name,
+                  Id = i.Id,
+                  NumberOfProductsInStock = i.Quantity,
+                  CategoryName = string.Join(",", i.InventoryItems.Select(p => p.ProductCategories.Select(c => c.Name)))
+              }), query.PageNumber, query.PageSize, token)
+              .ConfigureAwait(false);
+          return result;
       }
 
-      if (ascending == false)
-        orderedQuery = query.OrderByDescending(x => x.SupplyDate).ThenByDescending(x => x.Name);
-      orderedQuery = query.OrderBy(x => x.SupplyDate).ThenBy(x => x.Name);
+      queryable = queryable.Where(i => i.Name.Equals(query.SearchString));
 
-      var result = await orderedQuery
-          .ProjectTo<InventoryApiModel>(_mapper.ConfigurationProvider)
-          .ToListAsync().ConfigureAwait(false);
-      return result;
+      var result1 = await PagedList<InventoryApiModel>.CreatePagedList(queryable.Select(i => new InventoryApiModel
+          {
+              Name = i.Name,
+              Id = i.Id,
+              NumberOfProductsInStock = i.Quantity,
+              CategoryName = string.Join(",", i.InventoryItems.Select(p => p.ProductCategories.Select(c => c.Name)))
+          }), query.PageNumber, query.PageSize, token)
+          .ConfigureAwait(false);
+      return result1;
     }
 
-    public async Task<InventoryDetailApiModel> GetInventoryById(int id)
+    public async Task<InventoryDetailApiModel> GetInventoryById(int id, CancellationToken cancellationToken)
     {
-      var result = await _set.AsNoTracking()
+      var result = await _set.AsNoTracking().Include(i => i.InventoryItems)
           .Where(i => i.Id == id).ProjectTo<InventoryDetailApiModel>(_mapper.ConfigurationProvider)
-          .SingleOrDefaultAsync().ConfigureAwait(false);
-      return result;
-    }
-
-    public async Task<Inventory> GetInventoryById(UpdateInventoryCommand command)
-    {
-      var result = await _set.AsNoTracking()
-          .Where(i => i.Id == command.InventoryId)
-          .SingleOrDefaultAsync().ConfigureAwait(false);
+          .SingleOrDefaultAsync(cancellationToken).ConfigureAwait(false);
       return result;
     }
 
@@ -84,20 +86,6 @@ namespace ObmultichoiceRetailer.Web.Services
       return result;
     }
 
-    public async Task<IEnumerable<InventoryApiModel>> GetInventoriesBy(params Expression<Func<Inventory, bool>>[] searchTerms)
-    {
-      IQueryable<Inventory>? query = null;
-      foreach (var term in searchTerms)
-      {
-        query = _set.AsNoTracking().Where(term);
-      }
-
-      var result = await query
-          .ProjectTo<InventoryApiModel>(_mapper.ConfigurationProvider)
-          .ToListAsync().ConfigureAwait(false);
-      return result;
-    }
-
     public void CreateInventory(CreateInventoryCommand command)
     {
       var inventory = _mapper.Map<CreateInventoryCommand, Inventory>(command);
@@ -107,11 +95,10 @@ namespace ObmultichoiceRetailer.Web.Services
       _set.Add(inventory);
     }
 
-    public async Task UpdateInventory(UpdateInventoryCommand command)
+    public async Task UpdateInventory(UpdateInventoryCommand command, CancellationToken token)
     {
-      var target = await GetInventoryById(command);
+      var target = await GetInventoryById(command.InventoryId, token).ConfigureAwait(false);
       target.Name = command.Name.Trim().ToUpperInvariant();
-      target.Description = command.Description.Trim().ToUpperInvariant();
 
       _db.Entry(target).State = EntityState.Modified;
     }

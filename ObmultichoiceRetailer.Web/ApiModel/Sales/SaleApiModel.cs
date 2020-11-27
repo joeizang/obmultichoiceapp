@@ -9,7 +9,7 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Sales
 {
     public class SaleApiModel
     {
-        public DateTime SaleDate { get; set; }
+        public DateTimeOffset SaleDate { get; set; }
 
         public int Id { get; set; }
 
@@ -41,7 +41,7 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Sales
             ProductsBought = new List<ItemSoldApiModel>();
         }
 
-        public SaleDetailApiModel(int id, string salesPerson, DateTime saleDate, SaleType saleType, PaymentType paymentType)
+        public SaleDetailApiModel(int id, string salesPerson, DateTimeOffset saleDate, SaleType saleType, PaymentType paymentType)
         {
             Id = id;
             SalesPerson = salesPerson;
@@ -50,7 +50,7 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Sales
             PaymentType = paymentType;
             ProductsBought = new List<ItemSoldApiModel>();
         }
-        public DateTime SaleDate { get; set; }
+        public DateTimeOffset SaleDate { get; set; }
 
         public int Id { get; set; }
 
@@ -71,8 +71,6 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Sales
         public float Quantity { get; set; }
 
         public decimal Price { get; set; }
-
-        public string? ProductCategory { get; set; }
 
     }
 }

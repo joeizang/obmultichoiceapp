@@ -36,22 +36,29 @@ namespace ObmultichoiceRetailer.Web.Queries.Sales
         }
         public async Task<PaginatedResponse<SaleApiModel>> Handle(GetAllSalesQuery request, CancellationToken cancellationToken)
         {
-            var sales = await _repo.GetAllSales(request, cancellationToken).ConfigureAwait(false);
-            var prev = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber - 1).ToString()!);
-            prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
-            var nextL = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber + 1).ToString()!);
-            nextL.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+            try
+            {
+                var sales = await _repo.GetAllSales(request, cancellationToken).ConfigureAwait(false);
+                var prev = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber - 1).ToString()!);
+                prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+                var nextL = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber + 1).ToString()!);
+                nextL.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
 
-            var prevLink = sales.HasPrevious
-                ? prev.GenerateUri() : null;
-            var nextLink = sales.HasNext
-                ? nextL.GenerateUri() : null;
+                var prevLink = sales.HasPrevious
+                    ? prev.GenerateUri() : null;
+                var nextLink = sales.HasNext
+                    ? nextL.GenerateUri() : null;
 
-            var result = new PaginatedResponse<SaleApiModel>(sales,
-                sales.TotalCount, sales.PageSize, sales.CurrentPage,
-                prevLink?.PathAndQuery, nextLink?.PathAndQuery);
+                var result = new PaginatedResponse<SaleApiModel>(sales,
+                    sales.TotalCount, sales.PageSize, sales.CurrentPage,
+                    prevLink?.PathAndQuery, nextLink?.PathAndQuery, ResponseStatus.Success);
 
-            return result;
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new PaginatedResponse<SaleApiModel>(new PagedList<SaleApiModel>(), 0, 10, 1, "","",ResponseStatus.Error, new { ErrorMessage = e.Message});
+            }
         }
     }
 }

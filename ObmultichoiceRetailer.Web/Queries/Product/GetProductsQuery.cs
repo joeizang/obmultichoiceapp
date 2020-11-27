@@ -38,22 +38,30 @@ namespace ObmultichoiceRetailer.Web.Queries.Product
         }
         public async Task<PaginatedResponse<ProductApiModel>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _repo.GetAllProducts(request, cancellationToken);
+            try
+            {
+                var products = await _repo.GetAllProducts(request, cancellationToken).ConfigureAwait(false);
 
-            var prev = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber - 1).ToString()!);
-            prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
-            var nextL = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber + 1).ToString()!);
-            nextL.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+                var prev = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber - 1).ToString()!);
+                prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+                var nextL = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber + 1).ToString()!);
+                nextL.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
 
-            var prevLink = products.HasPrevious
-                ? prev.GenerateUri() : null;
-            var nextLink = products.HasNext
-                ? nextL.GenerateUri() : null;
+                var prevLink = products.HasPrevious
+                    ? prev.GenerateUri() : null;
+                var nextLink = products.HasNext
+                    ? nextL.GenerateUri() : null;
 
-            var result = new PaginatedResponse<ProductApiModel>(products,
-                products.TotalCount, products.PageSize, products.CurrentPage, 
-                prevLink?.PathAndQuery, nextLink?.PathAndQuery);
-            return result;
+                var result = new PaginatedResponse<ProductApiModel>(products,
+                    products.TotalCount, products.PageSize, products.CurrentPage,
+                    prevLink?.PathAndQuery, nextLink?.PathAndQuery, ResponseStatus.Success);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new PaginatedResponse<ProductApiModel>(new PagedList<ProductApiModel>(), 0, 10, 1, "", "",
+                    ResponseStatus.Error, new { ErrorMessage = e.Message });
+            }
         }
     }
 }

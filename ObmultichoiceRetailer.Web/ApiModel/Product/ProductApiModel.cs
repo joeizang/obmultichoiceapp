@@ -46,7 +46,7 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Product
 
     public class CreateProductApiModel
     {
-        public CreateProductApiModel(int supplierId, decimal suppliedPrice, float quantity, decimal unitPrice, decimal retailPrice, DateTime supplyDate)
+        public CreateProductApiModel(int supplierId, decimal suppliedPrice, float quantity, decimal unitPrice, decimal retailPrice, DateTimeOffset supplyDate)
         {
             SupplierId = supplierId;
             SuppliedPrice = suppliedPrice;
@@ -71,12 +71,12 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Product
 
         public int SupplierId { get; }
 
-        public DateTime SupplyDate { get; }
+        public DateTimeOffset SupplyDate { get; }
     }
 
     public class ProductDetailApiModel
     {
-        public ProductDetailApiModel(decimal retailPrice, string name, float quantity, decimal suppliedPrice, DateTime supplyDate, int id)
+        public ProductDetailApiModel(decimal retailPrice, string name, float quantity, decimal suppliedPrice, DateTimeOffset supplyDate, int id)
         {
             Name = name;
             RetailPrice = retailPrice;
@@ -104,6 +104,6 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Product
 
         public List<CategoryApiModel> ProductCategories { get; }
 
-        public DateTime SupplyDate { get; }
+        public DateTimeOffset SupplyDate { get; }
     }
 }

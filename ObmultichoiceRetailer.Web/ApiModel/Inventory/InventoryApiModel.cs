@@ -16,6 +16,6 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Inventory
 
     public float NumberOfProductsInStock { get; set; }
 
-    public DateTime SupplyDate { get; set; }
+    public DateTimeOffset SupplyDate { get; set; }
   }
 }
