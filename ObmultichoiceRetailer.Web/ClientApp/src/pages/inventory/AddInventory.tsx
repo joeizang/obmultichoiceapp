@@ -1,63 +1,49 @@
-import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  Modal,
-  ModalBody,
-  Row,
-  Tooltip,
-  OverlayTrigger,
-} from 'react-bootstrap';
-import axios from 'axios';
-import CreateCategory from '../category/CreateCategory';
-import { CATEGORY_URL, INVENTORY_URL } from '../../constants';
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import CreateCategory from '../category/CreateCategory'
+import { CATEGORY_URL, INVENTORY_URL } from '../../constants'
 
 interface ICategory {
-  categoryName: string;
-  categoryId: number;
-  categoryDescription: string;
+  categoryName: string
+  categoryId: number
+  categoryDescription: string
 }
 interface CreateInventoryProp {
-  name: string;
-  description: string;
-  batchNumber: string;
-  categoryName: string;
-  productQuantity: number;
-  supplyDate: Date;
+  name: string
+  description: string
+  batchNumber: string
+  categoryName: string
+  productQuantity: number
+  supplyDate: Date
 }
 
 interface formData {
-  data: CreateInventoryProp;
-  categories: ICategory[];
+  data: CreateInventoryProp
+  categories: ICategory[]
 }
 
-const AddInventory: FC<formData> = ({ categories }) => {
-  const { register, handleSubmit, errors } = useForm<CreateInventoryProp>();
+export const AddInventory: FC<formData> = ({ categories }) => {
+  const { register, handleSubmit, errors } = useForm<CreateInventoryProp>()
   // TODO: FIX MODAL FOR CATEGORY CREATION
-  const [dropDown, setDropDown] = useState([]);
-  const currentCategories = useRef(categories);
-  const [modal, setModal] = useState(false);
-  const showModal = () => setModal(!modal);
+  const [dropDown, setDropDown] = useState([])
+  const currentCategories = useRef(categories)
+  const [modal, setModal] = useState(false)
+  const showModal = () => setModal(!modal)
 
   useEffect(() => {
-    let mounted = true;
+    let mounted = true
     const result = async () => {
-      const response = await axios.get(CATEGORY_URL);
-      if (mounted) setDropDown(response.data);
-    };
-    result();
+      const response = await axios.get(CATEGORY_URL)
+      if (mounted) setDropDown(response.data)
+    }
+    result()
 
     return () => {
-      mounted = false;
-    };
-  }, []);
-  currentCategories.current = dropDown;
+      mounted = false
+    }
+  }, [])
+  currentCategories.current = dropDown
 
   const doSubmit = (
     data: CreateInventoryProp,
@@ -71,19 +57,19 @@ const AddInventory: FC<formData> = ({ categories }) => {
           },
         })
         .then((response) => {
-          console.log(response);
+          console.log(response)
           if (response.status >= 200 && response.status < 300) {
             // @ts-ignore
-            evt.target.reset();
+            evt.target.reset()
           }
-        });
+        })
     } catch (error) {
-      console.log('error on submitting inventory');
+      console.log('error on submitting inventory')
     }
-  };
+  }
   return (
     <Fragment>
-      <Card className="shadow-lg mb-5 bg-white rounded">
+      {/* <Card className="shadow-lg mb-5 bg-white rounded">
         <Card.Header as="h3" className="text-center">
           Create Inventory
         </Card.Header>
@@ -249,9 +235,7 @@ const AddInventory: FC<formData> = ({ categories }) => {
             <CreateCategory />
           </ModalBody>
         </Modal>
-      </div>
+      </div> */}
     </Fragment>
-  );
-};
-
-export default AddInventory;
+  )
+}

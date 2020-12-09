@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,27 @@ namespace ObmultichoiceRetailer.Web.Controllers
         {
             var result = await _mediator.Send(query)
                 .ConfigureAwait(false);
+            return Ok(result);
+        }
+
+        [HttpGet(Name = "GetProductsDropDown")]
+        public async Task<ActionResult<Response<ProductSummaryApiModel>>> GetProductsForDropdown(
+            [FromQuery] GetProductsForSaleQuery query, CancellationToken token)
+        {
+            var result = await _mediator.Send(query, token).ConfigureAwait(false);
+            if (result.CurrentResponseStatus == ResponseStatus.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpGet(Name = "forSale")]
+        public async Task<ActionResult<Response<IEnumerable<ProductsForSaleApiModel>>>> GetProductsForSale(GetProductsForSaleQuery query)
+        {
+            var result = await _mediator.Send(query).ConfigureAwait(false);
+            if(!result.CurrentResponseStatus.Equals(ResponseStatus.Success))
+            {
+                return BadRequest(result);
+            }
             return Ok(result);
         }
 

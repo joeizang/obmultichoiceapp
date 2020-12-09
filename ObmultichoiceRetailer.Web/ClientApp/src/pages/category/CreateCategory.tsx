@@ -1,24 +1,16 @@
-import React, { FC } from "react";
-import {
-  Button,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  FormLabel,
-} from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import React, { FC } from 'react'
+import { useForm } from 'react-hook-form'
+import axios from 'axios'
 interface createCategoryProp {
-  name?: string;
-  description?: string;
+  name?: string
+  description?: string
 }
 
 const CreateCategory: FC<createCategoryProp> = () => {
-  const { register, handleSubmit } = useForm<createCategoryProp>();
+  const { register, handleSubmit } = useForm<createCategoryProp>()
   return (
     <>
-      <Card>
+      {/* <Card>
         <Card.Header color="primary">
           <Card.Title className="text-center font-weight-bold">
             <h3>Create Category</h3>
@@ -67,9 +59,9 @@ const CreateCategory: FC<createCategoryProp> = () => {
             </FormGroup>
           </Form>
         </Card.Body>
-      </Card>
+      </Card> */}
     </>
-  );
-};
+  )
+}
 
-export default CreateCategory;
+export default CreateCategory

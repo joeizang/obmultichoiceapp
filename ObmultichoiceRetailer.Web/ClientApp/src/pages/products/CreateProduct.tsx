@@ -1,44 +1,49 @@
-import React, { Fragment } from 'react';
-import { Card, Form, FormControl, FormGroup } from 'react-bootstrap';
-import { COLOURS } from '../../constants';
-import { useForm } from 'react-hook-form';
+import React, { FC, Fragment } from 'react'
+import { useForm } from 'react-hook-form'
+import {
+  FormGroup,
+  makeStyles,
+  Paper,
+  TextField,
+  Theme,
+} from '@material-ui/core'
+import clsx from 'clsx'
 
 interface IProductForm {
-  productName: string;
+  productName: string
 }
-
-export function CreateProduct() {
-  const { register, handleSubmit, errors } = useForm<IProductForm>();
-
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    display: 'flex',
+  },
+  formPaper: {
+    padding: theme.spacing(3),
+  },
+}))
+export const CreateProduct: FC = () => {
+  const { register, errors } = useForm<IProductForm>()
+  const classes = useStyles()
   return (
     <Fragment>
-      <Card className="shadow-sm mb-5 bg-white rounded">
-        <Card.Header
-          as="h3"
-          style={{ backgroundColor: COLOURS.primary, color: 'whitesmoke' }}
-        >
-          Add a New Product
-        </Card.Header>
-        <Card.Body>
-          <Form>
-            <FormGroup>
-              <FormControl
-                type="text"
-                id="productName"
-                ref={register({
-                  required: 'Please provide a name for the product!',
-                  maxLength: 50,
-                })}
-              />
-              {errors.productName && (
-                <span style={{ color: 'red' }}>
-                  {errors.productName.message}
-                </span>
-              )}
-            </FormGroup>
-          </Form>
-        </Card.Body>
-      </Card>
+      <Paper elevation={4} className={clsx(classes.root, classes.formPaper)}>
+        <form>
+          <TextField
+            variant="outlined"
+            label="Product Name"
+            type="text"
+            id="productName"
+            inputRef={register({
+              required: 'Please provide a name for the product!',
+              maxLength: 50,
+            })}
+          />
+          <FormGroup>
+            {errors.productName && (
+              <span style={{ color: 'red' }}>{errors.productName.message}</span>
+            )}
+          </FormGroup>
+        </form>
+      </Paper>
     </Fragment>
-  );
+  )
 }

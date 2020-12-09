@@ -24,12 +24,10 @@ namespace ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager, InputModel input, IList<AuthenticationScheme> externalLogins, string errorMessage)
+            UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            Input = input;
-            ExternalLogins = externalLogins;
-            ErrorMessage = errorMessage;
+            //ExternalLogins = externalLogins;
             _signInManager = signInManager;
             _logger = logger;
         }

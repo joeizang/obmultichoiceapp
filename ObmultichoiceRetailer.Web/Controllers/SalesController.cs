@@ -53,15 +53,15 @@ namespace ObmultichoiceRetailer.Web.Controllers
         }
 
         // PUT api/<SalesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put([FromBody] UpdateSaleCommand command)
+        //{
+        //}
 
-        // DELETE api/<SalesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/<SalesController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

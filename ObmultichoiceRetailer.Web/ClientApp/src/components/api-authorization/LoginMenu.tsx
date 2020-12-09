@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import { NavItem, NavLink } from "react-bootstrap";
-import authService from "./AuthorizeService";
-import { ApplicationPaths } from "./ApiAuthorizationConstants";
-import { LinkContainer } from "react-router-bootstrap";
+import React, { Component, Fragment } from 'react';
+import { NavItem, NavLink } from 'react-bootstrap';
+import authService from './AuthorizeService';
+import { ApplicationPaths } from './ApiAuthorizationConstants';
+import { LinkContainer } from 'react-router-bootstrap';
 
 interface IProps {}
 
@@ -78,16 +78,16 @@ export class LoginMenu extends Component<IProps, IState> {
   anonymousView(registerPath: any, loginPath: any) {
     return (
       <Fragment>
-        <LinkContainer to={registerPath}>
-          <NavItem>
+        <NavItem>
+          <LinkContainer to={registerPath}>
             <NavLink className="text-dark">Register</NavLink>
-          </NavItem>
-        </LinkContainer>
-        <LinkContainer to={loginPath}>
-          <NavItem>
+          </LinkContainer>
+        </NavItem>
+        <NavItem>
+          <LinkContainer to={loginPath}>
             <NavLink className="text-dark">Login</NavLink>
-          </NavItem>
-        </LinkContainer>
+          </LinkContainer>
+        </NavItem>
       </Fragment>
     );
   }

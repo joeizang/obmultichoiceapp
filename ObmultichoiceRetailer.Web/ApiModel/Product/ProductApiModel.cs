@@ -35,6 +35,15 @@ namespace ObmultichoiceRetailer.Web.ApiModel.Product
         public List<CategoryApiModel> ProductCategories { get; }
     }
 
+    public class ProductsForSaleApiModel
+    {
+        public int Id { get; set; }
+
+        public string? Name { get; set; }
+
+        public decimal Price { get; set; }
+    }
+
     public class ProductSummaryApiModel
     {
         public int Id { get; set; }

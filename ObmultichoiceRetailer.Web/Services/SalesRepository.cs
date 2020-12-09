@@ -125,8 +125,8 @@ namespace ObmultichoiceRetailer.Web.Services
 
         public async Task<Sale> GetSaleById(GetSaleByIdQuery query, CancellationToken token)
         {
-            return await _set.FindAsync(query.Id, token).ConfigureAwait(false);
-
+            var result = await _set.SingleOrDefaultAsync(x => x.Id == query.Id, token).ConfigureAwait(false);
+            return result;
         }
 
         public Task SaveAsync(CancellationToken token)

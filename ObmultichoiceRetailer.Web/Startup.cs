@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using ObmultichoiceRetailer.Domain.DomainModels;
 using ObmultichoiceRetailer.Web.Abstractions;
 using ObmultichoiceRetailer.Web.Abstractions.Entities;
+using ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account;
 using ObmultichoiceRetailer.Web.Helpers;
 using ObmultichoiceRetailer.Web.Services;
 
@@ -34,7 +35,7 @@ namespace ObmultichoiceRetailer.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ObmultichoiceContext>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -53,7 +54,7 @@ namespace ObmultichoiceRetailer.Web
             services.AddTransient<IUriGenerator, UriGenerator>();
 
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ObmultichoiceContext>();
+                      .AddApiAuthorization<ApplicationUser, ObmultichoiceContext>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

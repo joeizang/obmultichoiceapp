@@ -1,75 +1,113 @@
-import React, { Component } from "react";
-import {
-  Collapse,
-  Container,
-  Navbar,
-  NavbarBrand,
-  NavItem,
-  NavLink,
-} from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { LoginMenu } from "./api-authorization/LoginMenu";
-import "./NavMenu.css";
+import { AppBar, Toolbar } from '@material-ui/core'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import routes from '../utils/routes'
+import { LoginMenu } from './api-authorization/LoginMenu'
+import './NavMenu.css'
 
-interface IProps {}
-
-interface IState {
-  collapsed: boolean;
+interface IProps {
+  location: { pathname: string | undefined }
 }
 
-export class NavMenu extends Component<IProps, IState> {
-  static displayName = NavMenu.name;
+interface IState {
+  collapsed: boolean
+  color: string
+  dropdownOpen: boolean
+  isOpen: boolean
+}
+
+export default class NavMenu extends Component<IProps, IState> {
+  static displayName = NavMenu.name
+  sidebarToggle: React.RefObject<any>
 
   constructor(props: IProps) {
-    super(props);
+    super(props)
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.toggleNavbar = this.toggleNavbar.bind(this)
     this.state = {
       collapsed: true,
-    };
+      color: '',
+      dropdownOpen: false,
+      isOpen: false,
+    }
+    this.toggle = this.toggle.bind(this)
+    this.dropdownToggle = this.dropdownToggle.bind(this)
+    this.sidebarToggle = React.createRef()
   }
 
   toggleNavbar() {
     this.setState({
       collapsed: !this.state.collapsed,
-    });
+    })
+  }
+
+  toggle() {
+    if (this.state.isOpen) {
+      this.setState({
+        color: 'transparent',
+      })
+    } else {
+      this.setState({
+        color: 'dark',
+      })
+    }
+    this.setState({
+      isOpen: !this.state.isOpen,
+    })
+  }
+  dropdownToggle(e: any) {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
+    })
+  }
+  getBrand() {
+    let brandName = 'Default Brand'
+    routes.map((prop: any, key: any) => {
+      if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
+        brandName = prop.name
+      }
+      return null
+    })
+    return brandName
+  }
+  openSidebar() {
+    document.documentElement.classList.toggle('nav-open')
+    this.sidebarToggle.current.classList.toggle('toggled')
+  }
+  // function that adds color dark/transparent to the navbar on resize (this is for the collapse)
+  updateColor() {
+    if (window.innerWidth < 993 && this.state.isOpen) {
+      this.setState({
+        color: 'dark',
+      })
+    } else {
+      this.setState({
+        color: 'transparent',
+      })
+    }
+  }
+  componentDidMount() {
+    window.addEventListener('resize', this.updateColor.bind(this))
+  }
+  componentDidUpdate(e: any) {
+    if (
+      window.innerWidth < 993 &&
+      e.history.location.pathname !== e.location.pathname &&
+      document.documentElement.className.indexOf('nav-open') !== -1
+    ) {
+      document.documentElement.classList.toggle('nav-open')
+      this.sidebarToggle.current.classList.toggle('toggled')
+    }
   }
 
   render() {
     return (
+      // <LoginMenu></LoginMenu>
       <header>
-        <Navbar
-          variant="light"
-          className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-        >
-          <Container>
-            <NavbarBrand href="/" className="text-dark">
-              Rekta Retail App
-            </NavbarBrand>
-            <Navbar.Toggle onClick={this.toggleNavbar} className="mr-2" />
-            <Collapse className="d-sm-inline-flex flex-sm-row-reverse">
-              <ul className="navbar-nav flex-grow">
-                <LoginMenu></LoginMenu>
-                <NavItem>
-                  <LinkContainer to="/">
-                    <NavLink>Home</NavLink>
-                  </LinkContainer>
-                </NavItem>
-                <NavItem>
-                  <LinkContainer to="/inventory">
-                    <NavLink className="text-dark">Inventory</NavLink>
-                  </LinkContainer>
-                </NavItem>
-                <NavItem>
-                  <LinkContainer to="/sales">
-                    <NavLink className="text-dark">Sales</NavLink>
-                  </LinkContainer>
-                </NavItem>
-              </ul>
-            </Collapse>
-          </Container>
-        </Navbar>
+        <AppBar>
+          <Toolbar />
+        </AppBar>
       </header>
-    );
+    )
   }
 }
