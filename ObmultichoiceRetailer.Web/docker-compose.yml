@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  rektadb:
+  obmultichoice:
     image: postgres:12.5
     env_file:
       - dbservice.env

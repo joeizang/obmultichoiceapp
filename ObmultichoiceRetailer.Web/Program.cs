@@ -21,6 +21,7 @@ namespace ObmultichoiceRetailer.Web
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://localhost:5003","https://locahost:5004");
                 });
     }
 }

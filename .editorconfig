@@ -2,3 +2,13 @@
 
 # CA1068: CancellationToken parameters must come last
 dotnet_diagnostic.CA1068.severity = silent
+
+indent_size = 4
+
+tab_width = 4
+
+indent_style = space
+
+insert_final_newline = true
+
+trim_trailing_whitespace = false

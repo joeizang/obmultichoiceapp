@@ -13,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using ObmultichoiceRetailer.Domain.DomainModels;
 using ObmultichoiceRetailer.Web.Abstractions;
 using ObmultichoiceRetailer.Web.Abstractions.Entities;
-using ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account;
 using ObmultichoiceRetailer.Web.Helpers;
 using ObmultichoiceRetailer.Web.Services;
 
@@ -32,7 +31,7 @@ namespace ObmultichoiceRetailer.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ObmultichoiceContext>(options =>
-                options.UseSqlServer(
+                options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

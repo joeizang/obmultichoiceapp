@@ -7,7 +7,7 @@ import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizat
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants'
 import CreateCategory from './pages/category/CreateCategory'
 import { SalesDashboard } from './pages/sales'
-import { AddInventory } from './pages/inventory'
+import { AddInventory, InventoriesDashboard } from './pages/inventory'
 import { CreateProduct } from './pages/products'
 import { ProductDashboard } from './pages/products'
 import { ReportDashboard } from './pages/reports'
@@ -28,6 +28,7 @@ export default class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/products/create" component={CreateProduct} />
           <Route path="/inventory/add" component={AddInventory} />
+          <Route path="/inventory" component={InventoriesDashboard} />
           <Route path="/category" component={CreateCategory} />
           <Route path="/sales" component={SalesDashboard} />
           <Route path="/products" component={ProductDashboard} />

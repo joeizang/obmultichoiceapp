@@ -27,47 +27,47 @@ namespace ObmultichoiceRetailer.Web.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet(Name = "GetAllProducts")]
-        public async Task<ActionResult<PaginatedResponse<ProductApiModel>>> GetAllProducts([FromQuery] GetAllProductsQuery query)
+        public async Task<ActionResult<PaginatedResponse<ProductApiModel>>> GetAllProducts([FromQuery] GetAllProductsQuery query, CancellationToken token)
         {
-            var result = await _mediator.Send(query)
+            var result = await _mediator.Send(query, token)
                 .ConfigureAwait(false);
             return Ok(result);
         }
 
-        [HttpGet(Name = "GetProductsDropDown")]
-        public async Task<ActionResult<Response<ProductSummaryApiModel>>> GetProductsForDropdown(
-            [FromQuery] GetProductsForSaleQuery query, CancellationToken token)
-        {
-            var result = await _mediator.Send(query, token).ConfigureAwait(false);
-            if (result.CurrentResponseStatus == ResponseStatus.Success)
-                return Ok(result);
-            return BadRequest(result);
-        }
+        // [HttpGet(Name = "GetProductsDropDown")]
+        // public async Task<ActionResult<Response<ProductSummaryApiModel>>> GetProductsForDropdown(
+        //     [FromQuery] GetProductsForSaleQuery query, CancellationToken token)
+        // {
+        //     var result = await _mediator.Send(query, token).ConfigureAwait(false);
+        //     if (result.CurrentResponseStatus == ResponseStatus.Success)
+        //         return Ok(result);
+        //     return BadRequest(result);
+        // }
 
-        [HttpGet(Name = "forSale")]
-        public async Task<ActionResult<Response<IEnumerable<ProductsForSaleApiModel>>>> GetProductsForSale(GetProductsForSaleQuery query)
-        {
-            var result = await _mediator.Send(query).ConfigureAwait(false);
-            if(!result.CurrentResponseStatus.Equals(ResponseStatus.Success))
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
+        // [HttpGet(Name = "forSale")]
+        // public async Task<ActionResult<Response<IEnumerable<ProductsForSaleApiModel>>>> GetProductsForSale(GetProductsForSaleQuery query)
+        // {
+        //     var result = await _mediator.Send(query).ConfigureAwait(false);
+        //     if(!result.CurrentResponseStatus.Equals(ResponseStatus.Success))
+        //     {
+        //         return BadRequest(result);
+        //     }
+        //     return Ok(result);
+        // }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}", Name = "GetProductById")]
-        public async Task<ActionResult<Response<ProductDetailApiModel>>> GetProductById(int id)
+        public async Task<ActionResult<Response<ProductDetailApiModel>>> GetProductById(int id, CancellationToken token)
         {
-            var result = await _mediator.Send(new ProductDetailQuery{ Id = id });
+            var result = await _mediator.Send(new ProductDetailQuery{ Id = id }, token);
             return Ok(result);
         }
 
         // POST api/<ProductsController>
         [HttpPost]
-        public async Task<ActionResult<Response<ProductDetailApiModel>>> CreateProduct(CreateProductCommand command)
+        public async Task<ActionResult<Response<ProductDetailApiModel>>> CreateProduct(CreateProductCommand command, CancellationToken token)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(command, token);
             return CreatedAtRoute("GetProductById", new { id = result.Data.Id}, result);
         }
 
