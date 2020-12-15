@@ -33,7 +33,7 @@ namespace ObmultichoiceRetailer.Web.ApiModel
         }
     }
 
-    public class ResponseStatus
+    public static class ResponseStatus
     {
         public static string Success { get; } = nameof(Success);
 

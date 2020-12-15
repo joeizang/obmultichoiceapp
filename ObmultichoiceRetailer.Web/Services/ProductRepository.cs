@@ -44,7 +44,7 @@ namespace ObmultichoiceRetailer.Web.Services
             if (!(query.PageNumber is null) && !(query.PageSize is null) || !(query.SearchTerm is null))
             {
                 products = products.Where(p => p.Brand!.Contains(query.SearchTerm!.Trim().ToUpperInvariant())
-                                               && p.Name.Contains(query.SearchTerm));
+                                               && p.Name.Contains(query.SearchTerm.Trim().ToUpperInvariant()));
                 tempPaged = products.Select(p => new ProductApiModel(p.Name, p.Quantity, p.CostPrice, p.RetailPrice, p.Id));
                 var paged = await PagedList<ProductApiModel>
                     .CreatePagedList(tempPaged, query.PageNumber!.Value, query.PageSize!.Value, token).ConfigureAwait(false);

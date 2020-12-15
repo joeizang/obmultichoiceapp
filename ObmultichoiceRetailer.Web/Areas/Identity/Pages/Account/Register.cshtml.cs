@@ -38,33 +38,33 @@ namespace ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = null!;
 
-        public string ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; } = null!;
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public IList<AuthenticationScheme> ExternalLogins { get; set; } = new List<AuthenticationScheme>();
 
         public class InputModel
         {
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
-            public string? Email { get; set; }
+            public string Email { get; set; } = null!;
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
-            public string? FirstName { get; set; }
+            [Display(Name = "FirstName")]
+            public string FirstName { get; set; } = null!;
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
-            public string? OtherNames { get; set; }
+            [Display(Name = "OtherNames")]
+            public string? OtherNames { get; set; } = string.Empty;
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
-            public string? LastName { get; set; }
+            [Display(Name = "LastName")]
+            public string LastName { get; set; } = null!;
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -78,9 +78,9 @@ namespace ObmultichoiceRetailer.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; } = null!;
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = "")
         {
-            ReturnUrl ??= returnUrl;
+            ReturnUrl ??= returnUrl!;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
