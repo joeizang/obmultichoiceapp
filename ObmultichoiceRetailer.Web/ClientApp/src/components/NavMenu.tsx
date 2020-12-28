@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import routes from '../utils/routes'
 import { LoginMenu } from './api-authorization/LoginMenu'
-import './NavMenu.css'
 
 interface IProps {
   location: { pathname: string | undefined }
@@ -102,10 +101,12 @@ export default class NavMenu extends Component<IProps, IState> {
 
   render() {
     return (
-      // <LoginMenu></LoginMenu>
       <header>
         <AppBar>
-          <Toolbar />
+          <Toolbar>
+             {/* <LoginMenu></LoginMenu> */}
+             This is the toolbar
+          </Toolbar>
         </AppBar>
       </header>
     )

@@ -11,6 +11,7 @@ import { AddInventory, InventoriesDashboard } from './pages/inventory'
 import { CreateProduct } from './pages/products'
 import { ProductDashboard } from './pages/products'
 import { ReportDashboard } from './pages/reports'
+import { QueryClient, QueryClientProvider } from 'react-query'
 //import './custom.css'
 //import './bootstrap.min.css'
 
@@ -20,25 +21,28 @@ import { ReportDashboard } from './pages/reports'
 
 export default class App extends Component {
   static displayName = App.name
+  queryClient = new QueryClient()
 
   render() {
     return (
       <Suspense fallback={<h3>Loading, please hold...</h3>}>
-        <Layout>
-          <Route exact path="/" component={Home} />
-          <Route path="/products/create" component={CreateProduct} />
-          <Route path="/inventory/add" component={AddInventory} />
-          <Route path="/inventory" component={InventoriesDashboard} />
-          <Route path="/category" component={CreateCategory} />
-          <Route path="/sales" component={SalesDashboard} />
-          <Route path="/products" component={ProductDashboard} />
-          <Route path="/reports" component={ReportDashboard} />
-          {/* <AuthorizeRoute path="/fetch-data" component={FetchData} /> */}
-          <Route
-            path={ApplicationPaths.ApiAuthorizationPrefix}
-            component={ApiAuthorizationRoutes}
-          />
-        </Layout>
+        <QueryClientProvider client={this.queryClient}>
+          <Layout>
+            <Route exact path="/" component={Home} />
+            <Route path="/products/create" component={CreateProduct} />
+            <Route path="/inventory/add" component={AddInventory} />
+            <Route path="/inventory" component={InventoriesDashboard} />
+            <Route path="/category" component={CreateCategory} />
+            <Route path="/sales" component={SalesDashboard} />
+            <Route path="/products" component={ProductDashboard} />
+            <Route path="/reports" component={ReportDashboard} />
+            {/* <AuthorizeRoute path="/fetch-data" component={FetchData} /> */}
+            <Route
+              path={ApplicationPaths.ApiAuthorizationPrefix}
+              component={ApiAuthorizationRoutes}
+            />
+          </Layout>
+        </QueryClientProvider>
       </Suspense>
     )
   }

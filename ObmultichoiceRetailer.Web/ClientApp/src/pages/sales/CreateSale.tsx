@@ -1,33 +1,21 @@
+import React, { FC, Fragment } from 'react'
 import { Card, CardContent, CardHeader, Typography } from '@material-ui/core'
-import axios from 'axios'
-import React, { FC, Fragment, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { PRODUCTS_URL } from '../../constants'
 
 interface formData {
   product: {}
 }
 
-type Product = {
-  name: string
-  id: number
-  price: number
-}
+// type Product = {
+//   name: string
+//   id: number
+//   price: number
+// }
 
-type ServerResult = {
-  currentPage: number
-  currentResponseStatus: string
-  error: {}
-  list: Product[]
-  nextPageLink: string | null
-  previousPageLink: string | null
-  totalCount: number
-}
 
 type CreateSaleForm = {
   formData: formData
 }
-export const CreateSale: FC<CreateSaleForm> = ({ formData }) => {
+export const CreateSale: FC<CreateSaleForm> = ({ }) => {
   // const { register, handleSubmit } = useForm<formData>()
   // const [serverData, setServerData] = useState<ServerResult>()
   // const [products, setProducts] = useState<Product[]>()

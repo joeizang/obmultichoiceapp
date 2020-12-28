@@ -1,4 +1,10 @@
+import React, { FC, Fragment, useState } from 'react'
 import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   Icon,
   List,
@@ -6,34 +12,54 @@ import {
   ListItemIcon,
   ListItemText,
   makeStyles,
+  Paper,
+  PaperProps,
   Typography,
 } from '@material-ui/core'
-import React, { FC, Fragment } from 'react'
+import Draggable from 'react-draggable'
 import Title from '../../components/Title'
+import { CreateProduct } from './CreateProduct'
 
 const useStyles = makeStyles((theme) => ({
   targetColor: {
     color: `${theme.palette.secondary}`,
   },
+  titleSize: {
+    fontSize: '2rem',
+    fontWeight: 900
+  }
 }))
 
-export const ProductActionList: FC = () => {
+const PaperComponent = (props: PaperProps) => (
+  <Draggable handle='#draggable-dialog-title' cancel={'[class*="MuiDialogCOntent-root"]'}>
+    <Paper {...props} />
+  </Draggable>
+)
+
+const ProductActionList: FC = () => {
   const classes = useStyles()
+  const [open, setOpen] = useState(false);
+
+  const onClickOpen = () => {
+    setOpen(true);
+  }
+
+  const onClickClose = () => {
+    setOpen(false);
+  }
 
   return (
     <Fragment>
-      <Typography variant="h5" align="center">
-        <Title>Actions</Title>
-      </Typography>
+        <Title>
+          <Typography className={classes.titleSize} align="center">
+            Actions
+          </Typography>
+        </Title>
       <Divider />
       <List>
         <ListItem
           button
-          onClick={(evt) => {
-            // evt.currentTarget.style.backgroundColor = 'teal'
-            console.log(classes.targetColor)
-            evt.currentTarget.className = classes.targetColor
-          }}
+          onClick={onClickOpen}
         >
           <ListItemIcon>
             <Icon>add</Icon>
@@ -53,6 +79,33 @@ export const ProductActionList: FC = () => {
           <ListItemText>Remove Product</ListItemText>
         </ListItem>
       </List>
+      
+      <Dialog
+        open={open}
+        onClose={onClickClose}
+        PaperComponent={PaperComponent}
+        maxWidth='sm'
+        fullWidth
+        aria-labelledby="draggable-dialog-title"
+      >
+        <DialogTitle style={{ cursor: 'move'}} id="draggable-dialog-title">
+          Create New Product
+        </DialogTitle>
+        <DialogContent>
+          <CreateProduct />
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit">
+            Create
+          </Button>
+          <Button onClick={onClickClose} color="default">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
     </Fragment>
   )
 }
+
+export default ProductActionList

@@ -17,6 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import { MainListItems } from './Sidebar'
+import { ThemeContext } from '../contexts/ThemeContext'
 
 function Copyright() {
   return (
@@ -110,6 +111,12 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  fixedHeightPaper: {
+    padding: 16,
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  }
 }))
 
 type Props = {
@@ -127,7 +134,8 @@ const Layout: FC<Props> = (props?: Props) => {
   }
 
   return (
-    <div className={classes.root}>
+    <ThemeContext.Provider value={classes}>
+      <div className={classes.root}>
       <CssBaseline />
       <AppBar
         position="absolute"
@@ -191,6 +199,7 @@ const Layout: FC<Props> = (props?: Props) => {
         </Container>
       </main>
     </div>
+    </ThemeContext.Provider>
   )
 }
 

@@ -4,7 +4,7 @@ import React, { FC, Fragment } from 'react'
 import { DashboardProps } from '../../types/supplierTypes'
 import Orders from '../../components/Orders'
 import { Typography } from '@material-ui/core'
-import { ProductActionList } from '.'
+import ProductActionList from './ProductActionList'
 
 export const ProductDashboard: FC<DashboardProps> = ({ fixedHeightPaper }) => {
   return (

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +6,6 @@ using MediatR;
 using ObmultichoiceRetailer.Domain.DomainModels;
 using ObmultichoiceRetailer.Web.Abstractions.Entities;
 using ObmultichoiceRetailer.Web.ApiModel;
-using ObmultichoiceRetailer.Web.ApiModel.Category;
 using ObmultichoiceRetailer.Web.ApiModel.Product;
 using ObmultichoiceRetailer.Web.DomainEvents.Product;
 

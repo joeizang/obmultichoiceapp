@@ -1,4 +1,3 @@
-import Dashboard from '../components/Layout'
 import { SalesDashboard } from '../pages/sales'
 import { AddInventory } from '../pages/inventory'
 import { CreateProduct } from '../pages/products'
