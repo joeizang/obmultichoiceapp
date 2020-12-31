@@ -10,7 +10,7 @@ namespace ObmultichoiceRetailer.Web.Helpers
     {
         public static Task<PagedList<TDestination>> PaginatedListAsync<TDestination>(this IQueryable<TDestination> queryable, int pageNumber, int pageSize,
             CancellationToken token) where TDestination : class 
-            => PagedList<TDestination>.CreatePagedList(queryable, pageNumber, pageSize, token);
+            => PagedList<TDestination>.CreatePagedListAsync(queryable, pageNumber, pageSize, token);
 
         public static PagedList<TDestination> PaginatedList<TDestination>(this IQueryable<TDestination> queryable, int pageNumber, int pageSize)
             where TDestination : class

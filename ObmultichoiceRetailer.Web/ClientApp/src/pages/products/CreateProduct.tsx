@@ -24,6 +24,7 @@ interface IProductForm {
   comments?: string
   supplyDate: string
   unitMeasure: string
+  inventory: string
 }
 type UnitMeasure = {
   enumName: string
@@ -57,18 +58,14 @@ const GetUnitsMeasure = async () => {
     return result;
 }
 
-const GetInventory = async () => {
-  const result = await axios.get('https://localhost:5004/api/inventories')
-  return result
-}
-
-
 
 export const CreateProduct: FC = () => {
   const { register, handleSubmit, errors, reset } = useForm<IProductForm>()
   const classes = useStyles()
   const { data } = useQuery('GetUnitMeasure',GetUnitsMeasure)
-  const inventories = useQuery('GetInventories',GetInventory)
+  const inventories = useQuery('GetInventories', () => axios.get('https://localhost:5004/api/inventories')
+                      .then((response) => response.data))
+  console.log(inventories)
   const [enumValue, setEnumValue] = useState('')
   const [inventoryValue, setInventoryValue] = useState('')
 
@@ -243,7 +240,7 @@ export const CreateProduct: FC = () => {
           <Select
             variant="outlined"
             fullWidth
-            label="Unit Measure"
+            label="Inventory"
             value={inventoryValue}
             onChange={(event: any) => {
               setInventoryValue(event.target.value)
@@ -254,7 +251,7 @@ export const CreateProduct: FC = () => {
             className={classes.inputStyle}
             inputRef={register({ required: true })}
           >
-            {data?.data.map((option: Inventory) => (
+            {inventories.data.map((option: Inventory) => (
               <MenuItem key={option.id} value={option.name}>
                 {option.name}
               </MenuItem>
@@ -264,8 +261,8 @@ export const CreateProduct: FC = () => {
             Please pick an inventory for product
           </FormHelperText>
           <FormGroup>
-            {errors.unitMeasure && (
-              <span style={{ color: 'red' }}>{errors.unitMeasure.message}</span>
+            {errors.inventory && (
+              <span style={{ color: 'red' }}>{errors.inventory.message}</span>
             )}
           </FormGroup>
           </Grid>

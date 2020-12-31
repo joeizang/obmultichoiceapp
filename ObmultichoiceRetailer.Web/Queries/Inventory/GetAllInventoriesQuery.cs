@@ -12,6 +12,7 @@ using ObmultichoiceRetailer.Web.Helpers;
 namespace ObmultichoiceRetailer.Web.Queries.Inventory
 {
     public class GetAllInventoriesQuery : IRequest<PaginatedResponse<InventoryApiModel>>
+    // public class GetAllInventoriesQuery : IRequest<IEnumerable<InventoryApiModel>>
     {
         public string? SearchString { get; set; }
 
@@ -23,6 +24,7 @@ namespace ObmultichoiceRetailer.Web.Queries.Inventory
 
 
     public class GetAllInventoryQueryHandler : IRequestHandler<GetAllInventoriesQuery, PaginatedResponse<InventoryApiModel>>
+    // public class GetAllInventoryQueryHandler : IRequestHandler<GetAllInventoriesQuery, IEnumerable<InventoryApiModel>>
     {
         private readonly IInventoryRepository _repo;
         private readonly IUriGenerator _uriGen;
@@ -34,6 +36,7 @@ namespace ObmultichoiceRetailer.Web.Queries.Inventory
         }
 
         public async Task<PaginatedResponse<InventoryApiModel>> Handle(GetAllInventoriesQuery request, CancellationToken cancellationToken)
+        // public async Task<IEnumerable<InventoryApiModel>> Handle(GetAllInventoriesQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -43,17 +46,20 @@ namespace ObmultichoiceRetailer.Web.Queries.Inventory
                 prev.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
                 var nextL = _uriGen.AddQueryStringParams("pageNumber", (request.PageNumber + 1).ToString()!);
                 nextL.AddQueryStringParams("pageSize", request.PageSize.ToString()!);
+                var pagedList = PagedList<InventoryApiModel>.CreatePagedList(inventories.AsQueryable(),
+                    request.PageNumber,request.PageSize);
 
-                var prevLink = inventories.HasPrevious ? prev.GenerateUri() : null;
-                var nextLink = inventories.HasNext ? nextL.GenerateUri() : null;
-                var result = new PaginatedResponse<InventoryApiModel>(inventories, inventories.TotalCount,
-                    inventories.PageSize, inventories.CurrentPage, prevLink?.AbsoluteUri, nextLink?.AbsoluteUri, ResponseStatus.Success);
+                var prevLink = pagedList.HasPrevious ? prev.GenerateUri() : null;
+                var nextLink = pagedList.HasNext ? nextL.GenerateUri() : null;
+                var result = new PaginatedResponse<InventoryApiModel>(pagedList, pagedList.TotalCount,
+                    pagedList.PageSize, pagedList.CurrentPage, prevLink?.AbsoluteUri, nextLink?.AbsoluteUri, ResponseStatus.Success);
                 return result;
             }
             catch (Exception e)
             {
                 return new PaginatedResponse<InventoryApiModel>(new PagedList<InventoryApiModel>(), 0,10,1,"","",ResponseStatus.Error, 
                     new { ErrorMessage = e.Message});
+                // return new List<InventoryApiModel>();
             }
         }
     }

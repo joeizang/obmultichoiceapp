@@ -17,6 +17,7 @@ namespace ObmultichoiceRetailer.Web.Abstractions.Entities
   public interface IInventoryRepository : IRepository
   {
     Task<PagedList<InventoryApiModel>> GetAllInventories(GetAllInventoriesQuery query, CancellationToken token);
+    // Task<IEnumerable<InventoryApiModel>> GetAllInventories(GetAllInventoriesQuery query, CancellationToken token);
 
     Task<InventoryDetailApiModel> GetInventoryById(int id, CancellationToken cancellationToken);
 

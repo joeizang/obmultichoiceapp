@@ -23,8 +23,8 @@ namespace ObmultichoiceRetailer.Web.Controllers
         public async Task<ActionResult<PaginatedResponse<InventoryApiModel>>> Get([FromQuery] GetAllInventoriesQuery query)
         {
             var result = await _mediator.Send(query).ConfigureAwait(false);
-            if(!result.CurrentResponseStatus.Equals(ResponseStatus.Success))
-                return BadRequest(result);
+            // if(!result.CurrentResponseStatus.Equals(ResponseStatus.Success))
+            //     return BadRequest(result);
             return Ok(result);
         }
 

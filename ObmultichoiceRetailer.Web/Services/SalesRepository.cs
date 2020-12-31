@@ -109,7 +109,7 @@ namespace ObmultichoiceRetailer.Web.Services
             queryable = queryable.OrderBy(x => x.SaleDate);
             //TODO: ALSO FACTOR IN THAT YOUR RESULT MUST BE PAGINATED.
 
-            var processedResult = await PagedList<SaleApiModel>.CreatePagedList(
+            var processedResult = await PagedList<SaleApiModel>.CreatePagedListAsync(
                 queryable.Select(x => new SaleApiModel
                 {
                     GrandTotal = x.GrandTotal,

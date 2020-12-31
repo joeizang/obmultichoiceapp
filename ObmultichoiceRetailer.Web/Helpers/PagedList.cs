@@ -44,10 +44,17 @@ namespace ObmultichoiceRetailer.Web.Helpers
             
         }
 
-        public static async Task<PagedList<T>> CreatePagedList(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken token)
+        public static async Task<PagedList<T>> CreatePagedListAsync(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken token)
         {
             var count = await source.CountAsync(token).ConfigureAwait(false);
             var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(token).ConfigureAwait(false);
+            return new PagedList<T>(count,pageSize,pageNumber,items);
+        }
+
+        public static PagedList<T> CreatePagedList(IQueryable<T> source, int pageNumber, int pageSize)
+        {
+            var count = source.Count();
+            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             return new PagedList<T>(count,pageSize,pageNumber,items);
         }
     }

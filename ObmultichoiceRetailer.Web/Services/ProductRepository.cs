@@ -47,14 +47,14 @@ namespace ObmultichoiceRetailer.Web.Services
                                                && p.Name.Contains(query.SearchTerm.Trim().ToUpperInvariant()));
                 tempPaged = products.Select(p => new ProductApiModel(p.Name, p.Quantity, p.CostPrice, p.RetailPrice, p.Id));
                 var paged = await PagedList<ProductApiModel>
-                    .CreatePagedList(tempPaged, query.PageNumber!.Value, query.PageSize!.Value, token).ConfigureAwait(false);
+                    .CreatePagedListAsync(tempPaged, query.PageNumber!.Value, query.PageSize!.Value, token).ConfigureAwait(false);
                 return paged;
 
             }
 
             tempPaged = products.Select(p => new ProductApiModel(p.Name, p.Quantity, p.CostPrice, p.RetailPrice, p.Id));
             var pagedProducts = await PagedList<ProductApiModel>
-                .CreatePagedList(tempPaged, 1, 10, token).ConfigureAwait(false);
+                .CreatePagedListAsync(tempPaged, 1, 10, token).ConfigureAwait(false);
             return pagedProducts;
         }
 
