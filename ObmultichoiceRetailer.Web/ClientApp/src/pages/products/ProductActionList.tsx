@@ -36,7 +36,12 @@ const PaperComponent = (props: PaperProps) => (
   </Draggable>
 )
 
-const ProductActionList: FC = () => {
+type ProductActionListProp = {
+  toggleAddProduct: () => void
+  toggleUpdateProduct: () => void
+}
+
+const ProductActionList: FC<ProductActionListProp> = ({ toggleAddProduct, toggleUpdateProduct}) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false);
 
@@ -47,6 +52,7 @@ const ProductActionList: FC = () => {
   const onClickClose = () => {
     setOpen(false);
   }
+  
 
   return (
     <Fragment>
@@ -59,18 +65,21 @@ const ProductActionList: FC = () => {
       <List>
         <ListItem
           button
-          onClick={onClickOpen}
+          onClick={() => toggleAddProduct()}
         >
           <ListItemIcon>
             <Icon>add</Icon>
           </ListItemIcon>
           <ListItemText>Add New Product</ListItemText>
         </ListItem>
-        <ListItem button>
+        <ListItem 
+          button
+          onClick={() => toggleUpdateProduct()}
+        >
           <ListItemIcon>
-            <Icon>update</Icon>
+            <Icon>search</Icon>
           </ListItemIcon>
-          <ListItemText>Update Product</ListItemText>
+          <ListItemText>Search For Product</ListItemText>
         </ListItem>
         <ListItem button>
           <ListItemIcon>
